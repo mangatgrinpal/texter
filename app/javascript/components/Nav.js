@@ -8,11 +8,17 @@ class Nav extends React.Component {
 
 	render () {
 		return (
-			<nav className="navbar navbar-light bg-light">
+			<nav className="navbar navbar-expand-lg navbar-light bg-light">
 			  <a className="navbar-brand" href="#">
 			    {/*image goes here (svg)*/}
 			    Text Handler
 			  </a>
+			  <div className="collapse navbar-collapse">
+				  <div className="navbar-nav">
+				  	<a className="nav-item nav-link">Sign Up</a>
+				  	<a className="nav-item nav-link">Log In</a>
+				  </div>
+				</div>
 			</nav>
 		)
 	}
