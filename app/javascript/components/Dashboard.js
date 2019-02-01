@@ -5,15 +5,48 @@ class Dashboard extends React.Component {
 		super(props);
 	}
 
+	contactList() {
+		let contacts = this.props.userContacts
+		if (contacts.length == 0) {
+			return (
+				<div>
+					<p>Sorry bro, add new contacts now!</p>
+					<button>Add a new contact</button>
+				</div>
+			)
+			
+		} else {
+
+			let contactNames = this.props.userContacts.map((contact)=> {
+				return (
+					<div key={contact.id}>
+						{contact.first_name} {contact.last_name} {contact.phone_number} <button>send a message</button>
+					</div>
+				)
+			})
+
+			return (
+				<div>
+					<h3>Contact List</h3>
+					{contactNames}
+				</div>
+			)
+
+		}
+	}
+
+
 	render() {
+		console.log(this.props)
 		return (
 			<div className="container-fluid">
 				<div className="row">
-					<div className="col-3">
-						<h1>User Information</h1>
+					<div className="col-4 bg-light">
+						<h3>User Information</h3>
+						{this.props.currentUser.email}
 					</div>
-					<div className="col-9">
-						<h1>User Contacts</h1>
+					<div className="col-8">
+						{this.contactList()}
 					</div>
 				</div>
 			</div>
