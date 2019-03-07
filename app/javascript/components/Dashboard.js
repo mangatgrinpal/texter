@@ -35,6 +35,15 @@ class Dashboard extends React.Component {
 		}
 	}
 
+	renderView() {
+		let Component = this.steps()[this.state.view]
+
+		return (
+			<Component
+				{...this.props}/>
+		)
+	}
+
 
 	render() {
 		console.log(this.props)
@@ -46,6 +55,7 @@ class Dashboard extends React.Component {
 						{this.props.currentUser.email}
 					</div>
 					<div className="col-8">
+						<ContactList/>
 						{this.contactList()}
 					</div>
 				</div>
