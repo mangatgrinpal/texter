@@ -1,4 +1,5 @@
 import React from "react"
+import ContactList from "./ContactList"
 
 class Dashboard extends React.Component {
 	constructor(props) {
@@ -49,7 +50,7 @@ class Dashboard extends React.Component {
 		console.log(this.props)
 		return (
 			<div className="container-fluid">
-				<div className="row">
+				<div className="row dashboard">
 					<div className="col-4 bg-light">
 						<h3>User Information</h3>
 						{this.props.currentUser.email}
