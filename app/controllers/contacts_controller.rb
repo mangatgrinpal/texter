@@ -1,8 +1,9 @@
 class ContactsController < ApplicationController
 	before_action :authenticate_user!
+	before_action :find_user
 
 	def create
-		@user = current_user
+		
 		
 		@contact = current_user.contacts.build(contact_params)
 
@@ -13,9 +14,17 @@ class ContactsController < ApplicationController
 		end
 	end
 
+	def destroy
+		@contact = Contact.find(params[:id])
+		
+		@contact.destroy
+		render json: @user.contacts, status: 200
+	end
+
 	private
 
-	def user_contacts
+	def find_user
+		@user = current_user
 	end
 
 	def contact_params

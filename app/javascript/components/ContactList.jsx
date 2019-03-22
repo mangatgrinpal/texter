@@ -5,6 +5,7 @@ class ContactList extends React.Component {
 		super(props)
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.newContact = this.newContact.bind(this)
+		this.deleteContact = this.deleteContact.bind(this)
 		this.state = {
 			userContacts: this.props.userContacts,
 			first_name: "",
@@ -53,6 +54,7 @@ class ContactList extends React.Component {
 						</div>
 						<div className="col">
 							<button className="btn btn-sm btn-primary">send a message</button>
+							<button value={contact.id} onClick={this.deleteContact} className="btn btn-sm btn-danger">delete contact</button>
 						</div>
 					</div>
 				)
@@ -63,7 +65,7 @@ class ContactList extends React.Component {
 					<h3>Contacts</h3>
 					<div className="row">
 						<div className="col">
-							Name
+							<h6>Name</h6>
 						</div>
 						<div className="col">
 							Phone
@@ -77,6 +79,20 @@ class ContactList extends React.Component {
 			)
 
 		}
+	}
+
+	deleteContact(e) {
+		let contact = e.target
+		
+		fetch("contacts/"+ contact.value, {
+			method: "DELETE",
+			headers: {
+				"X-CSRF-Token": this.state.csrfToken,
+				"Content-Type": "application/json"
+			}
+		})
+		.then ( (res)=> { return res.json() } )
+		.then ( (data) => { this.setState({userContacts: data})})
 	}
 
 
