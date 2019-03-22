@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   root 'static_pages#home'
 
   resources :contacts
+
+  resources :messages
   
   get '/dashboard', to: 'static_pages#dashboard'
 end
