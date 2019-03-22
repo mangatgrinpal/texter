@@ -4,10 +4,39 @@ import ContactList from "./ContactList"
 class Dashboard extends React.Component {
 	constructor(props) {
 		super(props);
+		this.renderSideBar = this.renderSidebar.bind(this)
+		this.toggleSidebar = this.toggleSidebar.bind(this)
+		this.state = {
+			isHidden: true
+			
+		}
+	}
+
+	
+
+	
+
+	renderSidebar() {
+		if (this.state.isHidden) {
+			return <div/>
+		} else {
+			return (
+				<div className="col-3 bg-light">
+					<h3>User Information</h3>
+					<p>Contacts</p>
+					<p>Messages</p>
+					<p>Settings</p>
+				</div>
+			)
+		}
+	}
+
+	toggleSidebar() {
+		this.setState({isHidden: !this.state.isHidden})
 	}
 
 	contactList() {
-		let contacts = this.props.userContacts
+		let contacts = this.state.userContacts
 		if (contacts.length == 0) {
 			return (
 				<div>
@@ -18,10 +47,10 @@ class Dashboard extends React.Component {
 			
 		} else {
 
-			let contactNames = this.props.userContacts.map((contact)=> {
+			let contactNames = this.state.userContacts.map((contact)=> {
 				return (
 					<div key={contact.id}>
-						{contact.first_name} {contact.last_name} {contact.phone_number} <button>send a message</button>
+						{contact.first_name} {contact.last_name} {contact.phone_number} <button className="btn btn-primary">send a message</button>
 					</div>
 				)
 			})
@@ -47,17 +76,19 @@ class Dashboard extends React.Component {
 
 
 	render() {
-		console.log(this.props)
+		
 		return (
 			<div className="container-fluid">
 				<div className="row dashboard">
-					<div className="col-4 bg-light">
-						<h3>User Information</h3>
-						{this.props.currentUser.email}
-					</div>
-					<div className="col-8">
-						<ContactList/>
-						{this.contactList()}
+					{this.renderSidebar()}
+					<div className="col-9 ml-auto mt-5 pr-2">
+						<h3>Welcome {this.props.currentUser.email}</h3>
+						<p>What would you like to do today?</p>
+						<p>You have sent X messages in the last week.</p>
+						
+						<button className="btn btn-primary" onClick={this.toggleSidebar}>View Options</button>
+						
+						<ContactList currentUser={this.props.currentUser} userContacts={this.props.userContacts}/>
 					</div>
 				</div>
 			</div>

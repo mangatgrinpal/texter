@@ -33,6 +33,7 @@ gem 'haml'
 gem 'bootstrap'
 gem 'jquery-rails'
 gem 'devise'
+gem 'twilio-ruby'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
