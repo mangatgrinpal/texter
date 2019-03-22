@@ -14,6 +14,11 @@ class ContactList extends React.Component {
 		}
 	}
 
+	componentDidMount() {
+		let csrfToken = document.getElementsByName('csrf-token')[0].content
+		this.setState({csrfToken: csrfToken})
+	}
+
 	handleInputChange(e) {
 		const target = e.target
 		const value = target.value
@@ -25,11 +30,6 @@ class ContactList extends React.Component {
 
 	}
 
-
-	componentDidMount() {
-		let csrfToken = document.getElementsByName('csrf-token')[0].content
-		this.setState({csrfToken: csrfToken})
-	}
 
 	contactList() {
 		let contacts = this.state.userContacts
@@ -82,9 +82,9 @@ class ContactList extends React.Component {
 	}
 
 	deleteContact(e) {
-		let contact = e.target
+		let contact = e.target.value
 		
-		fetch("contacts/"+ contact.value, {
+		fetch("contacts/"+ contact, {
 			method: "DELETE",
 			headers: {
 				"X-CSRF-Token": this.state.csrfToken,
@@ -114,7 +114,6 @@ class ContactList extends React.Component {
 
 
 	render () {
-		console.log(this.state.userContacts)
 		return (
 			<div className="col-12">
 				<br/>

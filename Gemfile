@@ -34,6 +34,7 @@ gem 'bootstrap'
 gem 'jquery-rails'
 gem 'devise'
 gem 'twilio-ruby'
+gem 'figaro'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

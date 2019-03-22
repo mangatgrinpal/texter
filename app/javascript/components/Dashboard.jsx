@@ -1,5 +1,6 @@
 import React from "react"
 import ContactList from "./ContactList"
+import MessageCenter from "./MessageCenter"
 
 class Dashboard extends React.Component {
 	constructor(props) {
@@ -89,6 +90,7 @@ class Dashboard extends React.Component {
 						<button className="btn btn-primary" onClick={this.toggleSidebar}>View Options</button>
 						
 						<ContactList currentUser={this.props.currentUser} userContacts={this.props.userContacts}/>
+						<MessageCenter currentUser={this.props.currentUser}/>
 					</div>
 				</div>
 			</div>
