@@ -36,14 +36,14 @@ class ContactList extends React.Component {
 		if (contacts.length == 0) {
 			return (
 				<div>
-					<p>Sorry bro, add new contacts now!</p>
-					<button>Add a new contact</button>
+					<br/>
+					<p>You don't have any contacts yet. Add some now.</p>
 				</div>
 			)
 			
 		} else {
 
-			let contactNames = this.state.userContacts.map((contact)=> {
+			let contactNames = contacts.map((contact)=> {
 				return (
 					<div className="row" key={contact.id}>
 						<div className="col">
@@ -53,8 +53,9 @@ class ContactList extends React.Component {
 							{contact.phone_number}
 						</div>
 						<div className="col">
-							<button className="btn btn-sm btn-primary">send a message</button>
-							<button value={contact.id} onClick={this.deleteContact} className="btn btn-sm btn-danger">delete contact</button>
+							<button className="badge badge-primary">send a message</button>
+							&nbsp;
+							<button value={contact.id} onClick={this.deleteContact} className="badge badge-danger">delete contact</button>
 						</div>
 					</div>
 				)
@@ -98,17 +99,22 @@ class ContactList extends React.Component {
 
 	newContact(e) {
 		e.preventDefault()
-
-		fetch("/contacts", {
-			method: "POST",
-			body: JSON.stringify({contact: {first_name: this.state.first_name, last_name: this.state.last_name, phone_number: this.state.phone_number}}),
-			headers: {
-				"X-CSRF-Token": this.state.csrfToken,
-				"Content-Type": "application/json"
-			}
-		})
-		.then ( (res) => { return res.json() } )
-		.then ( (data) => { this.setState({userContacts: data}) } )
+		if (this.state.first_name === "" || this.state.last_name === "" || this.state.phone_number === "") {
+			alert('enter contact!');
+		} else {
+			fetch("/contacts", {
+				method: "POST",
+				body: JSON.stringify({contact: {first_name: this.state.first_name, last_name: this.state.last_name, phone_number: this.state.phone_number}}),
+				headers: {
+					"X-CSRF-Token": this.state.csrfToken,
+					"Content-Type": "application/json"
+				}
+			})
+			.then ( (res) => { return res.json() } )
+			.then ( (data) => { 
+				this.setState({userContacts: data, first_name: "", last_name: "", phone_number: ""}) 
+			})
+		}
 		
 	}
 
@@ -122,19 +128,27 @@ class ContactList extends React.Component {
 						<h3>Add a New Contact</h3>
 					</div>
 				</div>
-				<form>
+				<div className="row">
+					<div className="col-md-3 col-sm-3">
+						First Name
+					</div>
+					<div className="col-md-3 col-sm-3">
+						Last Name
+					</div>
+					<div className="col-md-3 col-sm-3">
+						Phone Number
+					</div>
+				</div>
+				<form autoComplete="off">
 					<div className="form-row">
 						<div className="col">
-							First Name
-							<input type="text" onChange={this.handleInputChange} className="form-control" name="first_name" placeholder="First Name"/>
+							<input type="text" value={this.state.first_name} onChange={this.handleInputChange} className="form-control" name="first_name" placeholder="First Name"/>
 						</div>
 						<div className="col">
-							Last Name
-							<input type="text" onChange={this.handleInputChange} className="form-control" name="last_name" placeholder="Last Name"/>
+							<input type="text" value={this.state.last_name} onChange={this.handleInputChange} className="form-control" name="last_name" placeholder="Last Name"/>
 						</div>
 						<div className="col">
-							Phone Number
-							<input type="tel" onChange={this.handleInputChange} className="form-control"	name="phone_number" placeholder="(xxx)xxx-xxxx"/>
+							<input type="tel" value={this.state.phone_number} onChange={this.handleInputChange} className="form-control"	name="phone_number" placeholder="(xxx)xxx-xxxx"/>
 						</div>
 						<div className="col">
 							<button onClick={this.newContact} className="btn btn-primary">Add</button>

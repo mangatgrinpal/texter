@@ -6,9 +6,12 @@ class Dashboard extends React.Component {
 	constructor(props) {
 		super(props);
 		this.renderSideBar = this.renderSidebar.bind(this)
-		this.toggleSidebar = this.toggleSidebar.bind(this)
+	
 		this.state = {
-			isHidden: true
+			userContacts: this.props.userContacts,
+			first_name: "",
+			last_name: "",
+			phone_number: ""
 			
 		}
 	}
@@ -18,9 +21,7 @@ class Dashboard extends React.Component {
 	
 
 	renderSidebar() {
-		if (this.state.isHidden) {
-			return <div/>
-		} else {
+		
 			return (
 				<div className="col-3 bg-light">
 					<h3>User Information</h3>
@@ -29,42 +30,13 @@ class Dashboard extends React.Component {
 					<p>Settings</p>
 				</div>
 			)
-		}
+		
 	}
 
 	toggleSidebar() {
 		this.setState({isHidden: !this.state.isHidden})
 	}
 
-	contactList() {
-		let contacts = this.state.userContacts
-		if (contacts.length == 0) {
-			return (
-				<div>
-					<p>Sorry bro, add new contacts now!</p>
-					<button>Add a new contact</button>
-				</div>
-			)
-			
-		} else {
-
-			let contactNames = this.state.userContacts.map((contact)=> {
-				return (
-					<div key={contact.id}>
-						{contact.first_name} {contact.last_name} {contact.phone_number} <button className="btn btn-primary">send a message</button>
-					</div>
-				)
-			})
-
-			return (
-				<div>
-					<h3>Contact List</h3>
-					{contactNames}
-				</div>
-			)
-
-		}
-	}
 
 	renderView() {
 		let Component = this.steps()[this.state.view]
@@ -89,8 +61,8 @@ class Dashboard extends React.Component {
 						
 						<button className="btn btn-primary" onClick={this.toggleSidebar}>View Options</button>
 						
-						<ContactList currentUser={this.props.currentUser} userContacts={this.props.userContacts}/>
-						<MessageCenter currentUser={this.props.currentUser}/>
+						<ContactList currentUser={this.props.currentUser} userContacts={this.props.userContacts} />
+						<MessageCenter currentUser={this.props.currentUser} userContacts={this.props.userContacts} />
 					</div>
 				</div>
 			</div>
