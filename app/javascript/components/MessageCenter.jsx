@@ -3,21 +3,11 @@ import React from "react"
 class MessageCenter extends React.Component {
 	constructor(props) {
 		super(props);
-		this.handleInputChange = this.handleInputChange.bind(this)
-		this.sendMessage = this.sendMessage.bind(this)
-		this.messageRecipients = this.messageRecipients.bind(this)
 		this.autocomplete = this.autocomplete.bind(this)
-		this.addRecipient = this.addRecipient.bind(this)
-		this.state = {
-			contacts: [],
-			contact: "",
-			message: ""
-		}
+		
 	}
 
 	componentDidMount() {
-		let csrfToken = document.getElementsByName('csrf-token')[0].content
-		this.setState({csrfToken: csrfToken})
 
 
 		this.autocomplete(document.getElementById("contactInput"), this.props.userContacts.map((contact)=>{
@@ -124,19 +114,9 @@ class MessageCenter extends React.Component {
 		});
 	}
 
-	handleInputChange(e) {
-		const target = e.target
-		const value = target.value
-		const name = target.name
-
-		this.setState({
-			[name]: value
-		})
-
-	}
 
 	messageRecipients() {
-		let recipients = this.state.contacts
+		let recipients = this.props.contacts
 		if (recipients.length == 0) {
 			return (
 				<div className="col-6">
@@ -145,7 +125,7 @@ class MessageCenter extends React.Component {
 			)
 		} else {
 			debugger
-			let messageRecipients = this.state.contacts.map((recipient)=> {
+			let messageRecipients = this.props.contacts.map((recipient)=> {
 				return (
 					<div className="badge badge-primary">
 						{recipient.first_name} {recipient.last_name}
@@ -161,24 +141,7 @@ class MessageCenter extends React.Component {
 		)
 	}
 
-	sendMessage(e) {
-		e.preventDefault()
-		fetch("messages/", {
-			method: "POST",
-			body: JSON.stringify({message: {body: this.state.message }, contact: this.state.contact }),
-			headers: {
-				"X-CSRF-Token": this.state.csrfToken,
-				"Content-Type": "application/json"
-			}
-		})
-		.then( (res) => { return res.json() } )
-		.then( (data) => console.log(data) )
-	}
-
-	addRecipient(e) {
-		e.preventDefault()
-		this.setState({contacts: this.state.contacts << this.state.contact, contact: ""})
-	}
+	
 
 	render() {
 		
@@ -192,9 +155,9 @@ class MessageCenter extends React.Component {
 				<form autoComplete="off">
 					<div className="row">
 						<div className="col-6 autocomplete">
-							<input id="contactInput" type="text" onChange={this.handleInputChange} value={this.state.contact} className="form-control" name="contact" placeholder="Add contacts here" />
+							<input id="contactInput" type="text" onChange={this.props.handleInputChange} value={this.props.contact} className="form-control" name="contact" placeholder="Add contacts here" />
 						</div>
-						<button onClick={this.addRecipient} className="btn btn-primary">
+						<button onClick={this.props.addRecipient} className="btn btn-primary">
 							Add
 						</button>
 					</div>
@@ -207,7 +170,7 @@ class MessageCenter extends React.Component {
 					<br/>
 					<div className="row">
 						<div className="col-6">
-							<textarea type="text" onChange={this.handleInputChange} className="form-control" name="message" placeholder="Message goes here" />
+							<textarea type="text" onChange={this.props.handleInputChange} className="form-control" name="message" placeholder="Message goes here" />
 						</div>
 					</div>
 					<br/>

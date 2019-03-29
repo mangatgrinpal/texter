@@ -3,15 +3,7 @@ import React from "react"
 class ContactList extends React.Component {
 	constructor(props) {
 		super(props)
-		this.handleInputChange = this.handleInputChange.bind(this)
-		this.newContact = this.newContact.bind(this)
-		this.deleteContact = this.deleteContact.bind(this)
-		this.state = {
-			userContacts: this.props.userContacts,
-			first_name: "",
-			last_name: "",
-			phone_number: ""
-		}
+		
 	}
 
 	componentDidMount() {
@@ -19,20 +11,12 @@ class ContactList extends React.Component {
 		this.setState({csrfToken: csrfToken})
 	}
 
-	handleInputChange(e) {
-		const target = e.target
-		const value = target.value
-		const name = target.name
-
-		this.setState({
-			[name]: value
-		})
-
-	}
+	
 
 
 	contactList() {
-		let contacts = this.state.userContacts
+		let contacts = this.props.userContacts
+
 		if (contacts.length == 0) {
 			return (
 				<div>
@@ -42,7 +26,7 @@ class ContactList extends React.Component {
 			)
 			
 		} else {
-
+			
 			let contactNames = contacts.map((contact)=> {
 				return (
 					<div className="row" key={contact.id}>
@@ -55,7 +39,7 @@ class ContactList extends React.Component {
 						<div className="col">
 							<button className="badge badge-primary">send a message</button>
 							&nbsp;
-							<button value={contact.id} onClick={this.deleteContact} className="badge badge-danger">delete contact</button>
+							<button value={contact.id} onClick={this.props.deleteContact} className="badge badge-danger">delete contact</button>
 						</div>
 					</div>
 				)
@@ -82,44 +66,14 @@ class ContactList extends React.Component {
 		}
 	}
 
-	deleteContact(e) {
-		let contact = e.target.value
-		
-		fetch("contacts/"+ contact, {
-			method: "DELETE",
-			headers: {
-				"X-CSRF-Token": this.state.csrfToken,
-				"Content-Type": "application/json"
-			}
-		})
-		.then ( (res)=> { return res.json() } )
-		.then ( (data) => { this.setState({userContacts: data})})
-	}
+	
 
 
-	newContact(e) {
-		e.preventDefault()
-		if (this.state.first_name === "" || this.state.last_name === "" || this.state.phone_number === "") {
-			alert('enter contact!');
-		} else {
-			fetch("/contacts", {
-				method: "POST",
-				body: JSON.stringify({contact: {first_name: this.state.first_name, last_name: this.state.last_name, phone_number: this.state.phone_number}}),
-				headers: {
-					"X-CSRF-Token": this.state.csrfToken,
-					"Content-Type": "application/json"
-				}
-			})
-			.then ( (res) => { return res.json() } )
-			.then ( (data) => { 
-				this.setState({userContacts: data, first_name: "", last_name: "", phone_number: ""}) 
-			})
-		}
-		
-	}
+	
 
 
 	render () {
+		console.log(this.props)
 		return (
 			<div className="col-12">
 				<br/>
@@ -142,16 +96,16 @@ class ContactList extends React.Component {
 				<form autoComplete="off">
 					<div className="form-row">
 						<div className="col">
-							<input type="text" value={this.state.first_name} onChange={this.handleInputChange} className="form-control" name="first_name" placeholder="First Name"/>
+							<input type="text" value={this.props.first_name} onChange={this.props.handleInputChange} className="form-control" name="first_name" placeholder="First Name"/>
 						</div>
 						<div className="col">
-							<input type="text" value={this.state.last_name} onChange={this.handleInputChange} className="form-control" name="last_name" placeholder="Last Name"/>
+							<input type="text" value={this.props.last_name} onChange={this.props.handleInputChange} className="form-control" name="last_name" placeholder="Last Name"/>
 						</div>
 						<div className="col">
-							<input type="tel" value={this.state.phone_number} onChange={this.handleInputChange} className="form-control"	name="phone_number" placeholder="(xxx)xxx-xxxx"/>
+							<input type="tel" value={this.props.phone_number} onChange={this.props.handleInputChange} className="form-control"	name="phone_number" placeholder="(xxx)xxx-xxxx"/>
 						</div>
 						<div className="col">
-							<button onClick={this.newContact} className="btn btn-primary">Add</button>
+							<button onClick={this.props.newContact} className="btn btn-primary">Add</button>
 						</div>
 					</div>
 				</form>
