@@ -8,11 +8,13 @@ class MessageCenter extends React.Component {
 	}
 
 	componentDidMount() {
-
-
-		this.autocomplete(document.getElementById("contactInput"), this.props.userContacts.map((contact)=>{
-			return contact.first_name
-		}))
+		// create an array with the javascript object
+		let obj = this.props.userContacts
+		let fullNames = Object.values(obj).map((contact) => {
+		    return (contact.first_name + " " + contact.last_name)
+		})
+		
+		this.autocomplete(document.getElementById("contactInput"), fullNames)
 
 	}
 
@@ -124,7 +126,7 @@ class MessageCenter extends React.Component {
 				</div>
 			)
 		} else {
-			debugger
+			
 			let messageRecipients = this.props.contacts.map((recipient)=> {
 				return (
 					<div className="badge badge-primary">
