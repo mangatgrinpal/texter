@@ -1,4 +1,5 @@
 import React from "react"
+import DashHome from "./DashHome"
 import ContactList from "./ContactList"
 import MessageCenter from "./MessageCenter"
 
@@ -11,7 +12,10 @@ class Dashboard extends React.Component {
 		this.deleteContact = this.deleteContact.bind(this)
 		this.sendMessage = this.sendMessage.bind(this)
 		this.addRecipient = this.addRecipient.bind(this)
+		this.setPage = this.setPage.bind(this)
+		this.renderView = this.renderView.bind(this)
 		this.state = {
+			page: "home",
 			userContacts: this.props.userContacts,
 			first_name: "",
 			last_name: "",
@@ -75,30 +79,56 @@ class Dashboard extends React.Component {
 		.then ( (data) => { this.setState({userContacts: data})})
 	}
 
-	
+	setPage(e) {
+		e.preventDefault()
+		let page = e.target.id
+		
+		this.setState({page: page})
+	}
 
 	renderSidebar() {
 		
 			return (
 				<div className="col-md-3 col-sm-3 bg-light">
 					<h3>User Information</h3>
-					<p>Contacts</p>
-					<p>Messages</p>
-					<p>Settings</p>
+					<ul className="nav flex-column">
+						<li className="nav-item">
+							<a onClick={this.setPage} id="contacts" className="nav-link">Contacts</a>
+						</li>
+						<li className="nav-item">
+							<a onClick={this.setPage} id="messages" className="nav-link">Messages</a>
+						</li>
+						<li className="nav-item">
+							<a onClick={this.setPage} id="settings" className="nav-link">Settings</a>
+						</li>
+					</ul>
 				</div>
 			)
 		
 	}
 
+	pages() {
+		return {
+			home: DashHome,
+			messages: MessageCenter,
+			contacts: ContactList
+		}
+	}
 
-	// renderView() {
-	// 	let Component = this.steps()[this.state.view]
 
-	// 	return (
-	// 		<Component
-	// 			{...this.props}/>
-	// 	)
-	// }
+	renderView() {
+		let Component = this.pages()[this.state.page]
+
+		return (
+			<Component
+				{...this.props}
+				{...this.state} 
+				handleInputChange={this.handleInputChange} 
+				newContact={this.newContact}
+				deleteContact={this.deleteContact}
+				addRecipient={this.addRecipient}/>
+		)
+	}
 
 	sendMessage(e) {
 		e.preventDefault()
@@ -128,22 +158,10 @@ class Dashboard extends React.Component {
 				<div className="row dashboard">
 					{this.renderSidebar()}
 					<div className="col-md-9 col-sm-9 ml-auto mt-5 pr-2">
-						<h3>Welcome {this.props.currentUser.email}</h3>
-						<p>What would you like to do today?</p>
-						<p>You have sent X messages in the last week.</p>
 						
-						<button className="btn btn-primary">View Options</button>
+						{this.renderView()}
 						
-						<ContactList {...this.state} 
-							currentUser={this.props.currentUser} 
-							handleInputChange={this.handleInputChange} 
-							newContact={this.newContact}
-							deleteContact={this.deleteContact}/>
-							
-						<MessageCenter {...this.state} 
-							currentUser={this.props.currentUser} 
-							handleInputChange={this.handleInputChange} 
-							addRecipient={this.addRecipient}/>
+						
 					</div>
 				</div>
 			</div>
