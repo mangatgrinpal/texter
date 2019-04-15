@@ -1,7 +1,8 @@
-import React from "react"
-import DashHome from "./DashHome"
-import ContactList from "./ContactList"
-import MessageCenter from "./MessageCenter"
+import React from "react";
+import DashHome from "./DashHome";
+import ContactList from "./ContactList";
+import MessageCenter from "./MessageCenter";
+import AlertModal from "./AlertModal";
 
 class Dashboard extends React.Component {
 	constructor(props) {
@@ -21,8 +22,9 @@ class Dashboard extends React.Component {
 			last_name: "",
 			phone_number: "",
 			message: "",
-			contact: "",
-			contacts: []
+			recipient: {},
+			recipients: [],
+			errorMessage: ""
 			
 		}
 	}
@@ -90,8 +92,13 @@ class Dashboard extends React.Component {
 		
 			return (
 				<div className="col-md-3 col-sm-3 bg-light">
-					<h3>User Information</h3>
+					
 					<ul className="nav flex-column">
+						<li className="nav-item">
+							<span onClick={this.setPage} id="home" className="nav-link">
+								Hello, {this.props.currentUser.email}
+							</span>
+						</li>
 						<li className="nav-item">
 							<a onClick={this.setPage} id="contacts" className="nav-link">Contacts</a>
 						</li>
@@ -99,7 +106,7 @@ class Dashboard extends React.Component {
 							<a onClick={this.setPage} id="messages" className="nav-link">Messages</a>
 						</li>
 						<li className="nav-item">
-							<a onClick={this.setPage} id="settings" className="nav-link">Settings</a>
+							<a className="nav-link">Settings - needs work</a>
 						</li>
 					</ul>
 				</div>
@@ -120,6 +127,7 @@ class Dashboard extends React.Component {
 		let Component = this.pages()[this.state.page]
 
 		return (
+			
 			<Component
 				{...this.props}
 				{...this.state} 
@@ -127,6 +135,7 @@ class Dashboard extends React.Component {
 				newContact={this.newContact}
 				deleteContact={this.deleteContact}
 				addRecipient={this.addRecipient}/>
+		
 		)
 	}
 
@@ -144,10 +153,37 @@ class Dashboard extends React.Component {
 		.then( (data) => console.log(data) )
 	}
 
-	addRecipient(e) {
-		
+	addRecipient(e, recipient) {
+		console.log(recipient)
 		e.preventDefault()
-		this.setState({contacts: this.state.contacts.push(this.state.contact), contact: ""})
+		let queryRecipientResult = this.state.userContacts.filter((contact)=> {
+			let fullName = contact.first_name + " " + contact.last_name
+			if (fullName === recipient) {
+				return contact
+			}
+
+		})
+
+		
+
+		if (queryRecipientResult === undefined || queryRecipientResult.length == 0) {
+
+			this.setState({errorMessage: "This contact doesn't exist!"})
+			$('#alertModalCenter').modal('toggle')
+			
+
+		} else {
+
+			let recipients = [...this.state.recipients];
+
+			recipients.push(queryRecipientResult[0])
+
+			this.setState({ recipients: recipients })
+			
+		}
+
+		
+		
 	}
 
 
@@ -159,8 +195,9 @@ class Dashboard extends React.Component {
 					{this.renderSidebar()}
 					<div className="col-md-9 col-sm-9 ml-auto mt-5 pr-2">
 						
+						<AlertModal errorMessage={this.state.errorMessage}/>
+
 						{this.renderView()}
-						
 						
 					</div>
 				</div>

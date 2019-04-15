@@ -1,4 +1,5 @@
-import React from "react"
+import React from "react";
+import { CSSTransitionGroup } from "react-transition-group";
 
 class ContactList extends React.Component {
 	constructor(props) {
@@ -7,8 +8,8 @@ class ContactList extends React.Component {
 	}
 
 	componentDidMount() {
-		let csrfToken = document.getElementsByName('csrf-token')[0].content
-		this.setState({csrfToken: csrfToken})
+		
+		
 	}
 
 	
@@ -29,38 +30,38 @@ class ContactList extends React.Component {
 			
 			let contactNames = contacts.map((contact)=> {
 				return (
-					<div className="row" key={contact.id}>
-						<div className="col">
-							{contact.first_name} {contact.last_name}
-						</div>
-						<div className="col">
-							{contact.phone_number}
-						</div>
-						<div className="col">
-							<button className="badge badge-primary">send a message</button>
-							&nbsp;
-							<button value={contact.id} onClick={this.props.deleteContact} className="badge badge-danger">delete contact</button>
-						</div>
-					</div>
+						<tr key={contact.id}>
+							<td>
+								{contact.first_name} {contact.last_name}
+							</td>
+							<td>
+								{contact.phone_number}
+							</td>
+							<td>
+								<button className="badge badge-primary">send a message</button>
+								&nbsp;
+								<button value={contact.id} onClick={this.props.deleteContact} className="badge badge-danger">delete contact</button>
+							</td>
+						</tr>
 				)
 			})
 
 			return (
-				<div>
-					<h3>Contacts</h3>
-					<div className="row">
-						<div className="col">
-							<h6>Name</h6>
-						</div>
-						<div className="col">
-							Phone
-						</div>
-						<div className="col">
-
-						</div>
-					</div>
-					{contactNames}
-				</div>
+				<table className="table">
+					<thead>
+						<tr>
+							<th scope="col">Name</th>
+							<th scope="col">Phone</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						
+						{contactNames}
+						
+					</tbody>
+				</table>
+					
 			)
 
 		}
@@ -76,7 +77,6 @@ class ContactList extends React.Component {
 		
 		return (
 			<div className="col-12">
-				<br/>
 				<div className="row">
 					<div className="col">
 						<h3>Add a New Contact</h3>
@@ -109,9 +109,10 @@ class ContactList extends React.Component {
 						</div>
 					</div>
 				</form>
-				<div className="row">
-					<div className="col">
-					{this.contactList()}
+
+				<div className="row mt-5">
+					<div className="col mt-5">
+						{this.contactList()}
 					</div>
 				</div>
 			</div>

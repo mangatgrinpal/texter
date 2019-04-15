@@ -4,7 +4,7 @@ class MessageCenter extends React.Component {
 	constructor(props) {
 		super(props);
 		this.autocomplete = this.autocomplete.bind(this)
-		
+		this.messageRecipients = this.messageRecipients.bind(this)
 	}
 
 	componentDidMount() {
@@ -21,6 +21,7 @@ class MessageCenter extends React.Component {
 	autocomplete(inp, arr) {
 	  /*the autocomplete function takes two arguments,
 	  the text field element and an array of possible autocompleted values:*/
+	  var self = this;
 	  var currentFocus;
 	  /*execute a function when someone writes in the text field:*/
 	  inp.addEventListener("input", function(e) {
@@ -36,6 +37,7 @@ class MessageCenter extends React.Component {
 	      /*append the DIV element as a child of the autocomplete container:*/
 	      this.parentNode.appendChild(a);
 	      /*for each item in the array...*/
+	      
 	      for (i = 0; i < arr.length; i++) {
 	        /*check if the item starts with the same letters as the text field value:*/
 	        
@@ -51,10 +53,13 @@ class MessageCenter extends React.Component {
 	              b.addEventListener("click", function(e) {
 	              /*insert the value for the autocomplete text field:*/
 	              inp.value = this.getElementsByTagName("input")[0].value;
+	              self.props.addRecipient(e, inp.value)
+	              document.getElementById("contactInput").value = ""
 	              /*close the list of autocompleted values,
 	              (or any other open lists of autocompleted values:*/
 	              closeAllLists();
 	          });
+
 	          a.appendChild(b);
 	        }
 	      }
@@ -118,7 +123,7 @@ class MessageCenter extends React.Component {
 
 
 	messageRecipients() {
-		let recipients = this.props.contacts
+		let recipients = this.props.recipients
 		if (recipients.length == 0) {
 			return (
 				<div className="col-6">
@@ -126,21 +131,24 @@ class MessageCenter extends React.Component {
 				</div>
 			)
 		} else {
-			
-			let messageRecipients = this.props.contacts.map((recipient)=> {
+
+			let messageRecipients = this.props.recipients.map((recipient)=> {
+					
 				return (
-					<div className="badge badge-primary">
+
+					<div key={recipient.id} className="badge badge-primary mr-2">
 						{recipient.first_name} {recipient.last_name}
 					</div>
+
 				)
 			})
-		}
 
-		return (
-			<div>
-				{messageRecipients}
-			</div>
-		)
+			return (
+				<div className="col-6">
+					{messageRecipients}
+				</div>
+			)
+		}
 	}
 
 	
@@ -157,7 +165,7 @@ class MessageCenter extends React.Component {
 				<form autoComplete="off">
 					<div className="row">
 						<div className="col-6 autocomplete">
-							<input id="contactInput" type="text" onChange={this.props.handleInputChange} value={this.props.contact} className="form-control" name="contact" placeholder="Add contacts here" />
+							<input id="contactInput" type="text" onChange={this.props.handleInputChange} className="form-control" name="recipient" placeholder="Add contacts here" />
 						</div>
 						<button onClick={this.props.addRecipient} className="btn btn-primary">
 							Add
@@ -165,9 +173,9 @@ class MessageCenter extends React.Component {
 					</div>
 					
 					<div className="row">
-						<div className="col-12">
-							{this.messageRecipients()}
-						</div>
+						
+						{this.messageRecipients()}
+						
 					</div>
 					<br/>
 					<div className="row">
@@ -176,7 +184,7 @@ class MessageCenter extends React.Component {
 						</div>
 					</div>
 					<br/>
-					<button onClick={this.sendMessage} className="btn btn-primary">Send Message</button>
+					<button className="btn btn-primary">Send Message</button>
 				</form>
 				<div>
 					render sent messages here
