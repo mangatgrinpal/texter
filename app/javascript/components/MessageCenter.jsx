@@ -133,11 +133,11 @@ class MessageCenter extends React.Component {
 		} else {
 
 			let messageRecipients = this.props.recipients.map((recipient)=> {
-					
+				//using recipient.id in name attribute is bad. pls fix later	
 				return (
 
 					<div key={recipient.id} className="badge badge-primary mr-2">
-						{recipient.first_name} {recipient.last_name}
+						{recipient.first_name} {recipient.last_name} <a name={recipient.id} onClick={this.props.deleteRecipient}>X</a>
 					</div>
 
 				)

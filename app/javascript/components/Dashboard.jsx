@@ -13,6 +13,7 @@ class Dashboard extends React.Component {
 		this.deleteContact = this.deleteContact.bind(this)
 		this.sendMessage = this.sendMessage.bind(this)
 		this.addRecipient = this.addRecipient.bind(this)
+		this.deleteRecipient = this.deleteRecipient.bind(this)
 		this.setPage = this.setPage.bind(this)
 		this.renderView = this.renderView.bind(this)
 		this.state = {
@@ -134,7 +135,8 @@ class Dashboard extends React.Component {
 				handleInputChange={this.handleInputChange} 
 				newContact={this.newContact}
 				deleteContact={this.deleteContact}
-				addRecipient={this.addRecipient}/>
+				addRecipient={this.addRecipient}
+				deleteRecipient={this.deleteRecipient}/>
 		
 		)
 	}
@@ -153,18 +155,16 @@ class Dashboard extends React.Component {
 		.then( (data) => console.log(data) )
 	}
 
+	//this function adds recipients to the recipient array in state, to whom the message will 
 	addRecipient(e, recipient) {
-		console.log(recipient)
+		
 		e.preventDefault()
 		let queryRecipientResult = this.state.userContacts.filter((contact)=> {
 			let fullName = contact.first_name + " " + contact.last_name
 			if (fullName === recipient) {
 				return contact
 			}
-
-		})
-
-		
+		})		
 
 		if (queryRecipientResult === undefined || queryRecipientResult.length == 0) {
 
@@ -181,9 +181,19 @@ class Dashboard extends React.Component {
 			this.setState({ recipients: recipients })
 			
 		}
+		
+	}
 
+	// function to delete recipient... this is a ghetto fix, pls revise later
+	deleteRecipient(e) {
 		
+		let selected = e.target.name
+		let filtered = this.state.recipients.filter((recipient)=> {
+			return recipient.id != selected
+		})
 		
+		this.setState({recipients: filtered})
+		console.log(filtered)
 	}
 
 
