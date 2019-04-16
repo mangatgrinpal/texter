@@ -218,7 +218,9 @@ class Dashboard extends React.Component {
 					{this.renderSidebar()}
 					<div className="col-md-9 col-sm-9 ml-auto mt-5 pr-2">
 						
-						<AlertModal errorMessage={this.state.errorMessage}/>
+						<AlertModal 
+							
+							errorMessage={this.state.errorMessage}/>
 
 						{this.renderView()}
 						
