@@ -155,32 +155,46 @@ class Dashboard extends React.Component {
 		.then( (data) => console.log(data) )
 	}
 
-	//this function adds recipients to the recipient array in state, to whom the message will 
+	//this function adds recipients to the recipient array in state, to whom the message will be sent
+	//this function will be used across different pages
 	addRecipient(e, recipient) {
-		
 		e.preventDefault()
-		let queryRecipientResult = this.state.userContacts.filter((contact)=> {
+		if (this.state.page == "contacts") {
+			let selected = e.target.value
+			let filtered = this.state.userContacts.filter((recipient)=> {
+				return recipient.id == selected
+			})
+			
+			this.setState({recipients: filtered, page: "messages"	})
+
+
+		} else {
+
+			let queryRecipientResult = this.state.userContacts.filter((contact)=> {
 			let fullName = contact.first_name + " " + contact.last_name
 			if (fullName === recipient) {
 				return contact
 			}
-		})		
+			})		
 
-		if (queryRecipientResult === undefined || queryRecipientResult.length == 0) {
+			if (queryRecipientResult === undefined || queryRecipientResult.length == 0) {
 
-			this.setState({errorMessage: "This contact doesn't exist!"})
-			$('#alertModalCenter').modal('toggle')
-			
+				this.setState({errorMessage: "This contact doesn't exist!"})
+				$('#alertModalCenter').modal('toggle')
+				
 
-		} else {
+			} else {
 
-			let recipients = [...this.state.recipients];
+				let recipients = [...this.state.recipients];
 
-			recipients.push(queryRecipientResult[0])
+				recipients.push(queryRecipientResult[0])
 
-			this.setState({ recipients: recipients })
-			
+				this.setState({ recipients: recipients })
+				
+			}
 		}
+		
+		
 		
 	}
 
@@ -193,7 +207,6 @@ class Dashboard extends React.Component {
 		})
 		
 		this.setState({recipients: filtered})
-		console.log(filtered)
 	}
 
 

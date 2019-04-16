@@ -38,7 +38,7 @@ class ContactList extends React.Component {
 								{contact.phone_number}
 							</td>
 							<td>
-								<button className="badge badge-primary">send a message</button>
+								<button value={contact.id} onClick={this.props.addRecipient} className="badge badge-primary">send a message</button>
 								&nbsp;
 								<button value={contact.id} onClick={this.props.deleteContact} className="badge badge-danger">delete contact</button>
 							</td>
