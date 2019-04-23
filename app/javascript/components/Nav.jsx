@@ -30,7 +30,7 @@ class Nav extends React.Component {
 			return (
 				<div className="navbar-nav">
 			  	<a href="/dashboard" className="nav-item nav-link">Dashboard</a>
-			  	<a onClick={this.logOut} className="nav-item nav-link">Log Out</a>
+			  	<a href="javascript:void(0)" onClick={this.logOut} className="nav-item nav-link">Log Out</a>
 			  </div>
 			)
 		}

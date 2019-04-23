@@ -219,7 +219,7 @@ class Dashboard extends React.Component {
 					<div className="col-md-9 col-sm-9 ml-auto mt-5 pr-2">
 						
 						<AlertModal 
-							
+
 							errorMessage={this.state.errorMessage}/>
 
 						{this.renderView()}
