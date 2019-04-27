@@ -10,8 +10,6 @@ html { height: 100%; }
 	height: 700px;
 	background-size: cover;
 	color: #ffffff;
-	// don't think I need background-image anymore since I created JS function to loop it in app
-	//background-image: url('https://s3-us-west-1.amazonaws.com/ginnysbucket/dev-images/group-texting-edited.jpeg');
 	
 
 	// creates active class which will introduce fade effect for various images in background image function
@@ -39,6 +37,11 @@ html { height: 100%; }
 		width: 85%;
 		margin-left: -15px;
 	}
+}
+
+.hero-break {
+	height: 50px;
+	background-color: crimson;
 }
 
 

@@ -159,6 +159,8 @@ class Dashboard extends React.Component {
 	//this function will be used across different pages
 	addRecipient(e, recipient) {
 		e.preventDefault()
+
+		
 		if (this.state.page == "contacts") {
 			let selected = e.target.value
 			let filtered = this.state.userContacts.filter((recipient)=> {
@@ -168,6 +170,9 @@ class Dashboard extends React.Component {
 			this.setState({recipients: filtered, page: "messages"	})
 
 
+		} 
+		if (this.state.recipients.includes(recipient)) {
+			alert('already added foo!');
 		} else {
 
 			let queryRecipientResult = this.state.userContacts.filter((contact)=> {
@@ -185,7 +190,7 @@ class Dashboard extends React.Component {
 
 			} else {
 
-				let recipients = [...this.state.recipients];
+				let recipients = Object.assign([], this.state.recipients);
 
 				recipients.push(queryRecipientResult[0])
 

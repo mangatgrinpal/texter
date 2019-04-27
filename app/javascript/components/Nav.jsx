@@ -60,7 +60,7 @@ class Nav extends React.Component {
 				<div className="nav-item">
 					<a className="navbar-brand" href="/">
 				    {/*image goes here (svg)*/}
-				    Text Handler
+				    Ping
 				  </a>
 				</div>
 				<div className="nav-item">
