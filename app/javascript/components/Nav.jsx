@@ -45,9 +45,9 @@ class Nav extends React.Component {
 
 		else {
 			return (
-				<div className="navbar-nav">
-			  	<a href="users/sign_up" className="nav-item nav-link">Sign Up</a>
-			  	<a href="users/sign_in" className="nav-item nav-link">Log In</a>
+				<div className="navbar-nav">			  	
+			  	<button className="nav-item nav-link">Log In</button>
+			  	<button className="nav-item nav-link">Sign Up Free</button>
 			  </div>
 			)
 		}
@@ -56,12 +56,12 @@ class Nav extends React.Component {
 	render () {
 
 		return (
-			<nav className="navbar justify-content-between navbar-expand-lg navbar-light bg-light">
+			<nav className="navbar justify-content-between navbar-expand-lg navbar-light">
 				<div className="nav-item">
 					<a className="navbar-brand" href="/">
 				    {/*image goes here (svg)*/}
 				    Ping
-				  </a>
+				  </a>  
 				</div>
 				<div className="nav-item">
 					 <div className="collapse navbar-collapse">

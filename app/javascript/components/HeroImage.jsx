@@ -51,17 +51,15 @@ class HeroImage extends React.Component {
 
 		return (
 			<div className="row hero-image">
-				<div className="col-6">
-					<div className="col hero-overlay"/>
-					<div className="wrapper">
-						<div className="col hero-text-overlay">
-							<h1>Easily manage messaging large groups.</h1>
+				<div className="col-md-12">
+					<div className="row">
+						<div className="col-md-12 hero-overlay"/>
+						<div className="col-md-6 offset-md-3 hero-text-overlay">
+							<h1>Built with convenience in mind</h1>
+							<h2>Click below to begin messaging</h2>
+							<button className="btn btn-primary">Sign Up Free</button>
 						</div>
 					</div>
-				</div>
-				<div className="col-6">
-					<h2>What are you waiting for?</h2>
-					<button className="btn btn-primary">Get Started Now</button>
 				</div>
 			</div>
 		)

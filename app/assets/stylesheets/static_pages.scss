@@ -26,17 +26,28 @@ html { height: 100%; }
 	.hero-overlay {
 		background-color: crimson;
     height: 100%;
-    width: 85%;
-    margin-left: -15px;
+    
+    
     opacity: 0.4;
     // with position: absolute, this overlay div won't be in the flow of the page.
     position: absolute;
 	}
 
-	.wrapper {
-		width: 85%;
-		margin-left: -15px;
+	.hero-text-overlay {
+		text-align: center;
+		margin-top: 4.875rem;
+		
+		h1 {
+			font-size: 3.5rem;
+		}
+
+		button {
+			margin-top: 1rem;
+			padding: 1rem;
+			border-radius: 0;
+		}
 	}
+
 }
 
 .hero-break {

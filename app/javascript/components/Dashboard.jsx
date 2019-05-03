@@ -4,6 +4,7 @@ import ContactList from "./ContactList";
 import MessageCenter from "./MessageCenter";
 import AlertModal from "./AlertModal";
 
+
 class Dashboard extends React.Component {
 	constructor(props) {
 		super(props);
@@ -226,7 +227,7 @@ class Dashboard extends React.Component {
 						<AlertModal 
 
 							errorMessage={this.state.errorMessage}/>
-
+						
 						{this.renderView()}
 						
 					</div>
