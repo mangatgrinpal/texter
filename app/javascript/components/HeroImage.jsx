@@ -56,7 +56,7 @@ class HeroImage extends React.Component {
 						<div className="col-md-12 hero-overlay"/>
 						<div className="col-md-6 offset-md-3 hero-text-overlay">
 							<h1>Built with convenience in mind</h1>
-							<h2>Click below to begin messaging</h2>
+							<h3>Click below to begin messaging</h3>
 							<button className="btn btn-primary">Sign Up Free</button>
 						</div>
 					</div>

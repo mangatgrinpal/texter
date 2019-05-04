@@ -30,6 +30,7 @@ class Nav extends React.Component {
 			return (
 				<div className="navbar-nav">
 			  	<a href="/dashboard" className="nav-item nav-link">Dashboard</a>
+			  	&nbsp;
 			  	<a href="javascript:void(0)" onClick={this.logOut} className="nav-item nav-link">Log Out</a>
 			  </div>
 			)
@@ -38,7 +39,7 @@ class Nav extends React.Component {
 		if (currentPage == "/dashboard" && this.props.currentUser) {
 			return (
 				<div className="navbar-nav">
-			  	<a onClick={this.logOut} className="nav-item nav-link">Log Out</a>
+			  	<button onClick={this.logOut} className="nav-item nav-link">Log Out</button>
 			  </div>
 			)
 		}
@@ -46,8 +47,9 @@ class Nav extends React.Component {
 		else {
 			return (
 				<div className="navbar-nav">			  	
-			  	<button className="nav-item nav-link">Log In</button>
-			  	<button className="nav-item nav-link">Sign Up Free</button>
+			  	<button className="log-in nav-item nav-link">Log In</button>
+			  	&nbsp;
+			  	<button className="sign-up btn btn-primary nav-item nav-link">Sign Up Free</button>
 			  </div>
 			)
 		}
@@ -60,7 +62,7 @@ class Nav extends React.Component {
 				<div className="nav-item">
 					<a className="navbar-brand" href="/">
 				    {/*image goes here (svg)*/}
-				    Ping
+				    PING
 				  </a>  
 				</div>
 				<div className="nav-item">

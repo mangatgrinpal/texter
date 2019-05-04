@@ -15,3 +15,22 @@
  */
 
 @import 'bootstrap';
+
+.navbar {
+	background-color: hsl(360, 65%, 45%);
+	border-bottom: 1px solid white;
+	&:hover {
+		background-color: white;
+	}
+	button {
+		width: 7.5rem;
+		border-radius: 0;
+
+	}
+	.log-in {
+		color: black;
+	}
+	.sign-up {
+		color: white;
+	}
+}

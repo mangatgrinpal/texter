@@ -10,10 +10,10 @@ class HomeDescription extends React.Component {
 	render () {
 		return (
 			<React.Fragment>
-				<div className="row hero-break"/>
 				<div className="row">
 					<div className="col">
-						<h2>Using a cell phone to text many people for marketing, emergencies, product updates, etc. can be difficult when you've got a lot of people to message.</h2>
+						<h2>SMS is a powerful tool for reaching clients</h2>
+						<p>It can be overwhelming to manage on your small cell phone screen when you've got a lot of them.</p>
 						
 					</div>
 					<div className="col">
@@ -25,7 +25,8 @@ class HomeDescription extends React.Component {
 						<FontAwesomeIcon icon="user" size="5x" />
 					</div>
 					<div className="col">
-						<h2>Ping allows you to simply message contacts individually or groups of contacts simultaneously, making the messaging process extremely easy.</h2>
+						<h2>Ping simplifies messaging</h2>
+						<p>Easily send annoucements, notifications, etc to individual contacts or large groups.</p>
 					</div>
 					<div className="col">
 						<FontAwesomeIcon icon="users" size="5x" />
