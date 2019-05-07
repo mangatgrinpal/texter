@@ -23,15 +23,17 @@ class Nav extends React.Component {
 		});
 	}
 
+	
+
 	renderNavItems() {
 		let currentPage = window.location.pathname
 		// when the user is logged in
 		if (currentPage == "/" && this.props.currentUser) {
 			return (
 				<div className="navbar-nav">
-			  	<a href="/dashboard" className="nav-item nav-link">Dashboard</a>
+			  	<button className="dash-button btn btn-primary nav-item">Dashboard</button>
 			  	&nbsp;
-			  	<a href="javascript:void(0)" onClick={this.logOut} className="nav-item nav-link">Log Out</a>
+			  	<button onClick={this.logOut} className="log-out btn nav-item">Log Out</button>
 			  </div>
 			)
 		}
@@ -39,7 +41,7 @@ class Nav extends React.Component {
 		if (currentPage == "/dashboard" && this.props.currentUser) {
 			return (
 				<div className="navbar-nav">
-			  	<button onClick={this.logOut} className="nav-item nav-link">Log Out</button>
+			  	<button onClick={this.logOut} className="log-out btn nav-item">Log Out</button>
 			  </div>
 			)
 		}
@@ -47,9 +49,9 @@ class Nav extends React.Component {
 		else {
 			return (
 				<div className="navbar-nav">			  	
-			  	<button className="log-in nav-item nav-link">Log In</button>
+			  	<button className="btn log-in nav-item">Log In</button>
 			  	&nbsp;
-			  	<button className="sign-up btn btn-primary nav-item nav-link">Sign Up Free</button>
+			  	<button className="sign-up btn btn-primary nav-item">Sign Up Free</button>
 			  </div>
 			)
 		}

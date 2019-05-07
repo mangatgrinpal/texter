@@ -1,5 +1,6 @@
 import React from "react"
 
+
 //this component is for the hero image and its content such as buttons/links
 class HeroImage extends React.Component {
 	constructor(props) {
@@ -53,8 +54,10 @@ class HeroImage extends React.Component {
 			<div className="row hero-image">
 				<div className="col-md-12">
 					<div className="row">
+
 						<div className="col-md-12 hero-overlay"/>
-						<div className="col-md-6 offset-md-3 hero-text-overlay">
+						
+						<div className="col-md-6 offset-md-3 hero-text-overlay" style={{position: "absolute"}}>
 							<h1>Built with convenience in mind</h1>
 							<h3>Click below to begin messaging</h3>
 							<button className="btn btn-primary">Sign Up Free</button>
@@ -62,6 +65,7 @@ class HeroImage extends React.Component {
 					</div>
 				</div>
 			</div>
+			
 		)
 	}
 }
