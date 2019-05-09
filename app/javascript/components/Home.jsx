@@ -19,7 +19,7 @@ class Home extends React.Component {
 		return (
 			<div className="container-fluid">
 				
-				<HeroImage/>
+				<HeroImage currentUser={this.props.currentUser}/>
 				
 				
 				<HomeDescription/>

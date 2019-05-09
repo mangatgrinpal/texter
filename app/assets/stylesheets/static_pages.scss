@@ -36,6 +36,7 @@ html { height: 100%; }
 	.hero-text-overlay {
 		text-align: center;
 		margin-top: 4.875rem;
+		position: absolute;
 		
 		h1 {
 			font-size: 3.5rem;
@@ -44,7 +45,6 @@ html { height: 100%; }
 		button {
 			margin-top: 1rem;
 			padding: 1rem;
-			border-radius: 0;
 		}
 	}
 
@@ -64,11 +64,6 @@ html { height: 100%; }
 
 	.text {
 		padding: 12% 0;
-	}
-
-	.simplifies {
-		background-color: hsl(360, 65%, 45%);
-		color: white;
 	}
 }
 

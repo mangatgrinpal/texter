@@ -16,6 +16,9 @@
 
 @import 'bootstrap';
 
+//remove border radius from all buttons
+.btn { border-radius: 0; }
+
 .navbar {
 	background-color: hsl(360, 65%, 45%);
 	border-bottom: 1px solid white;
@@ -24,13 +27,19 @@
 	}
 	button {
 		width: 7.5rem;
-		border-radius: 0;
+		
+		&:hover {
+			cursor: pointer;
+		}
 
 	}
 	.navbar-brand {
 		letter-spacing: 0.5rem;
 		font-size: 1.5rem;
 		font-weight: 600;
+		&:hover {
+			cursor: pointer;
+		}
 	}
 	.log-in,.log-out {
 		border: 1px solid black;

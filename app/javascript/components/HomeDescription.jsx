@@ -21,7 +21,7 @@ class HomeDescription extends React.Component {
 							<FontAwesomeIcon icon="sms" size="10x" />
 						</div>
 					</div>
-					<div className="row simplifies">
+					<div className="row simplifies bg-light">
 						<div className="col-md-3 image">
 							<FontAwesomeIcon icon="user" size="10x" />
 						</div>

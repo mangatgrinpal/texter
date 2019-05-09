@@ -6,7 +6,7 @@ class Nav extends React.Component {
 		super(props);
 	}
 
-	logOut () {
+	logOut() {
 		$.ajax("/users/sign_out", {
 				dataType: "JSON",
 				type: "DELETE",
@@ -23,6 +23,22 @@ class Nav extends React.Component {
 		});
 	}
 
+
+	//redirect user to dashboard
+	goDashboard() {
+		window.location.href = "/dashboard"
+	}
+
+	//redirect user to sign up page
+	goSignUp() {
+		window.location.href = "/users/sign_up"
+	}
+
+	//redirect user to sign in page
+	goSignIn() {
+		window.location.href = "/users/sign_in"
+	}
+
 	
 
 	renderNavItems() {
@@ -31,7 +47,7 @@ class Nav extends React.Component {
 		if (currentPage == "/" && this.props.currentUser) {
 			return (
 				<div className="navbar-nav">
-			  	<button className="dash-button btn btn-primary nav-item">Dashboard</button>
+			  	<button onClick={this.goDashboard} className="dash-button btn btn-primary nav-item">Dashboard</button>
 			  	&nbsp;
 			  	<button onClick={this.logOut} className="log-out btn nav-item">Log Out</button>
 			  </div>
@@ -49,9 +65,9 @@ class Nav extends React.Component {
 		else {
 			return (
 				<div className="navbar-nav">			  	
-			  	<button className="btn log-in nav-item">Log In</button>
+			  	<button onClick={this.goSignIn} className="btn log-in nav-item">Log In</button>
 			  	&nbsp;
-			  	<button className="sign-up btn btn-primary nav-item">Sign Up Free</button>
+			  	<button onClick={this.goSignUp} className="sign-up btn btn-primary nav-item">Sign Up Free</button>
 			  </div>
 			)
 		}

@@ -46,9 +46,19 @@ class HeroImage extends React.Component {
 		cycleImage();
 	}
 
+	goSignUp() {
+		window.location.href = "/users/sign_up"
+	}
+
 
 
 	render () {
+
+		var instruction, button
+		if (!this.props.currentUser) {
+			instruction = "Click below to begin messaging"
+			button = <button onClick={this.goSignUp} className="btn btn-primary">Sign Up Free</button>
+		} 
 
 		return (
 			<div className="row hero-image">
@@ -57,10 +67,10 @@ class HeroImage extends React.Component {
 
 						<div className="col-md-12 hero-overlay"/>
 						
-						<div className="col-md-6 offset-md-3 hero-text-overlay" style={{position: "absolute"}}>
+						<div className="col-md-6 offset-md-3 hero-text-overlay">
 							<h1>Built with convenience in mind</h1>
-							<h3>Click below to begin messaging</h3>
-							<button className="btn btn-primary">Sign Up Free</button>
+							<h3>{instruction}</h3>
+							{button}
 						</div>
 					</div>
 				</div>
