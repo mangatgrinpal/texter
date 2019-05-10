@@ -49,3 +49,14 @@
 		color: white;
 	}
 }
+
+#terms {
+	color: #007bff;
+	text-decoration: none;
+	background-color: transparent;
+	&:hover {
+		cursor: pointer;
+		color: #0056b3;
+    text-decoration: underline;
+	}
+}

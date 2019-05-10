@@ -98,7 +98,7 @@ class Dashboard extends React.Component {
 					<ul className="nav flex-column">
 						<li className="nav-item">
 							<span onClick={this.setPage} id="home" className="nav-link">
-								Hello, {this.props.currentUser.email}
+								Hello, {this.props.currentUser.first_name}
 							</span>
 						</li>
 						<li className="nav-item">

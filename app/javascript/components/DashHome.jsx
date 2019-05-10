@@ -11,7 +11,7 @@ class DashHome extends React.Component {
 		
 		return (
 			<div>
-				<h3>Welcome {this.props.currentUser.email}</h3>
+				<h3>Welcome {this.props.currentUser.first_name}</h3>
 				<p>What would you like to do today?</p>
 				<p>You have sent {this.props.recentMessages.length} messages in the last week.</p>
 			</div>

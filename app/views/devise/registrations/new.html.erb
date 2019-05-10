@@ -1,3 +1,5 @@
+
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-4 offset-md-3 mt-5">
@@ -9,6 +11,18 @@
         <div class="field">
           <%= f.label :email %><br />
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+        </div>
+
+        <div class="form-row">
+          <div class="col">
+            <%= f.label :first_name %><br/>
+            <%= f.text_field :first_name, autofocus: true, autocomplete: "name", class: "form-control" %>
+          </div>
+          <div class="col">
+            <%= f.label :last_name %><br/>
+            <%= f.text_field :last_name, autofocus: true, autocomplete: "name", class: "form-control" %>
+          </div>
+
         </div>
 
         <div class="field">
@@ -28,10 +42,25 @@
           <%= f.submit "Sign up", class: "btn btn-primary" %>
         </div>
       <% end %>
+      <div class="mt-2">
+        By clicking sign up above, you agree to the <span id="terms">terms</span>.
+      </div>
       <br/>
+
       <span>Already signed up?</span>
       <%= render "devise/shared/links" %>
 
     </div>
   </div>
 </div>
+
+
+<script>
+  
+  terms = document.getElementById("terms")
+  
+  terms.addEventListener("click", (e)=> {
+    e.preventDefault();
+    window.location.href = "/terms"
+  })
+</script>
