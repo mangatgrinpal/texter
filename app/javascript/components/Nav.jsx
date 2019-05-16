@@ -46,17 +46,18 @@ class Nav extends React.Component {
 		// when the user is logged in
 		if (currentPage == "/" && this.props.currentUser) {
 			return (
-				<div className="navbar-nav">
+				<div className="navbar-nav pr-2">
 			  	<button onClick={this.goDashboard} className="dash-button btn btn-primary nav-item">Dashboard</button>
 			  	&nbsp;
-			  	<button onClick={this.logOut} className="log-out btn nav-item">Log Out</button>
+
+			  	<button onClick={this.logOut} className="log-out btn nav-item ml-1">Log Out</button>
 			  </div>
 			)
 		}
 
 		if (currentPage == "/dashboard" && this.props.currentUser) {
 			return (
-				<div className="navbar-nav">
+				<div className="navbar-nav pr-2">
 			  	<button onClick={this.logOut} className="log-out btn nav-item">Log Out</button>
 			  </div>
 			)
@@ -64,10 +65,10 @@ class Nav extends React.Component {
 
 		else {
 			return (
-				<div className="navbar-nav">			  	
+				<div className="navbar-nav pr-2">			  	
 			  	<button onClick={this.goSignIn} className="btn log-in nav-item">Log In</button>
 			  	&nbsp;
-			  	<button onClick={this.goSignUp} className="sign-up btn btn-primary nav-item">Sign Up Free</button>
+			  	<button onClick={this.goSignUp} className="sign-up btn btn-primary nav-item ml-1">Sign Up Free</button>
 			  </div>
 			)
 		}

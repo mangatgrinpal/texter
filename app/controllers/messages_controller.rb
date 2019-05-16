@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
 	before_action :authenticate_user!
 	before_action :find_user
+	
 	def create
 		@message = current_user.messages.build(message_params)
 		@contact = params[:contact]

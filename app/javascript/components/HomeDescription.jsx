@@ -39,6 +39,7 @@ class HomeDescription extends React.Component {
 						</div>
 						<div className="col-md-4 offset-md-1 text">
 							<h2>Reach more people with less effort.</h2>
+							<p>Group contacts together and send them all the same message at once!</p>
 						</div>
 					</div>
 

@@ -2,6 +2,7 @@ class ContactsController < ApplicationController
 	before_action :authenticate_user!
 	before_action :find_user
 
+
 	def create
 		
 		
@@ -22,12 +23,12 @@ class ContactsController < ApplicationController
 	end
 
 	private
-
+	
 	def find_user
 		@user = current_user
 	end
 
 	def contact_params
-		params.require(:contact).permit(:first_name, :last_name, :phone_number)
+		params.require(:contact).permit(:first_name, :last_name, :phone_number, :identity)
 	end
 end

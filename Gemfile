@@ -35,6 +35,7 @@ gem 'jquery-rails'
 gem 'devise'
 gem 'twilio-ruby'
 gem 'figaro'
+gem 'rubysl-securerandom'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

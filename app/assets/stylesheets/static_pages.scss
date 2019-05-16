@@ -11,6 +11,7 @@ html { height: 100%; }
 	background-size: cover;
 	color: #ffffff;
 	
+	
 
 	// creates active class which will introduce fade effect for various images in background image function
 	.active {
@@ -54,16 +55,21 @@ html { height: 100%; }
 	.row {
 		color: hsl(360, 65%, 45%);
 		height: 500px;
-		
+		p { color: #000; }
 	}
 
 	.image {
 		text-align: center;
 		padding: 10% 0;
+		color: #000;
+		// &:hover {
+		// 	transform: scale(1.1,1.1);
+		// }
 	}
 
 	.text {
 		padding: 12% 0;
+
 	}
 }
 

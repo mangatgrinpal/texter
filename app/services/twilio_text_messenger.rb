@@ -7,12 +7,15 @@ class TwilioTextMessenger
 	end
 
 	def call
-		client = Twilio::REST::Client.new
-		client.messages.create({
-			from: ENV["twilio_phone_number"],
-			to: @recipient,
+		@client = Twilio::REST::Client.new
+		@service = @client.notify.v1.services('ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+
+		@service.notifications.create(
+			to_binding: ['{"binding_type":"sms", "address":#{@recipient}}'
+			],
 			body: @message
-		})
+			)
+		
 	end
 
 end

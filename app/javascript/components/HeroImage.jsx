@@ -23,9 +23,15 @@ class HeroImage extends React.Component {
 		// sets hero-image to images in backgrounds array using i to access index
 		function cycleImage(){
 			// heroImage.fadeIn(1000);
-			heroImage.css({
+			heroImage.className += " fadeOut"
+			setTimeout(()=> {
+				heroImage.css({
 				"background-image": "url(" + baseURL + backgrounds[i] + ")"
+				
+			},1000);
+				heroImage.className -= "fadeOut"
 			})
+			
 			
 			
 			// increment i to see next image
