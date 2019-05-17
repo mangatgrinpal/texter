@@ -1,5 +1,6 @@
 import React from "react";
 import DashHome from "./DashHome";
+import ContactCenter from "./ContactCenter";
 import ContactList from "./ContactList";
 import MessageCenter from "./MessageCenter";
 import AlertModal from "./AlertModal";
@@ -26,7 +27,8 @@ class Dashboard extends React.Component {
 			message: "",
 			recipient: {},
 			recipients: [],
-			errorMessage: ""
+			errorMessage: "",
+			nickname: ""
 			
 		}
 	}
@@ -107,9 +109,7 @@ class Dashboard extends React.Component {
 						<li className="nav-item">
 							<a onClick={this.setPage} id="messages" className="nav-link">Messages</a>
 						</li>
-						<li className="nav-item">
-							<a className="nav-link">Settings - needs work</a>
-						</li>
+						
 					</ul>
 				</div>
 			)
@@ -120,7 +120,7 @@ class Dashboard extends React.Component {
 		return {
 			home: DashHome,
 			messages: MessageCenter,
-			contacts: ContactList
+			contacts: ContactCenter
 		}
 	}
 
@@ -130,7 +130,7 @@ class Dashboard extends React.Component {
 
 		return (
 			
-			<Component
+			<Component 
 				{...this.props}
 				{...this.state} 
 				handleInputChange={this.handleInputChange} 

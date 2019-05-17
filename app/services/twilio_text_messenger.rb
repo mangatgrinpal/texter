@@ -11,7 +11,7 @@ class TwilioTextMessenger
 		@service = @client.notify.v1.services('ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
 
 		@service.notifications.create(
-			to_binding: ['{"binding_type":"sms", "address":#{@recipient}}'
+			to_binding: ['{"binding_type":"sms", "address":"+14083349274"}', {"binding_type":"sms", ""}
 			],
 			body: @message
 			)

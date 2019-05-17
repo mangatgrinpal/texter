@@ -1,7 +1,7 @@
 import React from "react";
 import { CSSTransitionGroup } from "react-transition-group";
 
-class ContactList extends React.Component {
+class GroupList extends React.Component {
 	constructor(props) {
 		super(props)
 		
@@ -15,49 +15,50 @@ class ContactList extends React.Component {
 	
 
 
-	contactList() {
-		let contacts = this.props.userContacts
+	groupList() {
+		let groups = this.props.userGroups
 
-		if (contacts.length == 0) {
+		if (groups.length == 0) {
 			return (
 				<div>
 					<br/>
-					<p>You don't have any contacts yet. Add some now.</p>
+					<p>You haven't created any groups yet. Make one now.</p>
 				</div>
 			)
 			
 		} else {
 			
-			let contactNames = contacts.map((contact)=> {
+			let groupNames = groups.map((group)=> {
 				return (
-						<tr key={contact.id}>
+						<tr key={group.id}>
 							<td>
-								{contact.first_name} {contact.last_name}
+								{group.nickname}
 							</td>
 							<td>
-								{contact.phone_number}
 							</td>
+							
 							<td>
-								<button value={contact.id} onClick={this.props.addRecipient} className="badge badge-primary">send a message</button>
+								<button className="badge badge-primary">Add Contacts</button>
 								&nbsp;
-								<button value={contact.id} onClick={this.props.deleteContact} className="badge badge-danger">delete contact</button>
+								<button className="badge badge-danger">Delete Group</button>
 							</td>
+						
 						</tr>
 				)
 			})
 
 			return (
-				<table className="table table-hover">
+				<table className="table">
 					<thead>
 						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Phone</th>
+							<th scope="col">Nickname</th>
+							<th scope="col">Members</th>
 							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody>
 						
-						{contactNames}
+						{groupNames}
 						
 					</tbody>
 				</table>
@@ -79,40 +80,40 @@ class ContactList extends React.Component {
 			<div className="col-12 pt-3">
 				<div className="row">
 					<div className="col">
-						<h3>Add a New Contact</h3>
+						<h3>Create a New Group</h3>
 					</div>
 				</div>
 				<div className="row">
 					<div className="col-md-3 col-sm-3">
-						First Name
+						Nickname
 					</div>
-					<div className="col-md-3 col-sm-3">
+					{/*<div className="col-md-3 col-sm-3">
 						Last Name
 					</div>
 					<div className="col-md-3 col-sm-3">
 						Phone Number
-					</div>
+					</div>*/}
 				</div>
 				<form autoComplete="off">
 					<div className="form-row">
 						<div className="col">
-							<input type="text" value={this.props.first_name} onChange={this.props.handleInputChange} className="form-control" name="first_name" placeholder="First Name"/>
+							<input type="text" value={this.props.nickname} onChange={this.props.handleInputChange} className="form-control" name="nickname" placeholder="Group Name"/>
 						</div>
-						<div className="col">
+						{/*<div className="col">
 							<input type="text" value={this.props.last_name} onChange={this.props.handleInputChange} className="form-control" name="last_name" placeholder="Last Name"/>
 						</div>
 						<div className="col">
 							<input type="tel" value={this.props.phone_number} onChange={this.props.handleInputChange} className="form-control"	name="phone_number" placeholder="(xxx)xxx-xxxx"/>
-						</div>
+						</div>*/}
 						<div className="col">
-							<button onClick={this.props.newContact} className="btn btn-primary">Add</button>
+							<button className="btn btn-primary">Create Group</button>
 						</div>
 					</div>
 				</form>
 
 				<div className="row mt-5">
 					<div className="col mt-5">
-						{this.contactList()}
+						{this.groupList()}
 					</div>
 				</div>
 			</div>
@@ -120,4 +121,4 @@ class ContactList extends React.Component {
 	}
 }
 
-export default ContactList
+export default GroupList
