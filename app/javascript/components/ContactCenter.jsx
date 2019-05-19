@@ -34,10 +34,8 @@ class ContactCenter extends React.Component {
 					  	{...this.props}
 							{...this.state} 
 							handleInputChange={this.props.handleInputChange} 
-							newContact={this.props.newContact}
-							deleteContact={this.props.deleteContact}
-							addRecipient={this.props.addRecipient}
-							deleteRecipient={this.props.deleteRecipient}/>
+							newGroup={this.props.newGroup}
+							deleteGroup={this.props.deleteGroup}/>
 				  </div>
 				</div>
 			</React.Fragment>

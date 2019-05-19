@@ -13,6 +13,8 @@ class Dashboard extends React.Component {
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.newContact = this.newContact.bind(this)
 		this.deleteContact = this.deleteContact.bind(this)
+		this.newGroup = this.newGroup.bind(this)
+		this.deleteGroup = this.deleteGroup.bind(this)
 		this.sendMessage = this.sendMessage.bind(this)
 		this.addRecipient = this.addRecipient.bind(this)
 		this.deleteRecipient = this.deleteRecipient.bind(this)
@@ -137,7 +139,9 @@ class Dashboard extends React.Component {
 				newContact={this.newContact}
 				deleteContact={this.deleteContact}
 				addRecipient={this.addRecipient}
-				deleteRecipient={this.deleteRecipient}/>
+				deleteRecipient={this.deleteRecipient}
+				newGroup={this.newGroup}
+				deleteGroup={this.deleteGroup}/>
 		
 		)
 	}
@@ -213,6 +217,43 @@ class Dashboard extends React.Component {
 		})
 		
 		this.setState({recipients: filtered})
+
+	}
+
+	newGroup(e) {
+		e.preventDefault()
+		if (this.state.nickname === "") {
+			alert('enter group name!');
+		} else {
+			fetch("/groups", {
+				method: "POST",
+				body: JSON.stringify({group: {nickname: this.state.nickname}}),
+				headers: {
+					"X-CSRF-Token": this.state.csrfToken,
+					"Content-Type": "application/json"
+				}
+			})
+			.then ( (res) => { return res.json() } )
+			.then ( (data) => {
+			
+				this.setState({userGroups: data, nickname: ""}) 
+			})
+		}
+		
+	}
+
+	deleteGroup(e) {
+		let group = e.target.value
+		
+		fetch("groups/"+ group, {
+			method: "DELETE",
+			headers: {
+				"X-CSRF-Token": this.state.csrfToken,
+				"Content-Type": "application/json"
+			}
+		})
+		.then ( (res)=> { return res.json() } )
+		.then ( (data) => { this.setState({userGroups: data})})
 	}
 
 

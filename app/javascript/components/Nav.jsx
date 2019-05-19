@@ -78,7 +78,7 @@ class Nav extends React.Component {
 
 		return (
 			<nav className="navbar justify-content-between navbar-expand-lg navbar-light">
-				<div className="nav-item">
+				<div className="nav-item pl-3">
 					<a className="navbar-brand" href="/">
 				    {/*image goes here (svg)*/}
 				    PING

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'groups/create'
+  get 'groups/destroy'
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   root 'static_pages#home'
@@ -6,6 +8,8 @@ Rails.application.routes.draw do
   resources :contacts
 
   resources :messages
+
+  resources :groups
   
   get '/dashboard', to: 'static_pages#dashboard'
 

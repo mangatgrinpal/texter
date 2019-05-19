@@ -40,15 +40,15 @@ class GroupList extends React.Component {
 							<td>
 								<button className="badge badge-primary">Add Contacts</button>
 								&nbsp;
-								<button className="badge badge-danger">Delete Group</button>
+								<button value={group.id} onClick={this.props.deleteGroup} className="badge badge-danger">Delete Group</button>
 							</td>
-						
+							{/*Make sure to find a more effecient way to create delete button later.*/}
 						</tr>
 				)
 			})
 
 			return (
-				<table className="table">
+				<table className="table table-hover">
 					<thead>
 						<tr>
 							<th scope="col">Nickname</th>
@@ -106,7 +106,7 @@ class GroupList extends React.Component {
 							<input type="tel" value={this.props.phone_number} onChange={this.props.handleInputChange} className="form-control"	name="phone_number" placeholder="(xxx)xxx-xxxx"/>
 						</div>*/}
 						<div className="col">
-							<button className="btn btn-primary">Create Group</button>
+							<button onClick={this.props.newGroup} className="btn btn-primary">Create Group</button>
 						</div>
 					</div>
 				</form>
