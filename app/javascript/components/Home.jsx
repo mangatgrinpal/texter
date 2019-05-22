@@ -4,10 +4,11 @@ import HomeDescription from "./HomeDescription"
 
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { fas } from "@fortawesome/free-solid-svg-icons"
-import { faSms } from "@fortawesome/free-solid-svg-icons"
 
 
-library.add(fas, faSms)
+
+
+library.add(fas)
 
 class Home extends React.Component {
 	constructor(props) {

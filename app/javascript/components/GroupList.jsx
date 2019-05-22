@@ -16,7 +16,8 @@ class GroupList extends React.Component {
 
 
 	groupList() {
-		let groups = this.props.userGroups
+		let groups = this.props.userGroups.data
+		
 
 		if (groups.length == 0) {
 			return (
@@ -27,18 +28,23 @@ class GroupList extends React.Component {
 			)
 			
 		} else {
+
+			
 			
 			let groupNames = groups.map((group)=> {
+				
 				return (
 						<tr key={group.id}>
 							<td>
-								{group.nickname}
+								{group.attributes.nickname}
 							</td>
 							<td>
+
+								{group.attributes.contacts.length}
 							</td>
 							
 							<td>
-								<button className="badge badge-primary">Add Contacts</button>
+								<button value={group.id} onClick={this.props.setSelectedGroup} className="badge badge-primary">Manage Group</button>
 								&nbsp;
 								<button value={group.id} onClick={this.props.deleteGroup} className="badge badge-danger">Delete Group</button>
 							</td>

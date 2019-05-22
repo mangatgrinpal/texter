@@ -1,9 +1,18 @@
-import React from "react";
-import DashHome from "./DashHome";
-import ContactCenter from "./ContactCenter";
-import ContactList from "./ContactList";
-import MessageCenter from "./MessageCenter";
-import AlertModal from "./AlertModal";
+import React from "react"
+import DashHome from "./DashHome"
+import ContactCenter from "./ContactCenter"
+import ContactList from "./ContactList"
+import MessageCenter from "./MessageCenter"
+import AlertModal from "./AlertModal"
+import GroupModal from "./GroupModal"
+
+import { library } from "@fortawesome/fontawesome-svg-core"
+import { fas } from "@fortawesome/free-solid-svg-icons"
+import { far } from "@fortawesome/free-regular-svg-icons"
+
+
+
+library.add(fas, far)
 
 
 class Dashboard extends React.Component {
@@ -19,6 +28,9 @@ class Dashboard extends React.Component {
 		this.addRecipient = this.addRecipient.bind(this)
 		this.deleteRecipient = this.deleteRecipient.bind(this)
 		this.setPage = this.setPage.bind(this)
+		this.setSelectedGroup = this.setSelectedGroup.bind(this)
+		this.clearSelectedGroup = this.clearSelectedGroup.bind(this)
+		this.addGroupMembers = this.addGroupMembers.bind(this)
 		this.renderView = this.renderView.bind(this)
 		this.state = {
 			page: "home",
@@ -30,7 +42,10 @@ class Dashboard extends React.Component {
 			recipient: {},
 			recipients: [],
 			errorMessage: "",
-			nickname: ""
+			nickname: "",
+			selectedGroup: "",
+			inGroup: [],
+			isChecked: false
 			
 		}
 	}
@@ -141,7 +156,8 @@ class Dashboard extends React.Component {
 				addRecipient={this.addRecipient}
 				deleteRecipient={this.deleteRecipient}
 				newGroup={this.newGroup}
-				deleteGroup={this.deleteGroup}/>
+				deleteGroup={this.deleteGroup}
+				setSelectedGroup={this.setSelectedGroup}/>
 		
 		)
 	}
@@ -220,6 +236,8 @@ class Dashboard extends React.Component {
 
 	}
 
+
+	//this function creates new groups
 	newGroup(e) {
 		e.preventDefault()
 		if (this.state.nickname === "") {
@@ -233,19 +251,19 @@ class Dashboard extends React.Component {
 					"Content-Type": "application/json"
 				}
 			})
-			.then ( (res) => { return res.json() } )
-			.then ( (data) => {
-			
+			.then ( res => { return res.json() } )
+			.then ( data => {
+				
 				this.setState({userGroups: data, nickname: ""}) 
 			})
 		}
 		
 	}
-
+	// this function deletes groups
 	deleteGroup(e) {
 		let group = e.target.value
 		
-		fetch("groups/"+ group, {
+		fetch("groups/" + group, {
 			method: "DELETE",
 			headers: {
 				"X-CSRF-Token": this.state.csrfToken,
@@ -253,7 +271,45 @@ class Dashboard extends React.Component {
 			}
 		})
 		.then ( (res)=> { return res.json() } )
-		.then ( (data) => { this.setState({userGroups: data})})
+
+		.then ( data => { 
+
+			this.setState({userGroups: data})
+		})
+	}
+
+	// this will set which group is selected to be updated
+	setSelectedGroup(e) {
+		let group = e.target.value
+
+		this.setState({selectedGroup: group})
+		$('#groupModalCenter').modal('show')
+	}
+
+	clearSelectedGroup(e) {
+		$('#groupModalCenter').modal('hide')
+		this.setState({selectedGroup: ""})
+	}
+
+	// this function will allow user to add contacts to groups
+	addGroupMembers(e) {
+		let contact = e.target.value
+
+
+		fetch("groups/" + this.state.selectedGroup + "/group_members", {
+			method: "POST",
+			body: JSON.stringify({group_member:{group_id: this.state.selectedGroup, contact_id: contact}}),
+			headers: {
+				"X-CSRF-Token": this.state.csrfToken,
+				"Content-Type": "application/json"
+			}
+		})
+		.then ( (res)=> { return res.json() } )
+		.then ( (data)=> { this.setState({inGroup: data})})
+	}
+
+	removeGroupMembers(e) {
+
 	}
 
 
@@ -264,7 +320,12 @@ class Dashboard extends React.Component {
 				<div className="row dashboard">
 					{this.renderSidebar()}
 					<div className="col-md-9 col-sm-9 ml-auto mt-5 pr-2">
-						
+						<GroupModal 
+							userContacts={this.props.userContacts}
+							userGroups={this.props.userGroups}
+							clearSelectedGroup={this.clearSelectedGroup}
+							addGroupMembers={this.addGroupMembers}
+							{...this.state}/>
 						<AlertModal 
 
 							errorMessage={this.state.errorMessage}/>

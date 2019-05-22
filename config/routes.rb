@@ -9,7 +9,10 @@ Rails.application.routes.draw do
 
   resources :messages
 
-  resources :groups
+  resources :groups do
+  	resources :group_members, controller: "group/group_members"
+  end
+
   
   get '/dashboard', to: 'static_pages#dashboard'
 

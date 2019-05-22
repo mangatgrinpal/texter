@@ -36,6 +36,7 @@ gem 'devise'
 gem 'twilio-ruby'
 gem 'figaro'
 gem 'rubysl-securerandom'
+gem 'fast_jsonapi'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
