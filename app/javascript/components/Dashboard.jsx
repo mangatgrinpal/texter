@@ -31,10 +31,13 @@ class Dashboard extends React.Component {
 		this.setSelectedGroup = this.setSelectedGroup.bind(this)
 		this.clearSelectedGroup = this.clearSelectedGroup.bind(this)
 		this.addGroupMembers = this.addGroupMembers.bind(this)
+		this.removeGroupMembers = this.removeGroupMembers.bind(this)
 		this.renderView = this.renderView.bind(this)
 		this.state = {
 			page: "home",
 			userContacts: this.props.userContacts,
+			userGroups: this.props.userGroups,
+			userGroupMembers: [],
 			first_name: "",
 			last_name: "",
 			phone_number: "",
@@ -44,7 +47,6 @@ class Dashboard extends React.Component {
 			errorMessage: "",
 			nickname: "",
 			selectedGroup: "",
-			inGroup: [],
 			isChecked: false
 			
 		}
@@ -281,7 +283,18 @@ class Dashboard extends React.Component {
 	// this will set which group is selected to be updated
 	setSelectedGroup(e) {
 		let group = e.target.value
+		fetch("/groups/" + group + "/group_members", {
+			method: "GET",
+			headers: {
+				"X-CSRF-Token": this.state.csrfToken,
+				"Content-Type": "application/json"
+			}
+		})
+		.then ( res=> { return res.json() })
+		.then ( data=>{ 
 
+			this.setState({userGroupMembers: data})
+		})
 		this.setState({selectedGroup: group})
 		$('#groupModalCenter').modal('show')
 	}
@@ -293,23 +306,35 @@ class Dashboard extends React.Component {
 
 	// this function will allow user to add contacts to groups
 	addGroupMembers(e) {
-		let contact = e.target.value
+		let contact = e.target.id
 
 
 		fetch("groups/" + this.state.selectedGroup + "/group_members", {
 			method: "POST",
-			body: JSON.stringify({group_member:{group_id: this.state.selectedGroup, contact_id: contact}}),
+			body: JSON.stringify({contact_id: contact}),
 			headers: {
 				"X-CSRF-Token": this.state.csrfToken,
 				"Content-Type": "application/json"
 			}
 		})
-		.then ( (res)=> { return res.json() } )
-		.then ( (data)=> { this.setState({inGroup: data})})
+		.then ( (res)=> { return res.json() })
+		.then ( (data)=> { this.setState({userGroupMembers: data}) })
 	}
 
 	removeGroupMembers(e) {
+		let groupMember = e.target.id
 
+		fetch("groups/" + this.state.selectedGroup + "/group_members/" + groupMember, {
+			method: "DELETE",
+			headers: {
+				"X-CSRF-Token": this.state.csrfToken,
+				"Content-Type": "application/json"
+			}
+		})
+		.then ( res => { return res.json() })
+		.then ( data => { 
+			
+			this.setState({userGroupMembers: data})})
 	}
 
 
@@ -321,11 +346,10 @@ class Dashboard extends React.Component {
 					{this.renderSidebar()}
 					<div className="col-md-9 col-sm-9 ml-auto mt-5 pr-2">
 						<GroupModal 
-							userContacts={this.props.userContacts}
-							userGroups={this.props.userGroups}
+							{...this.state}
 							clearSelectedGroup={this.clearSelectedGroup}
 							addGroupMembers={this.addGroupMembers}
-							{...this.state}/>
+							removeGroupMembers={this.removeGroupMembers}/>
 						<AlertModal 
 
 							errorMessage={this.state.errorMessage}/>

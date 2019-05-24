@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :messages
 
   resources :groups do
-  	resources :group_members, controller: "group/group_members"
+  	resources :group_members, controller: 'group/group_members'
   end
 
   

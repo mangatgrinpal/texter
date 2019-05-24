@@ -28,7 +28,7 @@ class GroupModal extends React.Component {
 								{contact.first_name} {contact.last_name} 
 							</div>
 							<div className="col-md-2 col-sm-2">
-								<FontAwesomeIcon icon={["far","square"]} size="1x" />
+								<FontAwesomeIcon id={contact.id} onClick={this.props.addGroupMembers} icon="plus" size="1x" />
 							</div>
 						</div>
 					</li>
@@ -42,39 +42,30 @@ class GroupModal extends React.Component {
 	}
 
 	renderGroupMembers() {
-		let selectedGroup = this.props.userGroups.data.filter((member)=> {
-			return member.id == this.props.selectedGroup
-		})
 		
-		if (selectedGroup.length == 0) {
-			return (
-				<div className="row">
-					<div className="col-md-12 col-sm-12">
-						There is no one in this group.
-					</div>
-				</div>
-			)
-		} else {
+		
+			
+			
+		let groupMemberNames = this.props.userGroupMembers.map((groupMember)=> {
 
-			let groupMemberNames = selectedGroup[0].attributes.contacts.map((groupMember)=> {
-				return (
-					<li key={groupMember.id} className="list-group-item">
-						<div className="row justify-content-around">
-							<div className="col-md-10 col-sm-10">
-								{groupMember.first_name} {groupMember.last_name} 
-							</div>
-							<div className="col-md-2 col-sm-2">
-								<FontAwesomeIcon icon={["far","square"]} size="1x" />
-							</div>
+			return (
+				<li key={groupMember.id} className="list-group-item">
+					<div className="row justify-content-around">
+						<div className="col-md-10 col-sm-10">
+							{groupMember.contact.first_name} {groupMember.contact.last_name} 
 						</div>
-					</li>
-				)
-			})
-
-			return (
-    		<ul className="list-group list-group-flush">{groupMemberNames}</ul>
+						<div className="col-md-2 col-sm-2">
+							<FontAwesomeIcon id={groupMember.id} onClick={this.props.removeGroupMembers} icon="times" size="1x" />
+						</div>
+					</div>
+				</li>
 			)
-		}
+		})
+
+		return (
+  		<ul className="list-group list-group-flush">{groupMemberNames}</ul>
+		)
+		
 	
 	}
 

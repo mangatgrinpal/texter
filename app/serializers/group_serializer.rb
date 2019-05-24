@@ -1,5 +1,5 @@
-class GroupSerializer
-  include FastJsonapi::ObjectSerializer
-  attributes :nickname, :contacts
-  
+class GroupSerializer < ActiveModel::Serializer
+  attributes :id, :nickname
+  has_many :group_members
+  has_many :contacts, through: :group_members
 end

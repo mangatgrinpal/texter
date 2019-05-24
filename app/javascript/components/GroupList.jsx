@@ -16,7 +16,8 @@ class GroupList extends React.Component {
 
 
 	groupList() {
-		let groups = this.props.userGroups.data
+		let groups = this.props.userGroups
+
 		
 
 		if (groups.length == 0) {
@@ -33,25 +34,29 @@ class GroupList extends React.Component {
 			
 			let groupNames = groups.map((group)=> {
 				
+	
 				return (
-						<tr key={group.id}>
-							<td>
-								{group.attributes.nickname}
-							</td>
-							<td>
 
-								{group.attributes.contacts.length}
-							</td>
+					<tr key={group.id}>
+						<td>
+							{group.nickname}
+						</td>
+						<td>
+							{group.contacts.length}
 							
-							<td>
-								<button value={group.id} onClick={this.props.setSelectedGroup} className="badge badge-primary">Manage Group</button>
-								&nbsp;
-								<button value={group.id} onClick={this.props.deleteGroup} className="badge badge-danger">Delete Group</button>
-							</td>
-							{/*Make sure to find a more effecient way to create delete button later.*/}
-						</tr>
+						</td>
+						
+						<td>
+							<button value={group.id} onClick={this.props.setSelectedGroup} className="badge badge-primary">Manage Group</button>
+							&nbsp;
+							<button value={group.id} onClick={this.props.deleteGroup} className="badge badge-danger">Delete Group</button>
+						</td>
+						{/*Make sure to find a more efficient way to create delete button later.*/}
+					</tr>
 				)
-			})
+				
+			})	
+		
 
 			return (
 				<table className="table table-hover">

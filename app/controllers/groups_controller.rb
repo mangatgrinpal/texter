@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
 
 		if @group.save
       
-			render json: return_parsed_json, status: 200
+			render json: ActiveModel::Serializer::CollectionSerializer.new(@user.groups, each_serializer: GroupSerializer), status: 200
 		else
 			render json: {}, status: 400
 		end
@@ -19,13 +19,15 @@ class GroupsController < ApplicationController
 		
 		@group.destroy
     
-		render json: return_parsed_json, status: 200
+		render json: ActiveModel::Serializer::CollectionSerializer.new(@user.groups, each_serializer: GroupSerializer), status: 200
   end
 
   private
 
-  def return_parsed_json
-    JSON.parse GroupSerializer.new(@user.groups).serialized_json
+  def user_group_members
+    @user.groups.map do |group|
+      group.group_members
+    end
   end
 
   def find_user
