@@ -27,8 +27,10 @@ class GroupModal extends React.Component {
 							<div className="col-md-10 col-sm-10">
 								{contact.first_name} {contact.last_name} 
 							</div>
-							<div className="col-md-2 col-sm-2">
-								<FontAwesomeIcon id={contact.id} onClick={this.props.addGroupMembers} icon="plus" size="1x" />
+							<div className="col-md-2 col-sm-2 add-icon">
+								
+								<FontAwesomeIcon data-id={contact.id} onClick={this.props.addGroupMembers} icon="plus" size="1x"/>
+								
 							</div>
 						</div>
 					</li>
@@ -54,8 +56,10 @@ class GroupModal extends React.Component {
 						<div className="col-md-10 col-sm-10">
 							{groupMember.contact.first_name} {groupMember.contact.last_name} 
 						</div>
-						<div className="col-md-2 col-sm-2">
-							<FontAwesomeIcon id={groupMember.id} onClick={this.props.removeGroupMembers} icon="times" size="1x" />
+						<div className="col-md-2 col-sm-2 remove-icon">
+							
+							<FontAwesomeIcon data-id={groupMember.id} onClick={this.props.removeGroupMembers} icon="times" size="1x"/>
+								
 						</div>
 					</div>
 				</li>
@@ -98,8 +102,8 @@ class GroupModal extends React.Component {
 				        
 			      </div>
 			      <div className="modal-footer">
-			        <button type="button" onClick={this.props.clearSelectedGroup} className="btn btn-sm btn-secondary">Close</button>
-			        <button type="button" className="btn btn-sm btn-primary">Save Group</button>
+			        
+			        <button type="button" onClick={this.props.clearSelectedGroup} className="btn btn-sm btn-primary">Save Group & Close</button>
 			      </div>
 			    </div>
 			  </div>

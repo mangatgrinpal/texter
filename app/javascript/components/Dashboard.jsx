@@ -1,7 +1,6 @@
 import React from "react"
 import DashHome from "./DashHome"
 import ContactCenter from "./ContactCenter"
-import ContactList from "./ContactList"
 import MessageCenter from "./MessageCenter"
 import AlertModal from "./AlertModal"
 import GroupModal from "./GroupModal"
@@ -272,12 +271,9 @@ class Dashboard extends React.Component {
 				"Content-Type": "application/json"
 			}
 		})
-		.then ( (res)=> { return res.json() } )
+		.then ( res => { return res.json() } )
 
-		.then ( data => { 
-
-			this.setState({userGroups: data})
-		})
+		.then ( data => { this.setState({userGroups: data}) })
 	}
 
 	// this will set which group is selected to be updated
@@ -290,12 +286,8 @@ class Dashboard extends React.Component {
 				"Content-Type": "application/json"
 			}
 		})
-		.then ( res=> { return res.json() })
-		.then ( data=>{ 
-
-			this.setState({userGroupMembers: data})
-		})
-		this.setState({selectedGroup: group})
+		.then ( res => { return res.json() })
+		.then ( data => { this.setState({userGroupMembers: data, selectedGroup: group}) })
 		$('#groupModalCenter').modal('show')
 	}
 
@@ -306,8 +298,7 @@ class Dashboard extends React.Component {
 
 	// this function will allow user to add contacts to groups
 	addGroupMembers(e) {
-		let contact = e.target.id
-
+		let contact = e.currentTarget.dataset.id
 
 		fetch("groups/" + this.state.selectedGroup + "/group_members", {
 			method: "POST",
@@ -317,12 +308,12 @@ class Dashboard extends React.Component {
 				"Content-Type": "application/json"
 			}
 		})
-		.then ( (res)=> { return res.json() })
-		.then ( (data)=> { this.setState({userGroupMembers: data}) })
+		.then ( res => { return res.json() })
+		.then ( data => { this.setState({userGroupMembers: data.userGroupMembers, userGroups: data.userGroups}) })
 	}
 
 	removeGroupMembers(e) {
-		let groupMember = e.target.id
+		let groupMember = e.currentTarget.dataset.id
 
 		fetch("groups/" + this.state.selectedGroup + "/group_members/" + groupMember, {
 			method: "DELETE",
@@ -332,10 +323,10 @@ class Dashboard extends React.Component {
 			}
 		})
 		.then ( res => { return res.json() })
-		.then ( data => { 
-			
-			this.setState({userGroupMembers: data})})
+		.then ( data => { this.setState({userGroupMembers: data.userGroupMembers, userGroups: data.userGroups}) })
 	}
+
+	
 
 
 	render() {

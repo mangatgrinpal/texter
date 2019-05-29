@@ -14,9 +14,6 @@ class StaticPagesController < ApplicationController
 
     @user_groups = ActiveModel::Serializer::CollectionSerializer.new(@user.groups, each_serializer: GroupSerializer)
     
-    
-    
-  	@user_group_members = ActiveModel::Serializer::CollectionSerializer.new(user_group_members, each_serializer: GroupMemberSerializer)
 
   	@recent_messages = @user.messages.where(created_at: 1.week.ago..Date.today)
 
@@ -27,12 +24,6 @@ class StaticPagesController < ApplicationController
   end
 
   private
-
-  def user_group_members
-    @user.groups.map do |group|
-      group.group_members
-    end
-  end
 
   def find_user
     @user = current_user

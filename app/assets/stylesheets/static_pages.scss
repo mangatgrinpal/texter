@@ -60,6 +60,8 @@ html { height: 100%; }
 		max-height: inherit;
 		min-height: inherit;
 
+		.add-icon { color: green }
+		.remove-icon { color: red }
 		.col-md-6,.col-sm-6 {
 			min-height: inherit;
 	    max-height: 60vh;
