@@ -4,11 +4,11 @@ class MessagesController < ApplicationController
 	
 	def create
 		@message = current_user.messages.build(message_params)
-		@contact = params[:contact]
+		@recipients = params[:recipients]
 
 		if @message.save
+			TwilioTextMessenger.new(@recipients, @message.body).send_notification
 			render json: @user.messages, status: 200
-			TwilioTextMessenger.new(@contact, @message.body).call
 		else
 			render json: {}, status: 400
 		end

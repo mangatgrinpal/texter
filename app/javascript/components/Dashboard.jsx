@@ -41,12 +41,11 @@ class Dashboard extends React.Component {
 			last_name: "",
 			phone_number: "",
 			message: "",
-			recipient: {},
 			recipients: [],
 			errorMessage: "",
 			nickname: "",
 			selectedGroup: "",
-			isChecked: false
+			spinner: false
 			
 		}
 	}
@@ -158,7 +157,8 @@ class Dashboard extends React.Component {
 				deleteRecipient={this.deleteRecipient}
 				newGroup={this.newGroup}
 				deleteGroup={this.deleteGroup}
-				setSelectedGroup={this.setSelectedGroup}/>
+				setSelectedGroup={this.setSelectedGroup}
+				sendMessage={this.sendMessage}/>
 		
 		)
 	}
@@ -167,7 +167,7 @@ class Dashboard extends React.Component {
 		e.preventDefault()
 		fetch("messages/", {
 			method: "POST",
-			body: JSON.stringify({message: {body: this.state.message }, contact: this.state.contact }),
+			body: JSON.stringify({message: {body: this.state.message }, recipients: this.state.recipients }),
 			headers: {
 				"X-CSRF-Token": this.state.csrfToken,
 				"Content-Type": "application/json"
@@ -225,10 +225,10 @@ class Dashboard extends React.Component {
 		
 	}
 
-	// function to delete recipient... this is a ghetto fix, pls revise later
+	// function to delete recipient
 	deleteRecipient(e) {
 		
-		let selected = e.target.name
+		let selected = e.currentTarget.dataset.id
 		let filtered = this.state.recipients.filter((recipient)=> {
 			return recipient.id != selected
 		})
@@ -278,6 +278,8 @@ class Dashboard extends React.Component {
 
 	// this will set which group is selected to be updated
 	setSelectedGroup(e) {
+		this.setState({spinner: true})
+		$('#groupModalCenter').modal('show')
 		let group = e.target.value
 		fetch("/groups/" + group + "/group_members", {
 			method: "GET",
@@ -287,13 +289,14 @@ class Dashboard extends React.Component {
 			}
 		})
 		.then ( res => { return res.json() })
-		.then ( data => { this.setState({userGroupMembers: data, selectedGroup: group}) })
-		$('#groupModalCenter').modal('show')
+		.then ( data => { this.setState({userGroupMembers: data, selectedGroup: group},()=>this.setState({spinner: false})) })
+		
+
 	}
 
 	clearSelectedGroup(e) {
 		$('#groupModalCenter').modal('hide')
-		this.setState({selectedGroup: ""})
+		this.setState({selectedGroup: "", spinner: true})
 	}
 
 	// this function will allow user to add contacts to groups

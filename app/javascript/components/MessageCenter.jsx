@@ -1,5 +1,7 @@
 import React from "react"
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
 class MessageCenter extends React.Component {
 	constructor(props) {
 		super(props);
@@ -137,7 +139,8 @@ class MessageCenter extends React.Component {
 				return (
 
 					<div key={recipient.id} className="badge badge-primary mr-2 mt-2">
-						{recipient.first_name} {recipient.last_name} <a name={recipient.id} onClick={this.props.deleteRecipient}>X</a>
+						{recipient.first_name} {recipient.last_name} &nbsp;
+						<FontAwesomeIcon className="font-awesome-icon" data-id={recipient.id} onClick={this.props.deleteRecipient} icon="times" size="1x" />
 					</div>
 
 				)
@@ -184,7 +187,7 @@ class MessageCenter extends React.Component {
 						</div>
 					</div>
 					<br/>
-					<button className="btn btn-primary">Send Message</button>
+					<button onClick={this.props.sendMessage} className="btn btn-primary">Send Message</button>
 				</form>
 				<div>
 					render sent messages here

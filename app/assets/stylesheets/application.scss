@@ -15,7 +15,10 @@
  */
 
 @import 'bootstrap';
-@import "font-awesome";
+
+.font-awesome-icon:hover {
+	cursor: pointer;
+}
 
 //remove border radius from all buttons
 .btn { border-radius: 0; }
