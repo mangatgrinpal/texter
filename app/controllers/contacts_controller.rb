@@ -18,7 +18,7 @@ class ContactsController < ApplicationController
 		@contact = Contact.find(params[:id])
 		
 		@contact.destroy
-		render json: @user.contacts, status: 200
+		render json: {userContacts: @user.contacts, recentMessages: serialized_messages}, status: 200
 	end
 
 	private
@@ -30,4 +30,8 @@ class ContactsController < ApplicationController
 	def contact_params
 		params.require(:contact).permit(:first_name, :last_name, :phone_number, :identity)
 	end
+
+	def serialized_messages
+    ActiveModel::Serializer::CollectionSerializer.new(@user.messages.sorted_desc, each_serializer: MessageSerializer)
+  end
 end

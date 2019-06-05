@@ -9,8 +9,7 @@ class MessageCenter extends React.Component {
 		this.autocomplete = this.autocomplete.bind(this)
 		this.messageRecipients = this.messageRecipients.bind(this)
 		this.state = {
-			fullNames: [],
-			groupNames: []
+			fullNames: []
 		}
 	}
 
@@ -170,15 +169,28 @@ class MessageCenter extends React.Component {
 			})
 
 			return (
-				<div className="col-6">
-					{messageRecipients}
-				</div>
+				<React.Fragment>
+
+					<div className="col-6">
+						{messageRecipients}
+					</div>
+
+				</React.Fragment>
 			)
 		}
 	}
 	
 
 	render() {
+		let textPreview
+		if (this.props.message) {
+			textPreview =
+				<div className="col-md-4 col-sm-4 offset-md-1 offset-sm-1 speech-bubble p-2">
+					@{this.props.currentUser.first_name}: {this.props.message}
+				</div>
+		} else {
+			textPreview = <div />
+		}
 		
 		return (
 			<div className="col-12">
@@ -195,20 +207,27 @@ class MessageCenter extends React.Component {
 						<button onClick={this.props.addRecipient} className="btn btn-primary">
 							Add
 						</button>
+						
 					</div>
 					
 					<div className="row">
 					
 						{this.messageRecipients()}
+						<div className="col-6">
+							<h5>Preview your text below before you send it.</h5>
+						</div>
 						
 					</div>
 					<br/>
 					<div className="row">
 						<div className="col-6">
-							@{this.props.currentUser.first_name}:
-							<textarea type="text" onChange={this.props.handleInputChange} className="form-control" name="message" placeholder="Message goes here" />
+							<small>Your name will be prefixed onto your message so your recipients will know who it is.</small>
 							
+							<textarea type="text" onChange={this.props.handleInputChange} className="form-control" name="message" placeholder={`@${this.props.currentUser.first_name}:`} />
+							<span className="justify-content-end">{this.props.message.length + this.props.currentUser.first_name.length + 3}/160</span><br/>
+							<small>The character limit above is the max length for a single text message and factors in your prefixed name. Anything over this limit will still be sent, but in multiple SMS messages.</small>
 						</div>
+						{textPreview}
 					</div>
 					<br/>
 					<button onClick={this.props.sendMessage} className="btn btn-primary">Send Message</button>

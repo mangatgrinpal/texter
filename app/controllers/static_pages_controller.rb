@@ -16,7 +16,7 @@ class StaticPagesController < ApplicationController
     
   	@recent_messages = serialized_messages
 
-    @recent_
+    
 
     
   end

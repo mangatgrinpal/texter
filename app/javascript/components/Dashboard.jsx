@@ -91,7 +91,7 @@ class Dashboard extends React.Component {
 	}
 
 	deleteContact(e) {
-		let contact = e.target.value
+		let contact = e.currentTarget.dataset.id
 		
 		fetch("contacts/"+ contact, {
 			method: "DELETE",
@@ -101,7 +101,9 @@ class Dashboard extends React.Component {
 			}
 		})
 		.then ( (res)=> { return res.json() } )
-		.then ( (data) => { this.setState({userContacts: data})})
+		.then ( (data) => { 
+			this.setState({userContacts: data.userContacts, recentMessages: data.recentMessages})
+		})
 	}
 
 	setPage(e) {
@@ -187,7 +189,7 @@ class Dashboard extends React.Component {
 
 		
 		if (this.state.page == "contacts") {
-			let selected = e.target.value
+			let selected = e.currentTarget.dataset.id
 			let filtered = this.state.userContacts.filter((recipient)=> {
 				return recipient.id == selected
 			})
@@ -226,6 +228,7 @@ class Dashboard extends React.Component {
 		
 	}
 
+	// this function will add entire groups to the message recipient list
 	addGroup(e, groupName) {
 		e.preventDefault()
 
@@ -242,6 +245,7 @@ class Dashboard extends React.Component {
 		} else {
 
 			let recipients = Object.assign([], this.state.recipients)
+
 
 			let newRecipients = recipients.concat(queryGroupResult[0].contacts)
 
@@ -290,7 +294,7 @@ class Dashboard extends React.Component {
 	}
 	// this function deletes groups
 	deleteGroup(e) {
-		let group = e.target.value
+		let group = e.currentTarget.value
 		
 		fetch("groups/" + group, {
 			method: "DELETE",
@@ -301,14 +305,16 @@ class Dashboard extends React.Component {
 		})
 		.then ( res => { return res.json() } )
 
-		.then ( data => { this.setState({userGroups: data}) })
+		.then ( data => { 
+			this.setState({userGroups: data}) 
+		})
 	}
 
 	// this will set which group is selected to be updated
 	setSelectedGroup(e) {
 		this.setState({spinner: true})
 		$('#groupModalCenter').modal('show')
-		let group = e.target.value
+		let group = e.currentTarget.value
 		fetch("/groups/" + group + "/group_members", {
 			method: "GET",
 			headers: {
@@ -317,7 +323,9 @@ class Dashboard extends React.Component {
 			}
 		})
 		.then ( res => { return res.json() })
-		.then ( data => { this.setState({userGroupMembers: data, selectedGroup: group},()=>this.setState({spinner: false})) })
+		.then ( data => { 
+			this.setState({userGroupMembers: data, selectedGroup: group},()=>this.setState({spinner: false})) 
+		})
 		
 
 	}
@@ -340,9 +348,13 @@ class Dashboard extends React.Component {
 			}
 		})
 		.then ( res => { return res.json() })
-		.then ( data => { this.setState({userGroupMembers: data.userGroupMembers, userGroups: data.userGroups}) })
+		.then ( data => { 
+			this.setState({userGroupMembers: data.userGroupMembers, userGroups: data.userGroups}) 
+		})
 	}
 
+
+	// this function will allow users to remove members from groups
 	removeGroupMembers(e) {
 		let groupMember = e.currentTarget.dataset.id
 
@@ -354,7 +366,9 @@ class Dashboard extends React.Component {
 			}
 		})
 		.then ( res => { return res.json() })
-		.then ( data => { this.setState({userGroupMembers: data.userGroupMembers, userGroups: data.userGroups}) })
+		.then ( data => { 
+			this.setState({userGroupMembers: data.userGroupMembers, userGroups: data.userGroups}) 
+		})
 	}
 
 	

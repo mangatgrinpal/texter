@@ -95,9 +95,7 @@ class MessageList extends React.Component {
 
 							{message.contacts[0].first_name} {message.contacts[0].last_name} & &nbsp;
 							
-								<a 
-										//onMouseLeave={this.clearMessageRecipients}
-										href="javascript:void(0)"
+								<a href="javascript:void(0)"
 										data-id={message.id}
 										data-toggle="popover"
 										data-trigger="hover"
@@ -132,7 +130,7 @@ class MessageList extends React.Component {
 			})
 
 			return (
-				<div>
+				<div id="message-list">
 					{messages}
 				</div>
 			)
