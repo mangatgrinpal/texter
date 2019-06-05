@@ -2,6 +2,18 @@
 %html
 	%head
 		%meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}
+		
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		%script async src="https://www.googletagmanager.com/gtag/js?id=UA-126188592-3"
+		%script
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'UA-126188592-3');
+
+
 
 		%title Ping
 		= csrf_meta_tags

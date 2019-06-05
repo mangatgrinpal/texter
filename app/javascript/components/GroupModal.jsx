@@ -51,7 +51,7 @@ class GroupModal extends React.Component {
 
 			return (
 				<div className="d-flex justify-content-center">
-          <div className="spinner-grow mt-5 text-danger" role="status">
+          <div className="spinner-border mt-5 text-danger" role="status">
             <span className="sr-only">Loading...</span>
           </div>
         </div>

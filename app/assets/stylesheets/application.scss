@@ -23,6 +23,10 @@
 //remove border radius from all buttons
 .btn { border-radius: 0; }
 
+a:hover {
+	cursor: pointer;
+}
+
 .navbar {
 	background-color: hsl(360, 65%, 45%);
 	border-bottom: 1px solid white;

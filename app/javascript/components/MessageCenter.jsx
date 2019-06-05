@@ -1,4 +1,5 @@
 import React from "react"
+import MessageList from "./MessageList"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
@@ -153,7 +154,6 @@ class MessageCenter extends React.Component {
 			)
 		}
 	}
-
 	
 
 	render() {
@@ -183,15 +183,15 @@ class MessageCenter extends React.Component {
 					<br/>
 					<div className="row">
 						<div className="col-6">
+							@{this.props.currentUser.first_name}:
 							<textarea type="text" onChange={this.props.handleInputChange} className="form-control" name="message" placeholder="Message goes here" />
+							
 						</div>
 					</div>
 					<br/>
 					<button onClick={this.props.sendMessage} className="btn btn-primary">Send Message</button>
 				</form>
-				<div>
-					render sent messages here
-				</div>
+				<MessageList {...this.props}/>
 			</div>
 		)
 	}

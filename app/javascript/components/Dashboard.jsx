@@ -33,10 +33,11 @@ class Dashboard extends React.Component {
 		this.removeGroupMembers = this.removeGroupMembers.bind(this)
 		this.renderView = this.renderView.bind(this)
 		this.state = {
-			page: "home",
+			page: "messages",
 			userContacts: this.props.userContacts,
 			userGroups: this.props.userGroups,
 			userGroupMembers: [],
+			recentMessages: this.props.recentMessages,
 			first_name: "",
 			last_name: "",
 			phone_number: "",
@@ -174,7 +175,7 @@ class Dashboard extends React.Component {
 			}
 		})
 		.then( (res) => { return res.json() } )
-		.then( (data) => console.log(data) )
+		.then( (data) => { this.setState({recentMessages: data, message: ""})} )
 	}
 
 	//this function adds recipients to the recipient array in state, to whom the message will be sent

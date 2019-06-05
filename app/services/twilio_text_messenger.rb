@@ -29,7 +29,6 @@ class TwilioTextMessenger
 			'{"binding_type":"sms", "address":"+1' + recipient["phone_number"] + '"}'
 		end
 
-		
 	end
 
 end
