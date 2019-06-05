@@ -8,16 +8,29 @@ class MessageCenter extends React.Component {
 		super(props);
 		this.autocomplete = this.autocomplete.bind(this)
 		this.messageRecipients = this.messageRecipients.bind(this)
+		this.state = {
+			fullNames: [],
+			groupNames: []
+		}
 	}
 
 	componentDidMount() {
 		// create an array with the javascript object
-		let obj = this.props.userContacts
-		let fullNames = Object.values(obj).map((contact) => {
+		let contacts = this.props.userContacts
+		let fullNames = Object.values(contacts).map((contact) => {
 		    return (contact.first_name + " " + contact.last_name)
 		})
+
+		this.setState({fullNames: fullNames})
+
+		let groups = this.props.userGroups
+		let groupNames = Object.values(groups).map((group) => {
+			return (group.nickname)
+		})
+
+		let fullNamesAndGroups = fullNames.concat(groupNames)
 		
-		this.autocomplete(document.getElementById("contactInput"), fullNames)
+		this.autocomplete(document.getElementById("contactInput"), fullNamesAndGroups)
 
 	}
 
@@ -56,7 +69,16 @@ class MessageCenter extends React.Component {
 	              b.addEventListener("click", function(e) {
 	              /*insert the value for the autocomplete text field:*/
 	              inp.value = this.getElementsByTagName("input")[0].value;
-	              self.props.addRecipient(e, inp.value)
+
+	              // this currently only checks if a group's name is in the contact list,
+	              // if it is not, it will use the add group function instead of add recipient
+
+	              if (self.state.fullNames.includes(inp.value)) {
+	              	self.props.addRecipient(e, inp.value)
+	              } else {
+	              	self.props.addGroup(e, inp.value)
+	              }
+	              
 	              document.getElementById("contactInput").value = ""
 	              /*close the list of autocompleted values,
 	              (or any other open lists of autocompleted values:*/

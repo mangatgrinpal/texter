@@ -21,6 +21,7 @@ class Dashboard extends React.Component {
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.newContact = this.newContact.bind(this)
 		this.deleteContact = this.deleteContact.bind(this)
+		this.addGroup = this.addGroup.bind(this)
 		this.newGroup = this.newGroup.bind(this)
 		this.deleteGroup = this.deleteGroup.bind(this)
 		this.sendMessage = this.sendMessage.bind(this)
@@ -33,7 +34,7 @@ class Dashboard extends React.Component {
 		this.removeGroupMembers = this.removeGroupMembers.bind(this)
 		this.renderView = this.renderView.bind(this)
 		this.state = {
-			page: "messages",
+			page: "home",
 			userContacts: this.props.userContacts,
 			userGroups: this.props.userGroups,
 			userGroupMembers: [],
@@ -156,6 +157,7 @@ class Dashboard extends React.Component {
 				deleteContact={this.deleteContact}
 				addRecipient={this.addRecipient}
 				deleteRecipient={this.deleteRecipient}
+				addGroup={this.addGroup}
 				newGroup={this.newGroup}
 				deleteGroup={this.deleteGroup}
 				setSelectedGroup={this.setSelectedGroup}
@@ -207,8 +209,8 @@ class Dashboard extends React.Component {
 
 			if (queryRecipientResult === undefined || queryRecipientResult.length == 0) {
 
-				this.setState({errorMessage: "This contact doesn't exist!"})
-				$('#alertModalCenter').modal('toggle')
+				// this.setState({errorMessage: "This contact doesn't exist!"})
+				// $('#alertModalCenter').modal('toggle')
 				
 
 			} else {
@@ -222,6 +224,31 @@ class Dashboard extends React.Component {
 			}
 		}
 		
+	}
+
+	addGroup(e, groupName) {
+		e.preventDefault()
+
+		let queryGroupResult = this.state.userGroups.filter((group)=> {
+			if (group.nickname == groupName) {
+				return group
+			}
+		})
+
+		if (queryGroupResult[0].contacts == undefined || queryGroupResult[0].contacts.length == 0) {
+
+			alert('theres no one in this group!')
+
+		} else {
+
+			let recipients = Object.assign([], this.state.recipients)
+
+			let newRecipients = recipients.concat(queryGroupResult[0].contacts)
+
+
+			this.setState({ recipients: newRecipients})
+		}
+
 		
 		
 	}
