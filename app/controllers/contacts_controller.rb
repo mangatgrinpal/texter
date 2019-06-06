@@ -6,7 +6,7 @@ class ContactsController < ApplicationController
 	def create
 		
 		@contact = current_user.contacts.build(contact_params)
-
+		
 		if @contact.save
 			render json: @user.contacts, status: 200
 		else

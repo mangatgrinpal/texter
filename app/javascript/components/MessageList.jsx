@@ -72,28 +72,28 @@ class MessageList extends React.Component {
 				if (message.contacts.length == 1) {
 					recipients = 
 						
-							message.contacts[0].first_name + " " + message.contacts[0].last_name
+							message.message_recipients[0].contact.first_name + " " + message.message_recipients[0].contact.last_name
 
 				// if there is just 1 more, this is the conditional
 				} else if (message.contacts.length == 2) {
 						
 						recipients =
 
-							message.contacts[0].first_name + " " + message.contacts[0].last_name + " & " + message.contacts[1].first_name + " " + message.contacts[1].last_name
+							message.message_recipients[0].contact.first_name + " " + message.message_recipients[0].contact.last_name + " & " + message.message_recipients[1].contact.first_name + " " + message.message_recipients[1].contact.last_name
 							 
 
 
 					// else return the first one's name + the count of others
 				} else {
 
-					let remainingRecipients = message.contacts.slice(1)
+					let remainingRecipients = message.message_recipients.slice(1)
 
 
 					recipients =
 						
 							<React.Fragment>
 
-							{message.contacts[0].first_name} {message.contacts[0].last_name} & &nbsp;
+							{message.message_recipients[0].contact.first_name} {message.message_recipients[0].contact.last_name} & &nbsp;
 							
 								<a href="javascript:void(0)"
 										data-id={message.id}
@@ -102,7 +102,7 @@ class MessageList extends React.Component {
 										data-placement="left"
 										data-animation={true}>
 
-									{message.contacts.length-1} others
+									{message.message_recipients.length-1} others
 							  
 								</a>
 							</React.Fragment>
@@ -111,7 +111,7 @@ class MessageList extends React.Component {
 
 				// here is the message list that will be seen
 				return (
-					<ul className="list-group">
+					
 						<li key={message.id} className="list-group-item d-flex justify-contents-between align-items-center my-1">
 	
 								<div className="col-md-9 col-sm-9 message-body">
@@ -125,13 +125,15 @@ class MessageList extends React.Component {
 							
 						</li>
 								
-					</ul>
+					
 				)
 			})
 
 			return (
 				<div id="message-list">
+					<ul className="list-group">
 					{messages}
+					</ul>
 				</div>
 			)
 		}
