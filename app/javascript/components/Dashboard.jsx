@@ -33,6 +33,16 @@ class Dashboard extends React.Component {
 		this.addGroupMembers = this.addGroupMembers.bind(this)
 		this.removeGroupMembers = this.removeGroupMembers.bind(this)
 		this.renderView = this.renderView.bind(this)
+		// these functions are all for the autosuggest component
+		this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this)
+		this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this)
+		this.getSuggestionValue = this.getSuggestionValue.bind(this)
+		this.renderSuggestion = this.renderSuggestion.bind(this)
+		this.renderSectionTitle = this.renderSectionTitle.bind(this)
+		this.getSectionSuggestions = this.getSectionSuggestions.bind(this)
+		this.onChange = this.onChange.bind(this)
+		// end functions for autosuggest component
+
 		this.state = {
 			page: "home",
 			userContacts: this.props.userContacts,
@@ -47,9 +57,26 @@ class Dashboard extends React.Component {
 			errorMessage: "",
 			nickname: "",
 			selectedGroup: "",
-			spinner: false
+			spinner: false,
+			value: "",
+			suggestions: []
 			
 		}
+		// combined contacts and groups to use in autosuggest
+		this.contactsAndGroups = [
+			{
+				type: 'Groups',
+				names: [
+					this.state.userGroups
+				]
+			},
+			{
+				type: 'Contacts',
+				names: [
+					this.state.userContacts
+				]
+			}
+		];
 	}
 
 	componentDidMount() {
@@ -163,24 +190,34 @@ class Dashboard extends React.Component {
 				newGroup={this.newGroup}
 				deleteGroup={this.deleteGroup}
 				setSelectedGroup={this.setSelectedGroup}
-				sendMessage={this.sendMessage}/>
+				sendMessage={this.sendMessage}
+				onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+				onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+				getSuggestionValue={this.getSuggestionValue}
+				renderSuggestion={this.renderSuggestion}
+				renderSectionTitle={this.renderSectionTitle}
+				getSectionSuggestions={this.getSectionSuggestions}
+				onChange={this.onChange}/>
 		
 		)
 	}
 
 	sendMessage(e) {
 		e.preventDefault()
+		let messageWithSenderName = "@" + this.props.currentUser.first_name + ": " + this.state.message
 		fetch("messages/", {
 			method: "POST",
-			body: JSON.stringify({message: {body: this.state.message }, recipients: this.state.recipients }),
+			body: JSON.stringify({message: {body: messageWithSenderName }, recipients: this.state.recipients }),
 			headers: {
 				"X-CSRF-Token": this.state.csrfToken,
 				"Content-Type": "application/json"
 			}
 		})
 		.then( (res) => { return res.json() } )
-		.then( (data) => { this.setState({recentMessages: data, message: ""})} )
+		.then( (data) => { this.setState({recentMessages: data, message: "", recipients: []})} )
 	}
+
+	
 
 	//this function adds recipients to the recipient array in state, to whom the message will be sent
 	//this function will be used across different pages
@@ -197,9 +234,6 @@ class Dashboard extends React.Component {
 			this.setState({recipients: filtered, page: "messages"	})
 
 
-		} 
-		if (this.state.recipients.includes(recipient)) {
-			alert('already added foo!');
 		} else {
 
 			let queryRecipientResult = this.state.userContacts.filter((contact)=> {
@@ -370,6 +404,94 @@ class Dashboard extends React.Component {
 			this.setState({userGroupMembers: data.userGroupMembers, userGroups: data.userGroups}) 
 		})
 	}
+
+
+	// BEGIN FUNCTIONS NECESSARY FOR AUTOSUGGEST
+	escapeRegexCharacters(str) {
+	  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	}
+
+
+	// Teach Autosuggest how to calculate suggestions for any given input value.
+	getSuggestions(value) {
+
+	  const escapedValue = this.escapeRegexCharacters(value.trim());
+	  
+	  if (escapedValue === '') {
+	    return [];
+	  }
+
+	  const regex = new RegExp('^' + escapedValue, 'i');
+
+	  return this.contactsAndGroups
+	    .map(type => {
+
+	      return {
+	        type: type.type,
+	        names: type.names[0].filter(name => regex.test(name.first_name || name.nickname))
+	      };
+	    })
+	    .filter(type => type.names.length > 0);
+	}
+
+
+
+	// When suggestion is clicked, Autosuggest needs to populate the input
+	// based on the clicked suggestion. Teach Autosuggest how to calculate the
+	// input value for every given suggestion.
+	getSuggestionValue(suggestion) {
+
+		
+		return suggestion.nickname || suggestion.first_name;
+	}
+
+	// Use your imagination to render suggestions.
+	renderSuggestion(suggestion) {
+
+		return (
+			<div>
+				{suggestion.nickname}
+		    {suggestion.first_name} {suggestion.last_name}
+		  </div>
+		)
+	}
+
+	renderSectionTitle(type) {
+
+		return (
+			<strong>{type.type}</strong>
+		)
+	}
+
+	getSectionSuggestions(type) {
+
+		return type.names
+	}
+
+	// Autosuggest will call this function every time you need to update suggestions.
+	// You already implemented this logic above, so just use it.
+	onSuggestionsFetchRequested(value) {
+
+	  this.setState({
+	    suggestions: this.getSuggestions(value.value)
+	  });
+	};
+
+	// Autosuggest will call this function every time you need to clear suggestions.
+	onSuggestionsClearRequested() {
+	  this.setState({
+	    suggestions: []
+	  });
+	};
+
+
+	onChange(event, { newValue, method}) {
+		this.setState({
+			value: newValue
+		});
+	}
+
+	// END FUNCTIONS NECESSARY FOR AUTOSUGGEST
 
 	
 

@@ -14,15 +14,7 @@ class MessageList extends React.Component {
 
 	componentDidMount() {
 
-		$(()=> {
-		  $('[data-toggle="popover"]').popover({
-		  	html: true,
-		  	container: 'body',
-		  	content: function () {
-		  		return $('.popover-content').html();
-		  	}
-		  })
-		})
+		
 	}
 
 
@@ -40,7 +32,8 @@ class MessageList extends React.Component {
 		})
 		.then ( res => res.json() )
 		.then ( data => {
-			this.setState({messageRecipients: data.contacts},()=> {
+
+			this.setState({messageRecipients: data.recipients},()=> {
 				this.setState({loading: false})
 			}) 
 		})
@@ -132,7 +125,7 @@ class MessageList extends React.Component {
 			return (
 				<div id="message-list">
 					<ul className="list-group">
-					{messages}
+						{messages}
 					</ul>
 				</div>
 			)
@@ -144,6 +137,16 @@ class MessageList extends React.Component {
 	}
 
 	render() {
+		$(()=> {
+		  $('[data-toggle="popover"]').popover({
+		  	html: true,
+		  	container: 'body',
+		  	content: function () {
+		  		return $('.popover-content').html();
+		  	}
+		  })
+		})
+
 		let popoverContent
 		let messageRecipients = this.state.messageRecipients
 
@@ -155,10 +158,10 @@ class MessageList extends React.Component {
 			
 		// } else {
 
-			let remainingRecipientsList = messageRecipients.slice(1).map((contact)=> {
+			let remainingRecipientsList = messageRecipients.slice(1).map((recipient)=> {
 				return (
 					<li className="list-group-item">
-	 					{contact.first_name} {contact.last_name}
+	 					{recipient}
 	 				</li>
 				)
 			})
