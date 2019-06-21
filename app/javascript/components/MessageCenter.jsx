@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 class MessageCenter extends React.Component {
 	constructor(props) {
 		super(props);
-
 		this.messageRecipients = this.messageRecipients.bind(this)
 
 		
@@ -72,7 +71,7 @@ class MessageCenter extends React.Component {
 
 		// Autosuggest will pass through all these props to the input.
 		const inputProps = {
-			placeholder: 'Add contacts here',
+			placeholder: 'Add contacts or groups here',
 			value,
 			onChange: this.props.onChange
 		}

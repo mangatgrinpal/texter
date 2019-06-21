@@ -59,27 +59,26 @@ class Dashboard extends React.Component {
 			selectedGroup: "",
 			spinner: false,
 			value: "",
-			suggestions: []
-			
+			suggestions: [],
+			contactsAndGroups: [
+				{
+					type: 'Groups',
+					names: [
+						this.props.userGroups
+					]
+				},
+				{
+					type: 'Contacts',
+					names: [
+						this.props.userContacts
+					]
+				}
+			]
 		}
-		// combined contacts and groups to use in autosuggest
-		this.contactsAndGroups = [
-			{
-				type: 'Groups',
-				names: [
-					this.state.userGroups
-				]
-			},
-			{
-				type: 'Contacts',
-				names: [
-					this.state.userContacts
-				]
-			}
-		];
 	}
 
 	componentDidMount() {
+
 		let csrfToken = document.getElementsByName('csrf-token')[0].content
 		this.setState({csrfToken: csrfToken})
 	}
@@ -110,8 +109,16 @@ class Dashboard extends React.Component {
 			})
 			.then ( (res) => { return res.json() } )
 			.then ( (data) => {
-			
-				this.setState({userContacts: data, first_name: "", last_name: "", phone_number: ""}) 
+				let contactsAndGroups = Object.assign([], this.state.contactsAndGroups)
+				contactsAndGroups[1].names[0] = data
+
+				this.setState({
+					userContacts: data, 
+					first_name: "", 
+					last_name: "", 
+					phone_number: "",
+					contactsAndGroups: contactsAndGroups
+				}) 
 			})
 		}
 		
@@ -129,7 +136,14 @@ class Dashboard extends React.Component {
 		})
 		.then ( (res)=> { return res.json() } )
 		.then ( (data) => { 
-			this.setState({userContacts: data.userContacts, recentMessages: data.recentMessages})
+			let contactsAndGroups = Object.assign([], this.state.contactsAndGroups)
+			contactsAndGroups[1].names[0] = data.userContacts
+
+			this.setState({
+				userContacts: data.userContacts, 
+				recentMessages: data.recentMessages,
+				contactsAndGroups: contactsAndGroups
+			})
 		})
 	}
 
@@ -221,73 +235,55 @@ class Dashboard extends React.Component {
 
 	//this function adds recipients to the recipient array in state, to whom the message will be sent
 	//this function will be used across different pages
-	addRecipient(e, recipient) {
-		e.preventDefault()
+	addRecipient(recipient) {
 
+		let recipients = Object.assign([], this.state.recipients);
 		
-		if (this.state.page == "contacts") {
-			let selected = e.currentTarget.dataset.id
-			let filtered = this.state.userContacts.filter((recipient)=> {
-				return recipient.id == selected
-			})
-			
-			this.setState({recipients: filtered, page: "messages"	})
 
 
+		if (recipients.includes(recipient)) {
+
+			alert('Already added foo!!')
+		
 		} else {
+			
+			recipients.push(recipient)
 
-			let queryRecipientResult = this.state.userContacts.filter((contact)=> {
-			let fullName = contact.first_name + " " + contact.last_name
-			if (fullName === recipient) {
-				return contact
-			}
-			})		
+			this.setState({ recipients: recipients })
 
-			if (queryRecipientResult === undefined || queryRecipientResult.length == 0) {
-
-				// this.setState({errorMessage: "This contact doesn't exist!"})
-				// $('#alertModalCenter').modal('toggle')
-				
-
-			} else {
-
-				let recipients = Object.assign([], this.state.recipients);
-
-				recipients.push(queryRecipientResult[0])
-
-				this.setState({ recipients: recipients })
-				
-			}
 		}
-		
+
 	}
 
 	// this function will add entire groups to the message recipient list
-	addGroup(e, groupName) {
-		e.preventDefault()
+	addGroup(group) {
 
-		let queryGroupResult = this.state.userGroups.filter((group)=> {
-			if (group.nickname == groupName) {
-				return group
-			}
-		})
-
-		if (queryGroupResult[0].contacts == undefined || queryGroupResult[0].contacts.length == 0) {
+		if (group.contacts.length === 0) {
 
 			alert('theres no one in this group!')
 
 		} else {
+			
+				let recipients = Object.assign([], this.state.recipients)
 
-			let recipients = Object.assign([], this.state.recipients)
+				let newRecipients = recipients.concat(group.contacts)
 
+				var result = newRecipients.reduce((unique, o) => {
+				    if(!unique.some(obj => obj.id === o.id)) {
+				      unique.push(o);
+				    }
+				    return unique;
+				},[]);
 
-			let newRecipients = recipients.concat(queryGroupResult[0].contacts)
+				console.log(result);
 
+				if (recipients.length != 0 && result != newRecipients) {
+					alert('Duplicate contacts have been omitted.')
+				}
 
-			this.setState({ recipients: newRecipients})
+				this.setState({ recipients: result})
+
 		}
-
-		
 		
 	}
 
@@ -306,7 +302,9 @@ class Dashboard extends React.Component {
 
 	//this function creates new groups
 	newGroup(e) {
+
 		e.preventDefault()
+
 		if (this.state.nickname === "") {
 			alert('enter group name!');
 		} else {
@@ -320,8 +318,11 @@ class Dashboard extends React.Component {
 			})
 			.then ( res => { return res.json() } )
 			.then ( data => {
-				
-				this.setState({userGroups: data, nickname: ""}) 
+				let contactsAndGroups = Object.assign([], this.state.contactsAndGroups)
+				contactsAndGroups[0].names[0] = data
+
+
+				this.setState({userGroups: data, nickname: "", contactsAndGroups: contactsAndGroups}) 
 			})
 		}
 		
@@ -339,8 +340,14 @@ class Dashboard extends React.Component {
 		})
 		.then ( res => { return res.json() } )
 
-		.then ( data => { 
-			this.setState({userGroups: data}) 
+		.then ( data => {
+			let contactsAndGroups = Object.assign([], this.state.contactsAndGroups)
+			contactsAndGroups[0].names[0] = data
+
+			this.setState({
+				userGroups: data,
+				contactsAndGroups: contactsAndGroups
+			}) 
 		})
 	}
 
@@ -382,8 +389,17 @@ class Dashboard extends React.Component {
 			}
 		})
 		.then ( res => { return res.json() })
-		.then ( data => { 
-			this.setState({userGroupMembers: data.userGroupMembers, userGroups: data.userGroups}) 
+		.then ( data => {
+
+			let contactsAndGroups = Object.assign([], this.state.contactsAndGroups)
+			contactsAndGroups[0].names[0] = data.userGroups
+
+			this.setState({
+				userGroupMembers: data.userGroupMembers, 
+				userGroups: data.userGroups,
+				contactsAndGroups: contactsAndGroups
+			})
+
 		})
 	}
 
@@ -400,17 +416,25 @@ class Dashboard extends React.Component {
 			}
 		})
 		.then ( res => { return res.json() })
-		.then ( data => { 
-			this.setState({userGroupMembers: data.userGroupMembers, userGroups: data.userGroups}) 
+		.then ( data => {
+
+			let contactsAndGroups = Object.assign([], this.state.contactsAndGroups)
+			contactsAndGroups[0].names[0] = data.userGroups
+
+			this.setState({
+
+				userGroupMembers: data.userGroupMembers,
+				userGroups: data.userGroups,
+				contactsAndGroups: contactsAndGroups
+			})
 		})
 	}
 
-
-	// BEGIN FUNCTIONS NECESSARY FOR AUTOSUGGEST
 	escapeRegexCharacters(str) {
 	  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 	}
 
+	// BEGIN FUNCTIONS NECESSARY FOR AUTOSUGGEST ******************************
 
 	// Teach Autosuggest how to calculate suggestions for any given input value.
 	getSuggestions(value) {
@@ -423,7 +447,7 @@ class Dashboard extends React.Component {
 
 	  const regex = new RegExp('^' + escapedValue, 'i');
 
-	  return this.contactsAndGroups
+	  return this.state.contactsAndGroups
 	    .map(type => {
 
 	      return {
@@ -441,8 +465,23 @@ class Dashboard extends React.Component {
 	// input value for every given suggestion.
 	getSuggestionValue(suggestion) {
 
+		if (suggestion.nickname) {
+			// if the suggestion is a group
+			this.addGroup(suggestion)
 		
-		return suggestion.nickname || suggestion.first_name;
+		} else {
+			// if the suggestion is a contact
+			this.addRecipient(suggestion)
+		
+		}
+
+		/* 
+
+		This function needs to return something for the react-autosuggest component.
+		the returned value is what replaces the input in the auto-suggest. we are clearing it
+
+		*/
+		return ""
 	}
 
 	// Use your imagination to render suggestions.
@@ -491,7 +530,7 @@ class Dashboard extends React.Component {
 		});
 	}
 
-	// END FUNCTIONS NECESSARY FOR AUTOSUGGEST
+	// END FUNCTIONS NECESSARY FOR AUTOSUGGEST ********************************
 
 	
 
