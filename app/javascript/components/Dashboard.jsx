@@ -26,6 +26,8 @@ class Dashboard extends React.Component {
 		this.deleteGroup = this.deleteGroup.bind(this)
 		this.sendMessage = this.sendMessage.bind(this)
 		this.addRecipient = this.addRecipient.bind(this)
+		// the add recipient function below is only used on contact list page
+		this.addRecipientFromContactsPage = this.addRecipientFromContactsPage.bind(this)
 		this.deleteRecipient = this.deleteRecipient.bind(this)
 		this.setPage = this.setPage.bind(this)
 		this.setSelectedGroup = this.setSelectedGroup.bind(this)
@@ -199,6 +201,7 @@ class Dashboard extends React.Component {
 				newContact={this.newContact}
 				deleteContact={this.deleteContact}
 				addRecipient={this.addRecipient}
+				addRecipientFromContactsPage={this.addRecipientFromContactsPage}
 				deleteRecipient={this.deleteRecipient}
 				addGroup={this.addGroup}
 				newGroup={this.newGroup}
@@ -218,29 +221,38 @@ class Dashboard extends React.Component {
 
 	sendMessage(e) {
 		e.preventDefault()
-		let messageWithSenderName = "@" + this.props.currentUser.first_name + ": " + this.state.message
-		fetch("messages/", {
-			method: "POST",
-			body: JSON.stringify({message: {body: messageWithSenderName }, recipients: this.state.recipients }),
-			headers: {
-				"X-CSRF-Token": this.state.csrfToken,
-				"Content-Type": "application/json"
-			}
-		})
-		.then( (res) => { return res.json() } )
-		.then( (data) => { this.setState({recentMessages: data, message: "", recipients: []})} )
+		let messageWithSenderName = "@" + this.props.currentUser.first_name + ": " + this.state.message.trim()
+
+		if (this.state.recipients.length > 0 && this.state.message.trim()) {
+			fetch("messages/", {
+				method: "POST",
+				body: JSON.stringify({message: {body: messageWithSenderName }, recipients: this.state.recipients }),
+				headers: {
+					"X-CSRF-Token": this.state.csrfToken,
+					"Content-Type": "application/json"
+				}
+			})
+			.then( (res) => { return res.json() } )
+			.then( (data) => { 
+				this.setState({
+					recentMessages: data,
+					message: "",
+					recipients: []
+				})
+			})
+		} else {
+			alert('Whoops, you\'re missing something!')
+		}
 	}
 
 	
 
 	//this function adds recipients to the recipient array in state, to whom the message will be sent
-	//this function will be used across different pages
+	//this function will be used only with auto-suggest
 	addRecipient(recipient) {
 
 		let recipients = Object.assign([], this.state.recipients);
 		
-
-
 		if (recipients.includes(recipient)) {
 
 			alert('Already added foo!!')
@@ -250,6 +262,40 @@ class Dashboard extends React.Component {
 			recipients.push(recipient)
 
 			this.setState({ recipients: recipients })
+
+		}		
+
+	}
+
+
+	// this function will only be used to add contacts from the contact list.. for now
+	addRecipientFromContactsPage(e) {
+
+		e.preventDefault()
+
+
+		let target = e.target.dataset.id
+
+		let recipients = Object.assign([], this.state.recipients)
+
+		let contact = this.state.userContacts.filter((contact)=> {
+			if (contact.id == target) {
+
+				return contact
+			}
+		})
+
+
+
+		if (recipients.includes(contact[0])) {
+
+			alert('Already added foo!')
+
+		} else {
+			
+			let newRecipients = recipients.concat(contact)
+
+			this.setState({ page: 'messages', recipients: newRecipients })
 
 		}
 
@@ -269,14 +315,14 @@ class Dashboard extends React.Component {
 				let newRecipients = recipients.concat(group.contacts)
 
 				var result = newRecipients.reduce((unique, o) => {
+					
 				    if(!unique.some(obj => obj.id === o.id)) {
 				      unique.push(o);
 				    }
 				    return unique;
 				},[]);
 
-				console.log(result);
-
+				// this checks if duplicates were added and alerts the user if so.
 				if (recipients.length != 0 && result != newRecipients) {
 					alert('Duplicate contacts have been omitted.')
 				}

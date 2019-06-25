@@ -20,8 +20,9 @@ class GroupModal extends React.Component {
 				</div>
 			)
 		} else {
-
+			
 			let contactNames = contacts.map((contact)=> {
+
 				return (
 					<li key={contact.id} className="list-group-item">
 						<div className="row justify-content-around">

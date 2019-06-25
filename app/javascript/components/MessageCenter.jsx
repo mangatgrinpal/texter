@@ -55,7 +55,7 @@ class MessageCenter extends React.Component {
 	render() {
 
 		let textPreview, title
-		if (this.props.message) {
+		if (this.props.message.trim()) {
 			textPreview =
 				<div className="col-md-4 col-sm-4 offset-md-1 offset-sm-1 speech-bubble p-2">
 					@{this.props.currentUser.first_name}: {this.props.message}
@@ -71,7 +71,7 @@ class MessageCenter extends React.Component {
 
 		// Autosuggest will pass through all these props to the input.
 		const inputProps = {
-			placeholder: 'Add contacts or groups here',
+			placeholder: 'Enter contacts or groups here',
 			value,
 			onChange: this.props.onChange
 		}
@@ -100,18 +100,15 @@ class MessageCenter extends React.Component {
 							/>
 							
 						</div>
-						<button onClick={this.props.addRecipient} className="btn btn-primary">
-							Add
-						</button>
-						
+						<div className="col-6">
+							{title}
+						</div>
 					</div>
 					
 					<div className="row">
 					
 						{this.messageRecipients()}
-						<div className="col-6">
-							{title}
-						</div>
+						
 						
 					</div>
 					<br/>
@@ -120,7 +117,7 @@ class MessageCenter extends React.Component {
 							<small>Your name will be prefixed onto your message so your recipients will know who it is.</small>
 							
 							<textarea type="text" onChange={this.props.handleInputChange} value={this.props.message} className="form-control" name="message" placeholder="Your message here" />
-							<span className="d-flex justify-content-end">{this.props.message.length + this.props.currentUser.first_name.length + 3}/160</span><br/>
+							<span className="d-flex justify-content-end">{this.props.message.trim().length + this.props.currentUser.first_name.length + 3}/160</span><br/>
 							<small>The character limit above is the max length for a single text message and factors in your prefixed name. Anything over this limit will still be sent, but in multiple SMS messages.</small>
 						</div>
 						{textPreview}

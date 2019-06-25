@@ -28,7 +28,7 @@ class MessagesController < ApplicationController
 			#TwilioTextMessenger.new(@recipients, @message.body).send_notification
 			render json: serialized_messages, status: 200
 		else
-			render json: {}, status: 400
+			render json: serialized_messages, status: 400
 		end
 	end
 

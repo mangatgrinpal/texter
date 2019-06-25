@@ -160,7 +160,7 @@ class MessageList extends React.Component {
 
 			let remainingRecipientsList = messageRecipients.slice(1).map((recipient)=> {
 				return (
-					<li className="list-group-item">
+					<li key={recipient.id} className="list-group-item">
 	 					{recipient}
 	 				</li>
 				)

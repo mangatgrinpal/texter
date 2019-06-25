@@ -1,5 +1,6 @@
 class Message < ApplicationRecord
 	validates :body, presence: true
+	validates :recipients, presence: true
 
 	belongs_to :user
 	has_many :message_recipients

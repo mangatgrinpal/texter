@@ -31,7 +31,7 @@ class StaticPagesController < ApplicationController
   end
 
   def serialized_messages
-    ActiveModel::Serializer::CollectionSerializer.new(@user.messages.sorted_desc, each_serializer: MessageSerializer)
+    ActiveModel::Serializer::CollectionSerializer.new(@user.messages.recent.sorted_desc, each_serializer: MessageSerializer)
   end
   
 end

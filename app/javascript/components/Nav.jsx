@@ -76,10 +76,17 @@ class Nav extends React.Component {
 
 	render () {
 
+		let userRedirect
+		if (this.props.currentUser) {
+			userRedirect = "/dashboard"
+		} else {
+			userRedirect = "/"
+		}
+
 		return (
 			<nav className="navbar justify-content-between navbar-expand-lg navbar-light">
 				<div className="nav-item pl-3">
-					<a className="navbar-brand" href="/">
+					<a className="navbar-brand" href={userRedirect}>
 				    {/*image goes here (svg)*/}
 				    PING
 				  </a>  
