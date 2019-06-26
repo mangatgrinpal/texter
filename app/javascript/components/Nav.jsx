@@ -11,16 +11,17 @@ class Nav extends React.Component {
 				dataType: "JSON",
 				type: "DELETE",
 				success: ()=> {
-					alert("You've been successfully logged out.")
 					var pathname = window.location.pathname
 					if (pathname === "/dashboard") {
 						window.location.replace("/")
+
 					}
 					else {
 						window.location.reload()
 					}
-				}
+				}	
 		});
+		window.flash_messages.addMessage({ id: 6, text: 'You\'ve been successfully logged out.', type: 'notice'})
 	}
 
 
