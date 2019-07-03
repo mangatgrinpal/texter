@@ -46,7 +46,7 @@ class Dashboard extends React.Component {
 		// end functions for autosuggest component
 
 		this.state = {
-			page: "contacts",
+			page: "home",
 			userContacts: this.props.userContacts,
 			userGroups: this.props.userGroups,
 			userGroupMembers: [],
@@ -410,6 +410,7 @@ class Dashboard extends React.Component {
 	// this will set which group is selected to be updated
 	setSelectedGroup(e) {
 		this.setState({spinner: true})
+
 		$('#groupModalCenter').modal('show')
 		let group = e.currentTarget.value
 		fetch("/groups/" + group + "/group_members", {
@@ -421,7 +422,7 @@ class Dashboard extends React.Component {
 		})
 		.then ( res => { return res.json() })
 		.then ( data => {
-			debugger 
+
 			this.setState({userGroupMembers: data, selectedGroup: group},()=>this.setState({spinner: false})) 
 		})
 		

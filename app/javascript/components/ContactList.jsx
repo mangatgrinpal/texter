@@ -58,7 +58,7 @@ class ContactList extends React.Component {
 
 								</div>
 								<div className="col-md-3 col-sm-3">
-									<strong>Phone</strong>
+									<strong>Phone number</strong>
 									
 								</div>
 								
