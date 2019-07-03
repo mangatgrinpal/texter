@@ -40,7 +40,9 @@ class GroupModal extends React.Component {
 			})
 
 			return (
-    		<ul className="list-group list-group-flush">{contactNames}</ul>
+    		<ul className="list-group list-group-flush">
+    			{contactNames}
+    		</ul>
 			)
 		}
 	}

@@ -37,6 +37,7 @@ gem 'twilio-ruby'
 gem 'figaro'
 gem 'rubysl-securerandom'
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

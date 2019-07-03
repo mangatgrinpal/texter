@@ -18,8 +18,8 @@ class ContactCenter extends React.Component {
 				    <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Groups</a>
 				  </div>
 				</nav>
-				<div className="tab-content" id="nav-tabContent">
-				  <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+				<div className="tab-content mh-100" id="nav-tabContent">
+				  <div className="tab-pane fade show active mh-100" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 				  	<ContactList
 					  	{...this.props}
 							{...this.state} 
@@ -29,7 +29,7 @@ class ContactCenter extends React.Component {
 							addRecipient={this.props.addRecipient}
 							deleteRecipient={this.props.deleteRecipient}/>
 				  </div>
-				  <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+				  <div className="tab-pane fade mh-100" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 				  	<GroupList
 					  	{...this.props}
 							{...this.state} 

@@ -30,37 +30,48 @@ class ContactList extends React.Component {
 			
 			let contactNames = contacts.map((contact)=> {
 				return (
-						<tr key={contact.id}>
-							<td>
-								{contact.first_name} {contact.last_name}
-							</td>
-							<td>
-								{contact.phone_number}
-							</td>
-							<td>
-								<a data-id={contact.id} onClick={this.props.addRecipientFromContactsPage} className="badge badge-primary">send a message</a>
-								&nbsp;
-								<a data-id={contact.id} onClick={this.props.deleteContact} className="badge badge-danger">delete contact</a>
-							</td>
-						</tr>
+						<li key={contact.id} className="list-group-item" >
+							<div className="row">
+								<div className="col-md-3 col-sm-3">
+									{contact.first_name} {contact.last_name}
+								</div>
+								<div className="col-md-3 col-sm-3">
+									+{contact.phone_number}
+								</div>
+								<div className="col-md-6 col-sm-6">
+									<a data-id={contact.id} onClick={this.props.addRecipientFromContactsPage} className="badge badge-primary">send a message</a>
+									&nbsp;
+									<a data-id={contact.id} onClick={this.props.deleteContact} className="badge badge-danger">delete contact</a>
+								</div>
+							</div>
+						</li>
 				)
 			})
 
 			return (
-				<table className="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Phone</th>
-							<th scope="col"></th>
-						</tr>
-					</thead>
-					<tbody>
+				<React.Fragment>
+					<ul className="list-group contact-list-headers">
+						<li className="list-group-item">
+							<div className="row">
+								<div className="col-md-3 col-sm-3">
+									<strong>Name</strong>
+
+								</div>
+								<div className="col-md-3 col-sm-3">
+									<strong>Phone</strong>
+									
+								</div>
+								
+									
+							</div>
+						</li>
+					</ul>
+					<ul className="list-group contact-list">
 						
-						{contactNames}
-						
-					</tbody>
-				</table>
+							{contactNames}
+					</ul>
+				</React.Fragment>
+				
 					
 			)
 
@@ -76,9 +87,9 @@ class ContactList extends React.Component {
 	render () {
 		
 		return (
-			<div className="col-12 pt-3">
+			<div className="container mh-100">
 				<div className="row">
-					<div className="col">
+					<div className="col pt-3">
 						<h3>Add a New Contact</h3>
 					</div>
 				</div>
@@ -112,6 +123,7 @@ class ContactList extends React.Component {
 
 				<div className="row mt-5">
 					<div className="col mt-5">
+						
 						{this.contactList()}
 					</div>
 				</div>

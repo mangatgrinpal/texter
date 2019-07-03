@@ -97,13 +97,19 @@ html { height: 100%; }
 .dashboard {
 	height: 93vh;
 
-	.table {
-		height: inherit;
+	.contact-list {
+		
+		overflow-y: auto;
 
-		tbody {
-			overflow-y: scroll;
+		height: 32rem;
+	}
+
+	.contact-list-headers,.contact-list {
+		.list-group-item {
+			border-radius: 0;
 		}
 	}
+
 
 	.popover-content {
 		display: none;

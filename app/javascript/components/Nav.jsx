@@ -4,6 +4,7 @@ import React from "react"
 class Nav extends React.Component {
 	constructor(props) {
 		super(props);
+
 	}
 
 	logOut() {
@@ -11,9 +12,11 @@ class Nav extends React.Component {
 				dataType: "JSON",
 				type: "DELETE",
 				success: ()=> {
+					window.flash_messages.addMessage({ id: 6, text: 'You\'ve been successfully logged out.', type: 'notice'})
 					var pathname = window.location.pathname
 					if (pathname === "/dashboard") {
-						window.location.replace("/")
+						
+						setTimeout(window.location.replace("/").bind(window.location), 10000)
 
 					}
 					else {
@@ -21,7 +24,11 @@ class Nav extends React.Component {
 					}
 				}	
 		});
-		window.flash_messages.addMessage({ id: 6, text: 'You\'ve been successfully logged out.', type: 'notice'})
+		
+	}
+
+	setLogOutFlash() {
+		
 	}
 
 

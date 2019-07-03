@@ -10,7 +10,7 @@ class StaticPagesController < ApplicationController
 
   def dashboard
   	
-  	@user_contacts = @user.contacts.order('last_name ASC')
+  	@user_contacts = serialized_contacts
 
     @user_groups = ActiveModel::Serializer::CollectionSerializer.new(@user.groups, each_serializer: GroupSerializer)
     
@@ -28,6 +28,10 @@ class StaticPagesController < ApplicationController
 
   def find_user
     @user = current_user
+  end
+
+  def serialized_contacts
+    ActiveModel::Serializer::CollectionSerializer.new(@user.contacts.order('last_name ASC'), each_serializer: MessageSerializer)
   end
 
   def serialized_messages

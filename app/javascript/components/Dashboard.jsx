@@ -46,7 +46,7 @@ class Dashboard extends React.Component {
 		// end functions for autosuggest component
 
 		this.state = {
-			page: "home",
+			page: "contacts",
 			userContacts: this.props.userContacts,
 			userGroups: this.props.userGroups,
 			userGroupMembers: [],
@@ -159,13 +159,13 @@ class Dashboard extends React.Component {
 	renderSidebar() {
 		
 			return (
-				<div className="col-md-3 col-sm-3 bg-light">
+				<div className="col-md-3 col-sm-3 pt-4 bg-light">
 					
 					<ul className="nav flex-column">
 						<li className="nav-item">
-							<span onClick={this.setPage} id="home" className="nav-link">
+							<a onClick={this.setPage} id="home" className="nav-link">
 								Hello, {this.props.currentUser.first_name}
-							</span>
+							</a>
 						</li>
 						<li className="nav-item">
 							<a onClick={this.setPage} id="contacts" className="nav-link">Contacts</a>
@@ -194,7 +194,7 @@ class Dashboard extends React.Component {
 
 		return (
 			
-			<Component 
+			<Component
 				{...this.props}
 				{...this.state} 
 				handleInputChange={this.handleInputChange} 
@@ -251,9 +251,19 @@ class Dashboard extends React.Component {
 	//this function will be used only with auto-suggest
 	addRecipient(recipient) {
 
-		let recipients = Object.assign([], this.state.recipients);
 		
-		if (recipients.includes(recipient)) {
+
+
+
+
+
+		let recipients = Object.assign([], this.state.recipients);
+
+		let duplicateChecker = recipients.some(person=> {
+		    return person.id == recipient.id
+		})
+
+		if (duplicateChecker) {
 
 			alert('Already added foo!!')
 		
@@ -410,7 +420,8 @@ class Dashboard extends React.Component {
 			}
 		})
 		.then ( res => { return res.json() })
-		.then ( data => { 
+		.then ( data => {
+			debugger 
 			this.setState({userGroupMembers: data, selectedGroup: group},()=>this.setState({spinner: false})) 
 		})
 		
@@ -587,7 +598,7 @@ class Dashboard extends React.Component {
 			<div className="container-fluid">
 				<div className="row dashboard">
 					{this.renderSidebar()}
-					<div className="col-md-9 col-sm-9 ml-auto mt-5 pr-2">
+					<div className="col-md-9 col-sm-9 ml-auto pt-4 pr-2 mh-100">
 						<GroupModal 
 							{...this.state}
 							clearSelectedGroup={this.clearSelectedGroup}

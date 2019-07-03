@@ -88,9 +88,9 @@ class GroupList extends React.Component {
 	render () {
 		
 		return (
-			<div className="col-12 pt-3">
+			<div className="container">
 				<div className="row">
-					<div className="col">
+					<div className="col pt-3">
 						<h3>Create a New Group</h3>
 					</div>
 				</div>
@@ -98,24 +98,13 @@ class GroupList extends React.Component {
 					<div className="col-md-3 col-sm-3">
 						Nickname
 					</div>
-					{/*<div className="col-md-3 col-sm-3">
-						Last Name
-					</div>
-					<div className="col-md-3 col-sm-3">
-						Phone Number
-					</div>*/}
 				</div>
 				<form autoComplete="off">
 					<div className="form-row">
 						<div className="col">
 							<input type="text" value={this.props.nickname} onChange={this.props.handleInputChange} className="form-control" name="nickname" placeholder="Group Name"/>
 						</div>
-						{/*<div className="col">
-							<input type="text" value={this.props.last_name} onChange={this.props.handleInputChange} className="form-control" name="last_name" placeholder="Last Name"/>
-						</div>
-						<div className="col">
-							<input type="tel" value={this.props.phone_number} onChange={this.props.handleInputChange} className="form-control"	name="phone_number" placeholder="(xxx)xxx-xxxx"/>
-						</div>*/}
+						
 						<div className="col">
 							<button onClick={this.props.newGroup} className="btn btn-primary">Create Group</button>
 						</div>
