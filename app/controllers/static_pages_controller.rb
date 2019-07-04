@@ -31,7 +31,7 @@ class StaticPagesController < ApplicationController
   end
 
   def serialized_contacts
-    ActiveModel::Serializer::CollectionSerializer.new(@user.contacts.order('last_name ASC'), each_serializer: MessageSerializer)
+    ActiveModel::Serializer::CollectionSerializer.new(@user.contacts.order('last_name ASC'), each_serializer: ContactSerializer)
   end
 
   def serialized_messages

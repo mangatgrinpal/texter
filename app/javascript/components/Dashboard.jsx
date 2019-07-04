@@ -422,8 +422,12 @@ class Dashboard extends React.Component {
 		})
 		.then ( res => { return res.json() })
 		.then ( data => {
-
-			this.setState({userGroupMembers: data, selectedGroup: group},()=>this.setState({spinner: false})) 
+			
+			this.setState({
+				userContacts: data.userContacts,
+				userGroupMembers: data.groupMembers, 
+				selectedGroup: group
+			},()=>this.setState({spinner: false})) 
 		})
 		
 
@@ -436,6 +440,8 @@ class Dashboard extends React.Component {
 
 	// this function will allow user to add contacts to groups
 	addGroupMembers(e) {
+
+
 		let contact = e.currentTarget.dataset.id
 
 		fetch("groups/" + this.state.selectedGroup + "/group_members", {
@@ -453,6 +459,7 @@ class Dashboard extends React.Component {
 			contactsAndGroups[0].names[0] = data.userGroups
 
 			this.setState({
+				userContacts: data.userContacts,
 				userGroupMembers: data.userGroupMembers, 
 				userGroups: data.userGroups,
 				contactsAndGroups: contactsAndGroups

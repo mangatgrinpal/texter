@@ -52,7 +52,7 @@ class MessageList extends React.Component {
 		if (recentMessages.length == 0) {
 			return (
 				<div className="pt-3">
-					You haven't sent any messages yet.
+					You haven't sent any messages recently.
 				</div>
 			)
 		} else {
