@@ -62,31 +62,31 @@ class MessageList extends React.Component {
 
 
 				// if the message only has one recipient, just return that one's name
-				if (message.contacts.length == 1) {
+				if (message.recipients.length == 1) {
 					recipients = 
 						
-							message.message_recipients[0].contact.first_name + " " + message.message_recipients[0].contact.last_name
+							message.recipients[0]
 
 				// if there is just 1 more, this is the conditional
-				} else if (message.contacts.length == 2) {
+				} else if (message.recipients.length == 2) {
 						
 						recipients =
 
-							message.message_recipients[0].contact.first_name + " " + message.message_recipients[0].contact.last_name + " & " + message.message_recipients[1].contact.first_name + " " + message.message_recipients[1].contact.last_name
+							message.recipients[0] + " & " + message.recipients[1]
 							 
 
 
 					// else return the first one's name + the count of others
 				} else {
 
-					let remainingRecipients = message.message_recipients.slice(1)
+					let remainingRecipients = message.recipients.slice(1)
 
 
 					recipients =
 						
 							<React.Fragment>
 
-							{message.message_recipients[0].contact.first_name} {message.message_recipients[0].contact.last_name} & &nbsp;
+							{message.recipients[0]} & &nbsp;
 							
 								<a href="javascript:void(0)"
 										data-id={message.id}
@@ -95,7 +95,7 @@ class MessageList extends React.Component {
 										data-placement="left"
 										data-animation={true}>
 
-									{message.message_recipients.length-1} others
+									{message.recipients.length-1} others
 							  
 								</a>
 							</React.Fragment>

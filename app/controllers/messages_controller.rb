@@ -18,12 +18,9 @@ class MessagesController < ApplicationController
 
 		#if the message saves
 		if @message.save
-			#created join records for each of the recipients
-			@recipients.each do |recipient|
-				
-				@message.message_recipients.create(contact_id: recipient["id"])
-			end
-			#then send the text messages
+			
+			
+			# send the text messages
 
 			#TwilioTextMessenger.new(@recipients, @message.body).send_notification
 			render json: serialized_messages, status: 200
