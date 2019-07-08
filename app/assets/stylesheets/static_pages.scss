@@ -101,12 +101,31 @@ html { height: 100%; }
 		
 		overflow-y: auto;
 
-		height: 32rem;
+		height: 34rem;
 	}
 
-	.contact-list-headers,.contact-list {
+	.group-list {
+		overflow-y: auto;
+		height: 34rem;
+
+	}
+
+	.contact-list,.group-list {
+		.list-group-item {
+			&:hover {
+				background: #f5f5f5;
+    		cursor: pointer;
+			}
+		}
+	}
+
+	.contact-list-headers,.contact-list,.group-list-headers,.group-list {
 		.list-group-item {
 			border-radius: 0;
+			border-left: 0;
+			border-right: 0;
+
+			
 		}
 	}
 
@@ -138,7 +157,14 @@ html { height: 100%; }
 	}
 
 	#message-list {
-		
+
+		border-top: 2px solid grey;
+    overflow-y: scroll;
+    height: 22.5rem;
+
+		.list-group-item {
+			min-height: 6rem;
+		}
 	}
 
 
@@ -181,24 +207,33 @@ html { height: 100%; }
 	}
 
 	.react-autosuggest__input {
-	  width: 100%;
-	  height: 30px;
-	  padding: 10px 20px;
-	  font-family: Helvetica, sans-serif;
-	  font-weight: 300;
-	  font-size: 16px;
-	  border: 1px solid #aaa;
-	  border-radius: 4px;
+	  display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 	}
 
 	.react-autosuggest__input--focused {
-	  outline: none;
+	  color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 	}
 
-	.react-autosuggest__input--open {
-	  border-bottom-left-radius: 0;
-	  border-bottom-right-radius: 0;
-	}
+	// .react-autosuggest__input--open {
+	//   border-bottom-left-radius: 0;
+	//   border-bottom-right-radius: 0;
+	// }
 
 	.react-autosuggest__suggestions-container {
 	  display: none;
@@ -206,17 +241,24 @@ html { height: 100%; }
 
 	.react-autosuggest__suggestions-container--open {
 	  display: block;
-	  position: absolute;
-	  top: 51px;
-	  width: 280px;
-	  border: 1px solid #aaa;
-	  background-color: #fff;
-	  font-family: Helvetica, sans-serif;
-	  font-weight: 300;
-	  font-size: 16px;
-	  border-bottom-left-radius: 4px;
-	  border-bottom-right-radius: 4px;
-	  z-index: 2;
+    position: absolute;
+    top: 2.25rem;
+    width: 100%;
+    border: 1px solid #ced4da;
+    background-color: #fff;
+    /* font-family: Helvetica, sans-serif; */
+    font-weight: 300;
+    font-size: 1rem;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    z-index: 2;
+	}
+
+	.react-autosuggest__section-title {
+
+		padding: 0px 2rem;
+		background-color: #bd2828;
+		color: #fff;
 	}
 
 	.react-autosuggest__suggestions-list {
@@ -227,7 +269,7 @@ html { height: 100%; }
 
 	.react-autosuggest__suggestion {
 	  cursor: pointer;
-	  padding: 10px 20px;
+	  padding: 10px 10px;
 	}
 
 	.react-autosuggest__suggestion--highlighted {

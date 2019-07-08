@@ -43,6 +43,7 @@ class Dashboard extends React.Component {
 		this.renderSectionTitle = this.renderSectionTitle.bind(this)
 		this.getSectionSuggestions = this.getSectionSuggestions.bind(this)
 		this.onChange = this.onChange.bind(this)
+
 		// end functions for autosuggest component
 
 		this.state = {
@@ -594,6 +595,8 @@ class Dashboard extends React.Component {
 			value: newValue
 		});
 	}
+
+	
 
 	// END FUNCTIONS NECESSARY FOR AUTOSUGGEST ********************************
 

@@ -36,7 +36,7 @@ class ContactList extends React.Component {
 									{contact.first_name} {contact.last_name}
 								</div>
 								<div className="col-md-3 col-sm-3">
-									+{contact.phone_number}
+									+1{contact.phone_number}
 								</div>
 								<div className="col-md-6 col-sm-6">
 									<a data-id={contact.id} onClick={this.props.addRecipientFromContactsPage} className="badge badge-primary">send a message</a>

@@ -60,12 +60,14 @@ class MessageCenter extends React.Component {
 				<div className="col-md-4 col-sm-4 offset-md-1 offset-sm-1 speech-bubble p-2">
 					@{this.props.currentUser.first_name}: {this.props.message}
 				</div>
-			title = <h5>Preview your text below before you send it.</h5>
+			title = <strong>Preview your text below before you send it.</strong>
 
 		} else {
 			textPreview = <div />
 			title = <div/>
 		}
+
+
 
 		const { value, suggestions } = this.props;
 
@@ -90,6 +92,7 @@ class MessageCenter extends React.Component {
 							<Autosuggest
 								multiSection={true}
 								suggestions={suggestions}
+								renderInputComponent={this.props.renderInputComponent}
 								onSuggestionsFetchRequested={this.props.onSuggestionsFetchRequested}
 								onSuggestionsClearRequested={this.props.onSuggestionsClearRequested}
 								getSuggestionValue={this.props.getSuggestionValue}

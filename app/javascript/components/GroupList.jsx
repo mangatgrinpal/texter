@@ -37,42 +37,54 @@ class GroupList extends React.Component {
 	
 				return (
 
-					<tr key={group.id}>
-						<td>
-							{group.nickname}
-						</td>
-						<td>
-							{group.contacts.length}
+					<li key={group.id} className="list-group-item">
+						<div className="row">
+							<div className="col-md-3 col-sm-3">
+								{group.nickname}
+							</div>
+							<div className="col-md-3 col-sm-3">
+								{group.contacts.length}
+								
+							</div>
 							
-						</td>
+							<div className="col-md-6 col-sm-6">
+								<a value={group.id} onClick={this.props.setSelectedGroup} className="badge badge-primary">Manage Group</a>
+								&nbsp;
+								<a value={group.id} onClick={this.props.deleteGroup} className="badge badge-danger">Delete Group</a>
+							</div>
+						</div>
 						
-						<td>
-							<button value={group.id} onClick={this.props.setSelectedGroup} className="badge badge-primary">Manage Group</button>
-							&nbsp;
-							<button value={group.id} onClick={this.props.deleteGroup} className="badge badge-danger">Delete Group</button>
-						</td>
 						{/*Make sure to find a more efficient way to create delete button later.*/}
-					</tr>
+					</li>
 				)
 				
 			})	
 		
 
 			return (
-				<table className="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">Nickname</th>
-							<th scope="col">Members</th>
-							<th scope="col"></th>
-						</tr>
-					</thead>
-					<tbody>
+				<React.Fragment>
+					<ul className="list-group group-list-headers">
+						<li className="list-group-item">
+							<div className="row">
+								<div className="col-md-3 col-sm-3">
+									<strong>Nickname</strong>
+
+								</div>
+								<div className="col-md-3 col-sm-3">
+									<strong>Members</strong>
+									
+								</div>
+								
+									
+							</div>
+						</li>
+					</ul>
+					<ul className="list-group group-list">
 						
-						{groupNames}
-						
-					</tbody>
-				</table>
+							{groupNames}
+					</ul>
+				</React.Fragment>
+				
 					
 			)
 
