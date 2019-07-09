@@ -64,11 +64,16 @@ class ContactList extends React.Component {
 								
 									
 							</div>
+
 						</li>
 					</ul>
+					<div className="row">
+						<div className="col-md-3 col-sm-3 contact-count">
+							<small>Contacts ({this.props.userContacts.length})</small>
+						</div>
+					</div>
 					<ul className="list-group contact-list">
-						
-							{contactNames}
+						{contactNames}
 					</ul>
 				</React.Fragment>
 				
@@ -88,41 +93,9 @@ class ContactList extends React.Component {
 		
 		return (
 			<div className="container mh-100">
+
 				<div className="row">
 					<div className="col pt-3">
-						<h3>Add a New Contact</h3>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-md-3 col-sm-3">
-						First Name
-					</div>
-					<div className="col-md-3 col-sm-3">
-						Last Name
-					</div>
-					<div className="col-md-3 col-sm-3">
-						Phone Number
-					</div>
-				</div>
-				<form autoComplete="off">
-					<div className="form-row">
-						<div className="col">
-							<input type="text" value={this.props.first_name} onChange={this.props.handleInputChange} className="form-control" name="first_name" placeholder="First Name"/>
-						</div>
-						<div className="col">
-							<input type="text" value={this.props.last_name} onChange={this.props.handleInputChange} className="form-control" name="last_name" placeholder="Last Name"/>
-						</div>
-						<div className="col">
-							<input type="tel" value={this.props.phone_number} onChange={this.props.handleInputChange} className="form-control"	name="phone_number" placeholder="(xxx)xxx-xxxx"/>
-						</div>
-						<div className="col">
-							<button onClick={this.props.newContact} className="btn btn-primary">Add</button>
-						</div>
-					</div>
-				</form>
-
-				<div className="row mt-5">
-					<div className="col mt-5">
 						
 						{this.contactList()}
 					</div>

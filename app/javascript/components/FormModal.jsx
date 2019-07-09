@@ -1,6 +1,6 @@
 import React from "react"
 
-class AlertModal extends React.Component {
+class FormModal extends React.Component {
 	constructor(props){
 		super(props)
 	}
@@ -8,11 +8,11 @@ class AlertModal extends React.Component {
 	render() {
 		
 		return (
-			<div className="modal" id="alertModalCenter" tabIndex="-1" role="dialog" aria-labelledby="alertModalCenterTitle" aria-hidden="true">
+			<div className="modal" id="formModalCenter" tabIndex="-1" role="dialog" aria-labelledby="formModalCenterTitle" aria-hidden="true">
 			  <div className="modal-dialog modal-dialog-centered" role="document">
 			    <div className="modal-content">
 			      <div className="modal-header">
-			        <h5 className="modal-title" id="alertModalCenterTitle">Error</h5>
+			        <h5 className="modal-title" id="formModalCenterTitle">Error</h5>
 			      </div>
 			      <div className="modal-body">
 			        {this.props.errorMessage}
@@ -27,4 +27,4 @@ class AlertModal extends React.Component {
 	}
 }
 
-export default AlertModal
+export default FormModal

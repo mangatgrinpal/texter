@@ -48,9 +48,9 @@ class GroupList extends React.Component {
 							</div>
 							
 							<div className="col-md-6 col-sm-6">
-								<a value={group.id} onClick={this.props.setSelectedGroup} className="badge badge-primary">Manage Group</a>
+								<a data-id={group.id} onClick={this.props.setSelectedGroup} className="badge badge-primary">Manage Group</a>
 								&nbsp;
-								<a value={group.id} onClick={this.props.deleteGroup} className="badge badge-danger">Delete Group</a>
+								<a data-id={group.id} onClick={this.props.deleteGroup} className="badge badge-danger">Delete Group</a>
 							</div>
 						</div>
 						

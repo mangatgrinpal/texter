@@ -2,13 +2,13 @@ import React from "react"
 import DashHome from "./DashHome"
 import ContactCenter from "./ContactCenter"
 import MessageCenter from "./MessageCenter"
-import AlertModal from "./AlertModal"
+import FormModal from "./FormModal"
 import GroupModal from "./GroupModal"
 
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { fas } from "@fortawesome/free-solid-svg-icons"
 import { far } from "@fortawesome/free-regular-svg-icons"
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 
 library.add(fas, far)
@@ -17,7 +17,6 @@ library.add(fas, far)
 class Dashboard extends React.Component {
 	constructor(props) {
 		super(props);
-		this.renderSideBar = this.renderSidebar.bind(this)
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.newContact = this.newContact.bind(this)
 		this.deleteContact = this.deleteContact.bind(this)
@@ -30,6 +29,7 @@ class Dashboard extends React.Component {
 		this.addRecipientFromContactsPage = this.addRecipientFromContactsPage.bind(this)
 		this.deleteRecipient = this.deleteRecipient.bind(this)
 		this.setPage = this.setPage.bind(this)
+
 		this.setSelectedGroup = this.setSelectedGroup.bind(this)
 		this.clearSelectedGroup = this.clearSelectedGroup.bind(this)
 		this.addGroupMembers = this.addGroupMembers.bind(this)
@@ -48,6 +48,7 @@ class Dashboard extends React.Component {
 
 		this.state = {
 			page: "home",
+			tab: "nav-contacts-tab",
 			userContacts: this.props.userContacts,
 			userGroups: this.props.userGroups,
 			userGroupMembers: [],
@@ -100,7 +101,7 @@ class Dashboard extends React.Component {
 	newContact(e) {
 		e.preventDefault()
 		if (this.state.first_name === "" || this.state.last_name === "" || this.state.phone_number === "") {
-			alert('enter contact!');
+			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Enter contact information!', type: 'error'})
 		} else {
 			fetch("/contacts", {
 				method: "POST",
@@ -157,29 +158,6 @@ class Dashboard extends React.Component {
 		this.setState({page: page})
 	}
 
-	renderSidebar() {
-		
-			return (
-				<div className="col-md-3 col-sm-3 pt-4 bg-light">
-					
-					<ul className="nav flex-column">
-						<li className="nav-item">
-							<a onClick={this.setPage} id="home" className="nav-link">
-								Hello, {this.props.currentUser.first_name}
-							</a>
-						</li>
-						<li className="nav-item">
-							<a onClick={this.setPage} id="contacts" className="nav-link">Contacts</a>
-						</li>
-						<li className="nav-item">
-							<a onClick={this.setPage} id="messages" className="nav-link">Messages</a>
-						</li>
-						
-					</ul>
-				</div>
-			)
-		
-	}
 
 	pages() {
 		return {
@@ -242,7 +220,7 @@ class Dashboard extends React.Component {
 				})
 			})
 		} else {
-			alert('Whoops, you\'re missing something!')
+			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Whoops, your message is missing!', type: 'error'})
 		}
 	}
 
@@ -266,7 +244,9 @@ class Dashboard extends React.Component {
 
 		if (duplicateChecker) {
 
-			alert('Already added foo!!')
+			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Already added contact.', type: 'error'})
+
+
 		
 		} else {
 			
@@ -300,7 +280,7 @@ class Dashboard extends React.Component {
 
 		if (recipients.includes(contact[0])) {
 
-			alert('Already added foo!')
+			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Already added contact.', type: 'error'})
 
 		} else {
 			
@@ -317,7 +297,7 @@ class Dashboard extends React.Component {
 
 		if (group.contacts.length === 0) {
 
-			alert('theres no one in this group!')
+			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'No contacts in this group!', type: 'error'})
 
 		} else {
 			
@@ -335,7 +315,7 @@ class Dashboard extends React.Component {
 
 				// this checks if duplicates were added and alerts the user if so.
 				if (recipients.length != 0 && result != newRecipients) {
-					alert('Duplicate contacts have been omitted.')
+					window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Duplicate contacts have been omitted.', type: 'alert'})
 				}
 
 				this.setState({ recipients: result})
@@ -363,30 +343,44 @@ class Dashboard extends React.Component {
 		e.preventDefault()
 
 		if (this.state.nickname === "") {
-			alert('enter group name!');
+			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Enter a nickname for your new group!', type: 'error'})
+
 		} else {
-			fetch("/groups", {
-				method: "POST",
-				body: JSON.stringify({group: {nickname: this.state.nickname}}),
-				headers: {
-					"X-CSRF-Token": this.state.csrfToken,
-					"Content-Type": "application/json"
-				}
+
+			// this function will run through the userGroups to see if the nickname exists
+			let validated = this.state.userGroups.map((group)=> {
+				return this.state.nickname.toLowerCase() == group.nickname.toLowerCase() ? true : false
 			})
-			.then ( res => { return res.json() } )
-			.then ( data => {
-				let contactsAndGroups = Object.assign([], this.state.contactsAndGroups)
-				contactsAndGroups[0].names[0] = data
+
+			// if it does include a true, it will return true but bang operator makes it false
+			// so only if it doesn't include it, will this ever return true, thus creating record
+			if (!validated.includes(true)) {
+				fetch("/groups", {
+					method: "POST",
+					body: JSON.stringify({group: {nickname: this.state.nickname}}),
+					headers: {
+						"X-CSRF-Token": this.state.csrfToken,
+						"Content-Type": "application/json"
+					}
+				})
+				.then ( res => { return res.json() } )
+				.then ( data => {
+					let contactsAndGroups = Object.assign([], this.state.contactsAndGroups)
+					contactsAndGroups[0].names[0] = data
 
 
-				this.setState({userGroups: data, nickname: "", contactsAndGroups: contactsAndGroups}) 
-			})
+					this.setState({userGroups: data, nickname: "", contactsAndGroups: contactsAndGroups}) 
+				})
+			} else {
+				window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: `${this.state.nickname} is already in use!`, type: 'error'})
+			}
+			
 		}
 		
 	}
 	// this function deletes groups
 	deleteGroup(e) {
-		let group = e.currentTarget.value
+		let group = e.currentTarget.dataset.id
 		
 		fetch("groups/" + group, {
 			method: "DELETE",
@@ -413,7 +407,7 @@ class Dashboard extends React.Component {
 		this.setState({spinner: true})
 
 		$('#groupModalCenter').modal('show')
-		let group = e.currentTarget.value
+		let group = e.currentTarget.dataset.id
 		fetch("/groups/" + group + "/group_members", {
 			method: "GET",
 			headers: {
@@ -604,18 +598,62 @@ class Dashboard extends React.Component {
 
 
 	render() {
+
+		let createButton
+
+		if (this.state.page == "contacts" && this.state.tab == "nav-contacts-tab") {
+			createButton =
+			<button className="btn btn-primary btn-lg">
+				<FontAwesomeIcon icon="plus" />&nbsp;&nbsp;Create contact
+			</button>
+
+		} else if (this.state.page == "contacts" && this.state.tab == "nav-groups-tab") {
+			createButton =
+			<button className="btn btn-primary btn-lg">
+				<FontAwesomeIcon icon="plus" />&nbsp;&nbsp;Create group
+			</button>
+		} else {
+			createButton = 
+			<button className="btn btn-primary btn-lg">
+				<FontAwesomeIcon icon="plus" />&nbsp;&nbsp;Send message
+			</button>
+		}
+
+
+
+
+
+
 		
 		return (
 			<div className="container-fluid">
 				<div className="row dashboard">
-					{this.renderSidebar()}
+					<div className="col-md-3 col-sm-3 pt-4 bg-light">
+					
+						<ul className="nav flex-column sidebar-buttons">
+							<li className="nav-item">
+								{createButton}
+							</li>
+							<li className="nav-item pt-3">
+								<a onClick={this.setPage} id="contacts" className="nav-link">
+									<FontAwesomeIcon icon="user-alt" />&nbsp; Contacts ({this.state.userContacts.length})
+								</a>
+							</li>
+							<li className="nav-item">
+								<a onClick={this.setPage} id="messages" className="nav-link">
+									<FontAwesomeIcon icon="inbox"/>&nbsp; Messages
+								</a>
+							</li>
+							
+						</ul>
+					</div>
 					<div className="col-md-9 col-sm-9 ml-auto pt-4 pr-2 mh-100">
 						<GroupModal 
 							{...this.state}
 							clearSelectedGroup={this.clearSelectedGroup}
 							addGroupMembers={this.addGroupMembers}
 							removeGroupMembers={this.removeGroupMembers}/>
-						<AlertModal 
+						<FormModal 
 
 							errorMessage={this.state.errorMessage}/>
 						

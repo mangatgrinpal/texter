@@ -96,6 +96,38 @@ html { height: 100%; }
 // main dashboard page
 .dashboard {
 	height: 93vh;
+	button,.badge {
+		box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
+
+		&:focus {
+			box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
+		}
+
+		&:hover {
+			box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
+		}
+	}
+
+	.sidebar-buttons {
+		button {
+			height: 4rem;
+		}
+
+		a:hover {
+
+			background-color: #bd2828;
+			color: #fff !important;
+	    border-top-right-radius: 20px;
+	    border-bottom-right-radius: 20px;
+	    margin-left: -15px;
+	    padding-left: 30px;
+		}
+	}
+
+	.contact-count {
+		padding-left: 2rem;
+		color: slategrey;
+	}
 
 	.contact-list {
 		
@@ -116,6 +148,12 @@ html { height: 100%; }
 				background: #f5f5f5;
     		cursor: pointer;
 			}
+		}
+	}
+
+	.contact-list-headers,.group-list-headers {
+		.list-group-item {
+			border-top: 0;
 		}
 	}
 
