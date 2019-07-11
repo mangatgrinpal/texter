@@ -177,7 +177,7 @@ class MessageList extends React.Component {
 		return (
 			<React.Fragment>
 				{popoverContent}
-				<div className="row pt-5">
+				<div className="row pt-3">
 					<div className="col-12">
 						<h3>Recent Messages</h3>
 						{this.renderRecentMessages()}

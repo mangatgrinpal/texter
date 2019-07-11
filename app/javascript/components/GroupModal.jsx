@@ -212,7 +212,7 @@ class GroupModal extends React.Component {
 			<div className="modal" id="groupModalCenter" tabIndex="-1" role="dialog" aria-labelledby="groupModalCenterTitle" aria-hidden="true">
 			  <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
 			    <div className="modal-content">
-			      <div className="modal-header">
+			      <div className="modal-header justify-content-center">
 			        <h5 className="modal-title" id="groupModalCenterTitle">Manage Group</h5>
 			      </div>
 			      {loadingOrContent}

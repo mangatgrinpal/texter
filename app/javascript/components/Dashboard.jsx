@@ -29,7 +29,7 @@ class Dashboard extends React.Component {
 		this.addRecipientFromContactsPage = this.addRecipientFromContactsPage.bind(this)
 		this.deleteRecipient = this.deleteRecipient.bind(this)
 		this.setPage = this.setPage.bind(this)
-
+		this.setFormSelection = this.setFormSelection.bind(this)
 		this.setSelectedGroup = this.setSelectedGroup.bind(this)
 		this.clearSelectedGroup = this.clearSelectedGroup.bind(this)
 		this.addGroupMembers = this.addGroupMembers.bind(this)
@@ -49,6 +49,7 @@ class Dashboard extends React.Component {
 		this.state = {
 			page: "home",
 			tab: "nav-contacts-tab",
+			formSelection: "",
 			userContacts: this.props.userContacts,
 			userGroups: this.props.userGroups,
 			userGroupMembers: [],
@@ -100,7 +101,7 @@ class Dashboard extends React.Component {
 
 	newContact(e) {
 		e.preventDefault()
-		if (this.state.first_name === "" || this.state.last_name === "" || this.state.phone_number === "") {
+		if (this.state.first_name.trim() === "" || this.state.last_name.trim() === "" || this.state.phone_number.trim() === "") {
 			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Enter contact information!', type: 'error'})
 		} else {
 			fetch("/contacts", {
@@ -117,6 +118,7 @@ class Dashboard extends React.Component {
 				contactsAndGroups[1].names[0] = data
 
 				this.setState({
+
 					userContacts: data, 
 					first_name: "", 
 					last_name: "", 
@@ -124,6 +126,7 @@ class Dashboard extends React.Component {
 					contactsAndGroups: contactsAndGroups
 				}) 
 			})
+			$('#formModalCenter').modal('hide')
 		}
 		
 	}
@@ -158,6 +161,13 @@ class Dashboard extends React.Component {
 		this.setState({page: page})
 	}
 
+	setFormSelection(e) {
+		e.preventDefault()
+		let form = e.currentTarget.id
+
+		this.setState({formSelection: form})
+		$('#formModalCenter').modal('show')
+	}
 
 	pages() {
 		return {
@@ -186,14 +196,7 @@ class Dashboard extends React.Component {
 				newGroup={this.newGroup}
 				deleteGroup={this.deleteGroup}
 				setSelectedGroup={this.setSelectedGroup}
-				sendMessage={this.sendMessage}
-				onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-				onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-				getSuggestionValue={this.getSuggestionValue}
-				renderSuggestion={this.renderSuggestion}
-				renderSectionTitle={this.renderSectionTitle}
-				getSectionSuggestions={this.getSectionSuggestions}
-				onChange={this.onChange}/>
+				sendMessage={this.sendMessage}/>
 		
 		)
 	}
@@ -214,11 +217,14 @@ class Dashboard extends React.Component {
 			.then( (res) => { return res.json() } )
 			.then( (data) => { 
 				this.setState({
+					page: "messages",
 					recentMessages: data,
 					message: "",
 					recipients: []
 				})
 			})
+			$('#formModalCenter').modal('hide')
+
 		} else {
 			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Whoops, your message is missing!', type: 'error'})
 		}
@@ -601,20 +607,21 @@ class Dashboard extends React.Component {
 
 		let createButton
 
+
 		if (this.state.page == "contacts" && this.state.tab == "nav-contacts-tab") {
 			createButton =
-			<button className="btn btn-primary btn-lg">
+			<button onClick={this.setFormSelection} id="contact" className="btn btn-primary btn-lg">
 				<FontAwesomeIcon icon="plus" />&nbsp;&nbsp;Create contact
 			</button>
 
 		} else if (this.state.page == "contacts" && this.state.tab == "nav-groups-tab") {
 			createButton =
-			<button className="btn btn-primary btn-lg">
+			<button onClick={this.setFormSelection} id="group" className="btn btn-primary btn-lg">
 				<FontAwesomeIcon icon="plus" />&nbsp;&nbsp;Create group
 			</button>
 		} else {
 			createButton = 
-			<button className="btn btn-primary btn-lg">
+			<button onClick={this.setFormSelection} id="message" className="btn btn-primary btn-lg">
 				<FontAwesomeIcon icon="plus" />&nbsp;&nbsp;Send message
 			</button>
 		}
@@ -641,7 +648,7 @@ class Dashboard extends React.Component {
 							</li>
 							<li className="nav-item">
 								<a onClick={this.setPage} id="messages" className="nav-link">
-									<FontAwesomeIcon icon="inbox"/>&nbsp; Messages
+									<FontAwesomeIcon icon="inbox" />&nbsp; Messages
 								</a>
 							</li>
 							
@@ -654,8 +661,28 @@ class Dashboard extends React.Component {
 							addGroupMembers={this.addGroupMembers}
 							removeGroupMembers={this.removeGroupMembers}/>
 						<FormModal 
-
-							errorMessage={this.state.errorMessage}/>
+							{...this.state}
+							{...this.props}
+							handleInputChange={this.handleInputChange} 
+							newContact={this.newContact}
+							deleteContact={this.deleteContact}
+							addRecipient={this.addRecipient}
+							addRecipientFromContactsPage={this.addRecipientFromContactsPage}
+							deleteRecipient={this.deleteRecipient}
+							addGroup={this.addGroup}
+							newGroup={this.newGroup}
+							deleteGroup={this.deleteGroup}
+							setSelectedGroup={this.setSelectedGroup}
+							sendMessage={this.sendMessage}
+							formSelection={this.state.formSelection}
+							errorMessage={this.state.errorMessage}
+							onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+							onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+							getSuggestionValue={this.getSuggestionValue}
+							renderSuggestion={this.renderSuggestion}
+							renderSectionTitle={this.renderSectionTitle}
+							getSectionSuggestions={this.getSectionSuggestions}
+							onChange={this.onChange}/>
 						
 						{this.renderView()}
 						

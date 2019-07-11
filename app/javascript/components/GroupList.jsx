@@ -103,28 +103,24 @@ class GroupList extends React.Component {
 			<div className="container">
 				<div className="row">
 					<div className="col pt-3">
-						<h3>Create a New Group</h3>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-md-3 col-sm-3">
-						Nickname
+						<h5>Create a New Group</h5>
 					</div>
 				</div>
 				<form autoComplete="off">
-					<div className="form-row">
-						<div className="col">
-							<input type="text" value={this.props.nickname} onChange={this.props.handleInputChange} className="form-control" name="nickname" placeholder="Group Name"/>
-						</div>
-						
-						<div className="col">
-							<button onClick={this.props.newGroup} className="btn btn-primary">Create Group</button>
-						</div>
+				<div className="form-group row pt-3">
+					<label className="col-md-2 col-sm-2">
+						Nickname
+					</label>
+					<div className="col-md-6 col-sm-6">
+						<input type="text" value={this.props.nickname} onChange={this.props.handleInputChange} className="form-control" name="nickname" placeholder="Group Name"/>
 					</div>
+					<div className="col-md-4 col-sm-4">
+						<button onClick={this.props.newGroup} className="btn btn-primary">Create Group</button>
+					</div>
+				</div>
 				</form>
-
-				<div className="row mt-5">
-					<div className="col mt-5">
+				<div className="row">
+					<div className="col pt-5">
 						{this.groupList()}
 					</div>
 				</div>
