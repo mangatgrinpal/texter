@@ -22,6 +22,8 @@ class Nav extends React.Component {
 					else {
 						window.location.reload()
 					}
+
+					
 				}	
 		});
 		
