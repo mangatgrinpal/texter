@@ -317,12 +317,14 @@ class Dashboard extends React.Component {
 		if (recipients.includes(contact[0])) {
 
 			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Already added contact.', type: 'error'})
-
+			$("#formModalCenter").modal('show')
+			
 		} else {
 			
 			let newRecipients = recipients.concat(contact)
 
-			this.setState({ page: 'messages', recipients: newRecipients })
+			this.setState({ formSelection: "message", recipients: newRecipients })
+			$("#formModalCenter").modal('show')
 
 		}
 
