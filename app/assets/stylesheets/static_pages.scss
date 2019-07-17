@@ -5,11 +5,27 @@
 
 html { height: 100%; }
 
+
+#hero-image {
+	opacity: 1;
+	transition: opacity 1s;
+	background-size: cover;
+	height: 700px;
+	width: 100%;
+	position: absolute;
+	z-index: -1;
+}
+
+#hero-image.fadeOut {
+	opacity: 0;
+}
+
 // main page hero-image section
 .hero-image {
 	height: 700px;
 	background-size: cover;
 	color: #ffffff;
+
 	
 	
 
@@ -36,7 +52,7 @@ html { height: 100%; }
 
 	.hero-text-overlay {
 		text-align: center;
-		margin-top: 4.875rem;
+		padding-top: 10rem;
 		position: absolute;
 		
 		h1 {
@@ -91,24 +107,49 @@ html { height: 100%; }
 
 
 .description {
+	.row.divider {
+		height: 0;
+	}
+
 	.row {
+		.col-md-4,.col-sm-4 {
+			padding-bottom: 12rem;
+		}
 		color: hsl(360, 65%, 45%);
-		height: 500px;
-		p { color: #000; }
+
+		p { 
+			color: #000;
+
+		}
 	}
 
 	.image {
+		padding-top: 12rem;
+		padding-bottom: 3rem;
 		text-align: center;
-		padding: 10% 0;
+
 		color: #000;
-		// &:hover {
-		// 	transform: scale(1.1,1.1);
-		// }
+		svg:hover {
+			transform: scale(1.2, 1.2);
+		}
 	}
 
 	.text {
-		padding: 12% 0;
 
+		text-align: center;
+
+	}
+}
+
+.footer {
+	color: #fff;
+	background-color: hsl(360, 65%, 45%);
+	.copyright {
+		background-color: #000;
+	}
+
+	ul {
+		list-style: none;
 	}
 }
 

@@ -1,6 +1,7 @@
 import React from "react"
 import HeroImage from "./HeroImage"
 import HomeDescription from "./HomeDescription"
+import Footer from "./Footer"
 
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { fas } from "@fortawesome/free-solid-svg-icons"
@@ -23,7 +24,9 @@ class Home extends React.Component {
 				<HeroImage currentUser={this.props.currentUser}/>
 				
 				
-				<HomeDescription/>
+				<HomeDescription />
+
+				<Footer />
 				
 			</div>
 		)

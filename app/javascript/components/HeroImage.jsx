@@ -14,42 +14,25 @@ class HeroImage extends React.Component {
 
 	//function that changes hero-image every few seconds
 	changeBackground() {
-		var baseURL = "https://s3-us-west-1.amazonaws.com/ginnysbucket/dev-images/"
-		var backgrounds = [ "girl-texting-edited.jpeg", "group-texting-edited.jpeg" ];
-		var heroImage = $(".hero-image");
+		let baseURL = "https://s3-us-west-1.amazonaws.com/ginnysbucket/dev-images/"
+		let backgrounds = [ "girl-texting-edited.jpeg", "group-texting-edited.jpeg", "texting-lady-edited.jpeg" ];
+		let heroImage = document.getElementById("hero-image")
 		let i = 0
 
 
 		// sets hero-image to images in backgrounds array using i to access index
-		function cycleImage(){
-			// heroImage.fadeIn(1000);
-			heroImage.className += " fadeOut"
+		function slideShow() {
+			heroImage.className += " fadeOut";
 			setTimeout(()=> {
-				heroImage.css({
-				"background-image": "url(" + baseURL + backgrounds[i] + ")"
-				
-			},1000);
-				heroImage.className -= "fadeOut"
-			})
-			
-			
-			
-			// increment i to see next image
+				heroImage.style.backgroundImage = "url(" + baseURL + backgrounds[i] + ")";
 
+				heroImage.className = "row";
+			}, 1000)
 			i++;
-			//heroImage.fadeOut(1000);
-			// setTimeout( ()=> {
-			// 	heroImage.removeClass("active")}, 5000)
-			
-			// until you reach an index outside of the array, then set i back to 0 to start over
-			if (i == backgrounds.length) {
-				i = 0;
-			}
+			if (i == backgrounds.length) { i = 0; }
+			setTimeout(slideShow, 5000);
 		}
-
-		//setInterval takes in two arguments, the function and the time in milliseconds until its called again
-		setInterval(cycleImage, 5000);
-		cycleImage();
+		slideShow();
 	}
 
 	goSignUp() {
@@ -60,27 +43,30 @@ class HeroImage extends React.Component {
 
 	render () {
 
-		var instruction, button
+		let instruction, button
 		if (!this.props.currentUser) {
 			instruction = "Click below to begin messaging"
 			button = <button onClick={this.goSignUp} className="btn btn-primary">Sign Up Free</button>
 		} 
 
 		return (
-			<div className="row hero-image">
-				<div className="col-md-12">
-					<div className="row">
+			<React.Fragment>
+				<div className="row" id="hero-image" />
+				<div className="row hero-image">
+					<div className="col-md-12">
+						<div className="row">
 
-						<div className="col-md-12 hero-overlay"/>
-						
-						<div className="col-md-6 offset-md-3 hero-text-overlay">
-							<h1>Built with convenience in mind</h1>
-							<h3>{instruction}</h3>
-							{button}
+							<div className="col-md-12 hero-overlay"/>
+							
+							<div className="col-md-6 offset-md-3 hero-text-overlay">
+								<h1>Built with convenience in mind</h1>
+								<h3>{instruction}</h3>
+								{button}
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</React.Fragment>
 			
 		)
 	}
