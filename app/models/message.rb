@@ -1,5 +1,5 @@
 class Message < ApplicationRecord
-	validates :body, presence: true
+	validates :body, presence: true, maximum: { length: 1533 }
 	validates :recipients, presence: true
 
 	belongs_to :user

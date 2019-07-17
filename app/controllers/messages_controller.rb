@@ -22,7 +22,7 @@ class MessagesController < ApplicationController
 			
 			# send the text messages
 
-			#TwilioTextMessenger.new(@recipients, @message.body).send_notification
+			TwilioTextMessenger.new(@recipients, @message.body).send_notification
 			render json: serialized_messages, status: 200
 		else
 			render json: serialized_messages, status: 400

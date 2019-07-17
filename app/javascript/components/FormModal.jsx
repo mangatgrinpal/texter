@@ -205,7 +205,7 @@ class FormModal extends React.Component {
 						<div className="col-md-6 offset-md-3 col-sm-6 offset-md-3 pt-5">
 							<p className="text-center">
 								<small>
-									Please make sure you have consent from your contacts before you send them messages using Ping.
+									Please make sure you have consent from your contacts before you send them messages using PING.
 								</small>
 							</p>
 						</div>

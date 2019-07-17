@@ -20,6 +20,8 @@ class MessageList extends React.Component {
 
 	getMessageRecipients(e) {
 		this.setState({loading: true})
+
+
 		let message = e.currentTarget.dataset.id
 
 		fetch("/messages/" + message, {
@@ -160,14 +162,14 @@ class MessageList extends React.Component {
 
 			let remainingRecipientsList = messageRecipients.slice(1).map((recipient)=> {
 				return (
-					<li key={recipient.id} className="list-group-item">
+					<li key={recipient.id}>
 	 					{recipient}
 	 				</li>
 				)
 			})
 
 			popoverContent =
-				<ul className="popover-content list-group list-group-flush">
+				<ul className="popover-content">
 					{remainingRecipientsList}
 				</ul>
 			

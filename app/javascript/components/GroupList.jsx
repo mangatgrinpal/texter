@@ -39,15 +39,15 @@ class GroupList extends React.Component {
 
 					<li key={group.id} className="list-group-item">
 						<div className="row">
-							<div className="col-md-3 col-sm-3">
+							<div id="group-nickname" className="col-md-6 col-sm-6">
 								{group.nickname}
 							</div>
-							<div className="col-md-3 col-sm-3">
+							<div className="col-md-2 col-sm-2 text-center">
 								{group.contacts.length}
 								
 							</div>
 							
-							<div className="col-md-6 col-sm-6">
+							<div className="col-md-4 col-sm-4">
 								<a data-id={group.id} onClick={this.props.setSelectedGroup} className="badge badge-primary">Manage Group</a>
 								&nbsp;
 								<a data-id={group.id} onClick={this.props.deleteGroup} className="badge badge-danger">Delete Group</a>
@@ -66,11 +66,11 @@ class GroupList extends React.Component {
 					<ul className="list-group group-list-headers">
 						<li className="list-group-item">
 							<div className="row">
-								<div className="col-md-3 col-sm-3">
+								<div className="col-md-6 col-sm-6">
 									<strong>Nickname</strong>
 
 								</div>
-								<div className="col-md-3 col-sm-3">
+								<div className="col-md-2 col-sm-2 text-center">
 									<strong>Members</strong>
 									
 								</div>

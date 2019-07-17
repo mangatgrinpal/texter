@@ -100,13 +100,30 @@ class Dashboard extends React.Component {
 	}
 
 	newContact(e) {
+
 		e.preventDefault()
+		// regex to match phone numbers
+		let phoneRegex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
+
+
+		// validatedPhoneNumber returns null if it isn't valid phone number format
+		let validatedPhoneNumber = this.state.phone_number.match(phoneRegex);
+
+		// this regex removes everything from the string except digits to save it in my db in the right format
+		let digitsOnly = this.state.phone_number.replace(/[^a-zA-Z0-9 ]/g, '')
+
+		// if any fields are empty
 		if (this.state.first_name.trim() === "" || this.state.last_name.trim() === "" || this.state.phone_number.trim() === "") {
+			// alert the user of the error
 			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Enter contact information!', type: 'error'})
+
+			// if they each have non-blank values
 		} else {
-			fetch("/contacts", {
+			// if the phone number passes the validation and doesn't return null, it will create the contact
+			if (validatedPhoneNumber) {
+				fetch("/contacts", {
 				method: "POST",
-				body: JSON.stringify({contact: {first_name: this.state.first_name, last_name: this.state.last_name, phone_number: this.state.phone_number}}),
+				body: JSON.stringify({contact: {first_name: this.state.first_name, last_name: this.state.last_name, phone_number: digitsOnly}}),
 				headers: {
 					"X-CSRF-Token": this.state.csrfToken,
 					"Content-Type": "application/json"
@@ -127,6 +144,12 @@ class Dashboard extends React.Component {
 				}) 
 			})
 			$('#formModalCenter').modal('hide')
+
+			} else {
+
+				window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Phone number invalid!', type: 'error'})
+			}
+			
 		}
 		
 	}
@@ -205,29 +228,36 @@ class Dashboard extends React.Component {
 		e.preventDefault()
 		let messageWithSenderName = "@" + this.props.currentUser.first_name + ": " + this.state.message.trim()
 
-		if (this.state.recipients.length > 0 && this.state.message.trim()) {
-			fetch("messages/", {
-				method: "POST",
-				body: JSON.stringify({message: {body: messageWithSenderName }, recipients: this.state.recipients }),
-				headers: {
-					"X-CSRF-Token": this.state.csrfToken,
-					"Content-Type": "application/json"
-				}
-			})
-			.then( (res) => { return res.json() } )
-			.then( (data) => { 
-				this.setState({
-					page: "messages",
-					recentMessages: data,
-					message: "",
-					recipients: []
-				})
-			})
-			$('#formModalCenter').modal('hide')
+		let completeMessageLength = messageWithSenderName + this.state.message.trim().length
 
+		if (completeMessageLength < 1600) {
+			if (this.state.recipients.length > 0 && this.state.message.trim()) {
+				fetch("messages/", {
+					method: "POST",
+					body: JSON.stringify({message: {body: messageWithSenderName }, recipients: this.state.recipients }),
+					headers: {
+						"X-CSRF-Token": this.state.csrfToken,
+						"Content-Type": "application/json"
+					}
+				})
+				.then( (res) => { return res.json() } )
+				.then( (data) => { 
+					this.setState({
+						page: "messages",
+						recentMessages: data,
+						message: "",
+						recipients: []
+					})
+				})
+				$('#formModalCenter').modal('hide')
+
+			} else {
+				window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Whoops, your message is missing!', type: 'error'})
+			}
 		} else {
-			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Whoops, your message is missing!', type: 'error'})
+			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: `Sorry, your message is ${completeMessageLength - 1600} characters over the limit.`, type: 'error'})
 		}
+		
 	}
 
 	
@@ -348,38 +378,46 @@ class Dashboard extends React.Component {
 
 		e.preventDefault()
 
-		if (this.state.nickname === "") {
+		if (this.state.nickname.trim() === "") {
 			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Enter a nickname for your new group!', type: 'error'})
 
 		} else {
 
-			// this function will run through the userGroups to see if the nickname exists
-			let validated = this.state.userGroups.map((group)=> {
-				return this.state.nickname.toLowerCase() == group.nickname.toLowerCase() ? true : false
-			})
+			if (this.state.nickname.trim().length < 64) {
 
-			// if it does include a true, it will return true but bang operator makes it false
-			// so only if it doesn't include it, will this ever return true, thus creating record
-			if (!validated.includes(true)) {
-				fetch("/groups", {
-					method: "POST",
-					body: JSON.stringify({group: {nickname: this.state.nickname}}),
-					headers: {
-						"X-CSRF-Token": this.state.csrfToken,
-						"Content-Type": "application/json"
-					}
+				// this function will run through the userGroups to see if the nickname exists
+				let validated = this.state.userGroups.map((group)=> {
+					return this.state.nickname.toLowerCase() == group.nickname.toLowerCase() ? true : false
 				})
-				.then ( res => { return res.json() } )
-				.then ( data => {
-					let contactsAndGroups = Object.assign([], this.state.contactsAndGroups)
-					contactsAndGroups[0].names[0] = data
+
+				// if it does include a true, it will return true but bang operator makes it false
+				// so only if it doesn't include it, will this ever return true, thus creating record
+				if (!validated.includes(true)) {
+					fetch("/groups", {
+						method: "POST",
+						body: JSON.stringify({group: {nickname: this.state.nickname.trim()}}),
+						headers: {
+							"X-CSRF-Token": this.state.csrfToken,
+							"Content-Type": "application/json"
+						}
+					})
+					.then ( res => { return res.json() } )
+					.then ( data => {
+						let contactsAndGroups = Object.assign([], this.state.contactsAndGroups)
+						contactsAndGroups[0].names[0] = data
 
 
-					this.setState({userGroups: data, nickname: "", contactsAndGroups: contactsAndGroups}) 
-				})
+						this.setState({userGroups: data, nickname: "", contactsAndGroups: contactsAndGroups}) 
+					})
+				} else {
+					window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: `${this.state.nickname} is already in use!`, type: 'error'})
+				}
+
 			} else {
-				window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: `${this.state.nickname} is already in use!`, type: 'error'})
+				window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: `Group nickname is ${this.state.nickname.trim().length - 64} characters over the limit of 64.`, type: 'error'})
 			}
+
+			
 			
 		}
 		
