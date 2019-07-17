@@ -228,9 +228,9 @@ class Dashboard extends React.Component {
 		e.preventDefault()
 		let messageWithSenderName = "@" + this.props.currentUser.first_name + ": " + this.state.message.trim()
 
-		let completeMessageLength = messageWithSenderName + this.state.message.trim().length
 
-		if (completeMessageLength > 1600) {
+
+		if (messageWithSenderName.length < 1600) {
 			if (this.state.recipients.length > 0 && this.state.message.trim()) {
 				fetch("messages/", {
 					method: "POST",
@@ -255,7 +255,8 @@ class Dashboard extends React.Component {
 				window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Whoops, your message is missing!', type: 'error'})
 			}
 		} else {
-			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: `Sorry, your message is ${completeMessageLength - 1600} characters over the limit.`, type: 'error'})
+
+			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: `Sorry, your message is ${messageWithSenderName.length - 1600} characters over the limit.`, type: 'error'})
 		}
 		
 	}
