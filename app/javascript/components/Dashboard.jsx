@@ -230,7 +230,7 @@ class Dashboard extends React.Component {
 
 		let completeMessageLength = messageWithSenderName + this.state.message.trim().length
 
-		if (completeMessageLength < 1600) {
+		if (completeMessageLength > 1600) {
 			if (this.state.recipients.length > 0 && this.state.message.trim()) {
 				fetch("messages/", {
 					method: "POST",
@@ -318,7 +318,7 @@ class Dashboard extends React.Component {
 
 			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Already added contact.', type: 'error'})
 			$("#formModalCenter").modal('show')
-			
+
 		} else {
 			
 			let newRecipients = recipients.concat(contact)
