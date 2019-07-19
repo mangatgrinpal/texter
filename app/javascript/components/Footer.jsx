@@ -7,8 +7,8 @@ const Footer = () => {
 			<div className="row footer">
 				<div className="col-md-12 col-sm-12">
 					<div className="row links">
-						<div className="col-md-6 col-sm-6 py-5 text-center py-auto">
-							<p>Stay connected and reach your clients today</p>
+						<div className="col-md-6 col-sm-6 py-5 text-center">
+							<h5>Stay connected and reach your clients today</h5>
 						</div>
 						<div className="col-md-6 col-sm-6 py-5">
 							<ul>

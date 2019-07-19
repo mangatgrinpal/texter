@@ -7,11 +7,11 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-5.times do
+100.times do
 	Contact.create(
 		first_name: Faker::Name.first_name, 
 		last_name: Faker::Name.last_name, 
-		phone_number: Faker::PhoneNumber.phone_number,
+		phone_number: "4083349274",
 		user_id: 1
 	)
 

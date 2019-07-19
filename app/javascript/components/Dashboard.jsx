@@ -266,32 +266,38 @@ class Dashboard extends React.Component {
 	//this function adds recipients to the recipient array in state, to whom the message will be sent
 	//this function will be used only with auto-suggest
 	addRecipient(recipient) {
-
+		debugger
 		
+		// this makes sure there isn't already 100 recipients
+		if (this.state.recipients.length < 100) {
+
+			let recipients = Object.assign([], this.state.recipients);
+
+			let duplicateChecker = recipients.some(person=> {
+			    return person.id == recipient.id
+			})
+
+			if (duplicateChecker) {
+
+				window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Already added contact.', type: 'error'})
 
 
-
-
-
-		let recipients = Object.assign([], this.state.recipients);
-
-		let duplicateChecker = recipients.some(person=> {
-		    return person.id == recipient.id
-		})
-
-		if (duplicateChecker) {
-
-			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Already added contact.', type: 'error'})
-
-
-		
-		} else {
 			
-			recipients.push(recipient)
+			} else {
+				
+				recipients.push(recipient)
 
-			this.setState({ recipients: recipients })
+				this.setState({ recipients: recipients })
 
-		}		
+			}		
+
+		} else {
+			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Max recipients reached.', type: 'error'})
+		}
+
+
+
+		
 
 	}
 
@@ -301,65 +307,78 @@ class Dashboard extends React.Component {
 
 		e.preventDefault()
 
+		
 
-		let target = e.target.dataset.id
+		if (this.state.recipients.length < 100) {
+			let target = e.target.dataset.id
 
-		let recipients = Object.assign([], this.state.recipients)
+			let recipients = Object.assign([], this.state.recipients)
 
-		let contact = this.state.userContacts.filter((contact)=> {
-			if (contact.id == target) {
+			let contact = this.state.userContacts.filter((contact)=> {
+				if (contact.id == target) {
 
-				return contact
+					return contact
+				}
+			})
+
+
+
+			if (recipients.includes(contact[0])) {
+
+				window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Already added contact.', type: 'error'})
+				$("#formModalCenter").modal('show')
+
+			} else {
+				
+				let newRecipients = recipients.concat(contact)
+
+				this.setState({ formSelection: "message", recipients: newRecipients })
+				$("#formModalCenter").modal('show')
+
 			}
-		})
-
-
-
-		if (recipients.includes(contact[0])) {
-
-			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Already added contact.', type: 'error'})
-			$("#formModalCenter").modal('show')
-
 		} else {
-			
-			let newRecipients = recipients.concat(contact)
-
-			this.setState({ formSelection: "message", recipients: newRecipients })
-			$("#formModalCenter").modal('show')
-
+			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Max recipients reached.', type: 'error'})
 		}
+		
 
 	}
 
 	// this function will add entire groups to the message recipient list
 	addGroup(group) {
+		
 
-		if (group.contacts.length === 0) {
+		// this makes sure the total recipients doesnt exceed 100
+		if (this.state.recipients.length + group.contacts.length < 100) {
+			if (group.contacts.length === 0) {
 
-			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'No contacts in this group!', type: 'error'})
+				window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'No contacts in this group!', type: 'error'})
 
+			} else {
+				
+					let recipients = Object.assign([], this.state.recipients)
+
+					let newRecipients = recipients.concat(group.contacts)
+
+					var result = newRecipients.reduce((unique, o) => {
+						
+					    if(!unique.some(obj => obj.id === o.id)) {
+					      unique.push(o);
+					    }
+					    return unique;
+					},[]);
+
+					// this checks if duplicates were added and alerts the user if so.
+					if (recipients.length != 0 && result != newRecipients) {
+						window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Duplicate contacts have been omitted.', type: 'alert'})
+					}
+
+					this.setState({ recipients: result})
+
+			}
 		} else {
-			
-				let recipients = Object.assign([], this.state.recipients)
-
-				let newRecipients = recipients.concat(group.contacts)
-
-				var result = newRecipients.reduce((unique, o) => {
-					
-				    if(!unique.some(obj => obj.id === o.id)) {
-				      unique.push(o);
-				    }
-				    return unique;
-				},[]);
-
-				// this checks if duplicates were added and alerts the user if so.
-				if (recipients.length != 0 && result != newRecipients) {
-					window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: 'Duplicate contacts have been omitted.', type: 'alert'})
-				}
-
-				this.setState({ recipients: result})
-
+			window.flash_messages.addMessage({ id: Math.round(Math.random()*1000), text: `Too many recipients! Only ${100 - this.state.recipients.length} more allowed.`, type: 'alert'})
 		}
+		
 		
 	}
 

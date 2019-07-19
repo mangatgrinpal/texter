@@ -59,7 +59,7 @@ class FormModal extends React.Component {
 
 		} else {
 			textPreview = <div className="col-md-12 col-sm-12" />
-			title = <div classname="col-md-12 col-sm-12" />
+			title = <div className="col-md-12 col-sm-12" />
 		}
 
 		const { value, suggestions } = this.props;

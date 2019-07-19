@@ -183,6 +183,15 @@ class GroupModal extends React.Component {
 			loadingOrContent =
 			
 				<div id="groupModalBody" className="modal-body">
+				{/*
+					<div className="row">
+						<div className="col-md-12 col-sm-12 text-center">
+							<small>
+								The limit for group members is currently 100, as that is the max number of recipients for a text.
+							</small>
+						</div>
+					</div>
+				*/}
 		      <div className="row">
 		      	<div className="col-md-6 col-sm-6">
 		    			<strong>In group ({this.props.userGroupMembers.length})</strong>
