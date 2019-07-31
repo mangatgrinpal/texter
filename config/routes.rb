@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'groups/create'
   get 'groups/destroy'
-  devise_for :users, controllers: { registrations: 'users/registrations' }
+  devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: "users/omniauth_callbacks" }
 
   root 'static_pages#home'
 
