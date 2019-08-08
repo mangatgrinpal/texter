@@ -266,7 +266,7 @@ class Dashboard extends React.Component {
 	//this function adds recipients to the recipient array in state, to whom the message will be sent
 	//this function will be used only with auto-suggest
 	addRecipient(recipient) {
-		debugger
+
 		
 		// this makes sure there isn't already 100 recipients
 		if (this.state.recipients.length < 100) {
