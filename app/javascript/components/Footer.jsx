@@ -21,6 +21,9 @@ const Footer = () => {
 								<li className="py-1">
 									<a href="/terms">Terms & Conditions</a>
 								</li>
+								<li className="py-1">
+									<a href="/privacy_policy">Privacy policy</a>
+								</li>
 							</ul>
 						</div>
 					</div>

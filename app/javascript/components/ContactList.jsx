@@ -61,6 +61,7 @@ class ContactList extends React.Component {
 									<strong>Phone number</strong>
 									
 								</div>
+
 								
 									
 							</div>
@@ -90,7 +91,7 @@ class ContactList extends React.Component {
 
 
 	render () {
-		console.log(this.props)
+
 		
 		return (
 			<div className="container mh-100">
